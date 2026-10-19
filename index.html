@@ -10,56 +10,58 @@
 <style>
 :root{
   --bg:#0e1116; --bar:#0a0c10; --panel:#161a21; --panel2:#1d222b; --line:#272d38;
-  --text:#e8ebf0; --muted:#8c95a4; --accent:#38bdf8; --accent-d:#1d9bd1; --ok:#4ade80;
+  --text:#e8ebf0; --muted:#8c95a4; --accent:#38bdf8; --ok:#4ade80; --err:#f87171;
   color-scheme:dark; box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 html{height:100%;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.5}
+body{margin:0;min-height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bar);z-index:41}
+main{flex:1}
 h1,h2,h3{font-family:'Barlow Condensed','Barlow',system-ui,sans-serif;font-weight:700;margin:0;line-height:1.05}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-/* top bar */
+.gone{display:none!important}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--bar);border-bottom:1px solid var(--line)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bar);z-index:41}
 .tabs a{position:relative;display:block;padding:22px 16px;font-weight:600;font-size:15px;color:var(--muted);cursor:pointer;transition:color .15s}
 .tabs a:hover{color:var(--text)}
 .tabs a.on{color:#fff}
 .tabs a.on::after{content:"";position:absolute;left:16px;right:16px;bottom:0;height:3px;background:var(--accent)}
 .iconbtn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:6px;background:transparent;border:0;cursor:pointer;color:var(--muted);transition:background .15s,color .15s}
 .iconbtn:hover{background:var(--panel2);color:#fff}
-.avatar{display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:700;color:#06121b}
+.avatar{display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:700;color:#06121b;flex:none}
 .menu{position:absolute;right:0;top:calc(100% + 8px);min-width:230px;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.5);padding:6px;display:none}
 .menu.open{display:block}
 .menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 12px;border-radius:6px;cursor:pointer;font-size:14px}
 .menu button:hover{background:var(--panel2)}
-
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 22px;border-radius:4px;font-weight:700;font-size:15px;cursor:pointer;border:1px solid transparent;transition:background .15s,border-color .15s,transform .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 22px;border-radius:4px;font-weight:700;font-size:15px;cursor:pointer;border:1px solid transparent;transition:background .15s,border-color .15s,transform .15s,opacity .15s}
 .btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.sm{height:36px;padding:0 16px;font-size:14px}
 .btn-primary{background:var(--accent);color:#06121b}
-.btn-primary:hover{background:#7dd3fc}
+.btn-primary:not(:disabled):hover{background:#7dd3fc}
 .btn-ghost{background:transparent;border-color:#3a4250;color:var(--text)}
-.btn-ghost:hover{border-color:var(--accent);color:#fff}
-
-/* hero */
+.btn-ghost:not(:disabled):hover{border-color:var(--accent);color:#fff}
+.btn-danger{background:transparent;border-color:#6b2b2b;color:var(--err)}
+.btn-danger:hover{background:rgba(248,113,113,.1);border-color:var(--err)}
 .hero{position:relative;overflow:hidden;background:#0b0e13;border-bottom:1px solid var(--line)}
 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,#0b0e13 38%,transparent 70%);z-index:1}
 .status{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--ok);background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);padding:4px 12px;border-radius:4px}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
-
-/* content */
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.lbl{display:block;margin:16px 0 6px;font-size:14px;font-weight:600;color:#b4bccb}
 .field{width:100%;height:44px;background:var(--bg);border:1px solid #333a47;border-radius:4px;padding:0 14px;outline:none;transition:border-color .15s}
 .field:hover{border-color:#4a5363}
 .field:focus{border-color:var(--accent)}
+.field.bad{border-color:var(--err)}
 select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%238c95a4' stroke-width='2'><path d='m1 1 5 5 5-5'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.err{margin-top:12px;padding:10px 12px;border-radius:4px;font-size:14px;color:#fecaca;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3)}
+.hint{margin-top:6px;font-size:13px;color:var(--muted)}
 .chip{height:36px;padding:0 16px;border-radius:18px;background:transparent;border:1px solid #333a47;color:var(--muted);font-weight:600;font-size:14px;cursor:pointer;transition:all .15s}
 .chip:hover{color:#fff;border-color:#59627a}
 .chip.on{background:#fff;color:#0a0c10;border-color:#fff}
-.seg{display:inline-flex;border:1px solid #333a47;border-radius:4px;overflow:hidden}
+.seg{display:inline-flex;border:1px solid #333a47;border-radius:4px;overflow:hidden;flex:none}
 .seg button{background:none;border:0;padding:0 18px;height:42px;cursor:pointer;font-weight:600;color:var(--muted);transition:background .15s}
 .seg button+button{border-left:1px solid #333a47}
 .seg button:hover{background:var(--panel2);color:#fff}
@@ -70,14 +72,18 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
 .sw[aria-checked=true]::after{transform:translateX(20px)}
 .row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;border-top:1px solid var(--line)}
 .row:first-of-type{border-top:0}
-
-/* modal + toast */
-.scrim{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px}
+.atab{flex:1;height:48px;background:none;border:0;border-bottom:2px solid var(--line);font-weight:600;color:var(--muted);cursor:pointer;transition:color .15s}
+.atab:hover{color:#fff}
+.atab.on{color:#fff;border-color:var(--accent)}
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
 .scrim.open{display:flex}
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:70;background:#fff;color:#0a0c10;font-weight:600;font-size:14px;padding:12px 18px;border-radius:4px;transition:all .25s}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:70;background:#fff;color:#0a0c10;font-weight:600;font-size:14px;padding:12px 18px;border-radius:4px;transition:all .25s;max-width:92%}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .view{display:none}.view.on{display:block}
-@media(max-width:820px){.tabs{display:none}.tabs.open{display:flex;flex-direction:column;position:absolute;left:0;right:0;top:100%;background:var(--bar);border-bottom:1px solid var(--line);padding:6px 0}.tabs.open a{padding:14px 20px}.tabs.open a.on::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
+dl.req{margin:0}dl.req div{display:flex;gap:16px;padding:12px 0;border-top:1px solid var(--line)}dl.req div:first-child{border-top:0}
+dl.req dt{width:110px;flex:none;color:var(--muted)}dl.req dd{margin:0}
+footer a{cursor:pointer;color:var(--muted);transition:color .15s}footer a:hover{color:#fff}
+@media(max-width:767px){.tabs{display:none}.tabs.open{display:flex;flex-direction:column;position:absolute;left:0;right:0;top:100%;background:var(--bar);border-bottom:1px solid var(--line);padding:6px 0}.tabs.open a{padding:14px 20px}.tabs.open a.on::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -88,7 +94,7 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
     <button id="burger" class="iconbtn md:hidden" aria-label="Menu" style="margin-left:-8px"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     <a class="mr-4 flex cursor-pointer items-center gap-2.5" data-go="home" aria-label="Noxura Cloud home">
       <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="#38bdf8"/><path d="M11 22V10l10 12V10" fill="none" stroke="#0a0c10" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
-      <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;letter-spacing:.02em;color:#fff">NOXURA <span style="font-weight:600;color:var(--muted)">CLOUD</span></span>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;letter-spacing:.02em;color:#fff">NOXURA<span class="hidden sm:inline" style="font-weight:600;color:var(--muted)"> CLOUD</span></span>
     </a>
     <nav id="tabs" class="tabs flex" aria-label="Main">
       <a data-go="home" class="on" tabindex="0">Home</a>
@@ -96,9 +102,13 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
       <a data-go="library" tabindex="0">Library</a>
       <a data-go="settings" tabindex="0">Settings</a>
     </nav>
-    <div class="ml-auto flex items-center gap-1">
-      <button id="searchBtn" class="iconbtn" aria-label="Search games"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
-      <div class="relative">
+    <div class="ml-auto flex items-center gap-1.5">
+      <button id="searchBtn" class="iconbtn hidden sm:flex" aria-label="Search games"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <div class="flex items-center gap-2" data-out>
+        <button class="btn btn-ghost sm" data-auth="login">Log in</button>
+        <button class="btn btn-primary sm" data-auth="signup">Sign up</button>
+      </div>
+      <div class="relative gone" data-in>
         <button id="userBtn" class="flex items-center gap-2.5 rounded-md py-1 pl-1 pr-2 transition hover:bg-[#1d222b]" aria-haspopup="true" aria-expanded="false">
           <span id="hAv" class="avatar h-8 w-8 text-sm"></span>
           <span id="hName" class="hidden max-w-[140px] truncate text-sm font-semibold sm:block"></span>
@@ -107,9 +117,9 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
         <div id="menu" class="menu">
           <div class="flex items-center gap-3 border-b border-[#272d38] px-3 pb-3 pt-2">
             <span id="mAv" class="avatar h-10 w-10"></span>
-            <div class="min-w-0"><div id="mName" class="truncate font-semibold"></div><div class="text-xs" style="color:var(--muted)">Free plan</div></div>
+            <div class="min-w-0"><div id="mName" class="truncate font-semibold"></div><div id="mUser" class="truncate text-xs" style="color:var(--muted)"></div></div>
           </div>
-          <div class="pt-1.5"><button data-act="edit">Edit profile</button><button data-go="settings">Settings</button></div>
+          <div class="pt-1.5"><button data-go="account">Account</button><button data-go="settings">Settings</button><button id="logout">Log out</button></div>
         </div>
       </div>
     </div>
@@ -127,33 +137,31 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
       <rect x="250" y="73" width="260" height="18" rx="9" fill="#232a35"/>
       <path d="M150 104h560" stroke="#2a3140"/>
       <path d="M420 190v110l90-55z" fill="#38bdf8"/>
-      <path d="M200 360h160M200 380h100" stroke="#2a3140" stroke-width="6" stroke-linecap="round"/>
-      <path d="M560 340h110v40H560z" fill="none" stroke="#38bdf8" stroke-opacity=".5" stroke-width="2"/>
     </svg>
     <div class="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-8 md:py-24">
       <div class="status"><span class="dot"></span>Servers Status: Online</div>
       <h1 class="mt-5 text-[56px] text-white sm:text-[84px]">Next-Gen<br>Web Gaming</h1>
       <p class="mt-4 max-w-md text-lg" style="color:#b4bccb">Play instantly in your browser without downloads.</p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <button class="btn btn-primary" data-go="games">Browse games</button>
-        <button class="btn btn-ghost" data-go="settings">Stream settings</button>
+        <button class="btn btn-primary" data-out data-auth="signup">Create an account</button>
+        <button class="btn btn-primary gone" data-in data-go="games">Browse games</button>
+        <button class="btn btn-ghost" data-out data-go="games">Browse games</button>
+        <button class="btn btn-ghost gone" data-in data-go="settings">Stream settings</button>
       </div>
     </div>
   </div>
-
-  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-8">
-    <div class="panel flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between" style="border-left:3px solid var(--accent)">
-      <div>
-        <h2 class="text-2xl text-white">The Game Library is currently being updated</h2>
-        <p class="mt-1.5 max-w-2xl" style="color:var(--muted)">New WebGL &amp; HTML5 games are coming soon to Noxura Cloud!</p>
-      </div>
-      <button class="btn btn-ghost shrink-0" data-go="library">Open library</button>
+  <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-8 lg:grid-cols-5">
+    <div class="lg:col-span-3">
+      <h2 class="text-3xl text-white">Library update</h2>
+      <p class="mt-2 max-w-xl" style="color:var(--muted)">We’re still loading games into Noxura. Nothing is playable yet, but accounts are open, so you can sign up now and your profile will be ready when the first titles arrive.</p>
     </div>
-
-    <div class="mt-14 grid gap-10 md:grid-cols-3">
-      <div><h3 class="text-2xl text-white">Runs in your browser</h3><p class="mt-2" style="color:var(--muted)">Open Noxura on any modern browser and start playing. There is nothing to install.</p></div>
-      <div><h3 class="text-2xl text-white">Streamed from our servers</h3><p class="mt-2" style="color:var(--muted)">Games run in the cloud and stream to you, so older laptops and phones can keep up.</p></div>
-      <div><h3 class="text-2xl text-white">You choose the quality</h3><p class="mt-2" style="color:var(--muted)">Set resolution, frame rate and region in Settings to match your connection.</p></div>
+    <div class="lg:col-span-2">
+      <h2 class="text-3xl text-white">What you need</h2>
+      <dl class="req mt-3">
+        <div><dt>Browser</dt><dd>Current Chrome, Edge, Firefox or Safari</dd></div>
+        <div><dt>Connection</dt><dd>5 Mbps for 720p, 15 Mbps for 1080p</dd></div>
+        <div><dt>Input</dt><dd>Keyboard and mouse, or a gamepad</dd></div>
+      </dl>
     </div>
   </div>
 </section>
@@ -170,9 +178,8 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
       <div id="chips" class="flex flex-wrap gap-2"></div>
     </div>
     <div class="panel mt-8 flex flex-col items-center px-6 py-20 text-center">
-      <svg width="48" height="48" fill="none" stroke="#5b6577" stroke-width="1.6" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4M16 11h.01M18.5 14h.01"/></svg>
-      <h3 id="emptyT" class="mt-5 text-3xl text-white">No games available yet</h3>
-      <p id="emptyP" class="mt-2 max-w-md" style="color:var(--muted)">The Game Library is currently being updated. New WebGL &amp; HTML5 games are coming soon to Noxura Cloud!</p>
+      <h3 id="emptyT" class="text-3xl text-white">No games yet</h3>
+      <p id="emptyP" class="mt-2 max-w-md" style="color:var(--muted)"></p>
     </div>
   </div>
 </section>
@@ -182,9 +189,51 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
   <div class="mx-auto max-w-7xl px-4 py-10 sm:px-8">
     <h2 class="text-4xl text-white">Library</h2>
     <div class="panel mt-8 flex flex-col items-center px-6 py-20 text-center">
-      <h3 class="text-3xl text-white">Your library is empty</h3>
-      <p class="mt-2 max-w-md" style="color:var(--muted)">Games you add will show up here, so you can jump back in quickly.</p>
-      <button class="btn btn-primary mt-6" data-go="games">Browse games</button>
+      <div data-in class="gone flex flex-col items-center">
+        <h3 class="text-3xl text-white">Your library is empty</h3>
+        <p class="mt-2 max-w-md" style="color:var(--muted)">Games you add will show up here.</p>
+        <button class="btn btn-primary mt-6" data-go="games">Browse games</button>
+      </div>
+      <div data-out class="flex flex-col items-center">
+        <h3 class="text-3xl text-white">Log in to see your library</h3>
+        <p class="mt-2 max-w-md" style="color:var(--muted)">Your library is saved to your account.</p>
+        <div class="mt-6 flex gap-3"><button class="btn btn-primary" data-auth="login">Log in</button><button class="btn btn-ghost" data-auth="signup">Sign up</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCOUNT -->
+<section id="v-account" class="view">
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-8">
+    <h2 class="text-4xl text-white">Account</h2>
+    <div class="panel mt-8 p-6">
+      <h3 class="text-2xl text-white">Profile</h3>
+      <div class="mt-4 flex items-center gap-4"><span id="aAv" class="avatar h-16 w-16 text-2xl"></span><div class="min-w-0"><div id="aUser" class="truncate font-semibold"></div><div id="aMail" class="truncate text-sm" style="color:var(--muted)"></div><div id="aSince" class="text-sm" style="color:var(--muted)"></div></div></div>
+      <label class="lbl" for="dn">Display name</label>
+      <input id="dn" class="field" maxlength="20" autocomplete="off">
+      <div class="lbl">Avatar color</div>
+      <div id="cols" class="flex gap-3"></div>
+      <div id="pfMsg" class="err gone"></div>
+      <button id="pfSave" class="btn btn-primary mt-6">Save profile</button>
+    </div>
+    <div class="panel mt-6 p-6">
+      <h3 class="text-2xl text-white">Password</h3>
+      <label class="lbl" for="cpw">Current password</label><input id="cpw" type="password" class="field" autocomplete="current-password">
+      <label class="lbl" for="npw">New password</label><input id="npw" type="password" class="field" autocomplete="new-password">
+      <div class="hint">At least 8 characters.</div>
+      <div id="pwMsg" class="err gone"></div>
+      <button id="pwSave" class="btn btn-primary mt-6">Change password</button>
+    </div>
+    <div class="panel mt-6 flex flex-wrap items-center justify-between gap-4 p-6">
+      <div><h3 class="text-2xl text-white">Delete account</h3><p class="mt-1 text-sm" style="color:var(--muted)">This removes your account from this browser. You can’t undo it.</p></div>
+      <button id="delOpen" class="btn btn-danger">Delete account</button>
+      <div id="delBox" class="gone w-full">
+        <label class="lbl" for="dpw">Enter your password to confirm</label>
+        <input id="dpw" type="password" class="field" autocomplete="current-password">
+        <div id="delMsg" class="err gone"></div>
+        <div class="mt-4 flex gap-3"><button id="delGo" class="btn btn-danger">Delete permanently</button><button id="delNo" class="btn btn-ghost">Cancel</button></div>
+      </div>
     </div>
   </div>
 </section>
@@ -196,27 +245,49 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
     <div class="panel mt-8 px-6 py-2">
       <div class="row"><div><div class="font-semibold">Resolution</div><div class="text-sm" style="color:var(--muted)">Higher resolution needs a faster connection.</div></div>
         <div class="seg" data-set="res"><button data-v="720p">720p</button><button data-v="1080p">1080p</button></div></div>
-      <div class="row"><div><div class="font-semibold">Frame rate</div><div class="text-sm" style="color:var(--muted)">60 FPS feels smoother in fast games.</div></div>
+      <div class="row"><div><div class="font-semibold">Frame rate</div><div class="text-sm" style="color:var(--muted)">60 FPS is smoother in fast games.</div></div>
         <div class="seg" data-set="fps"><button data-v="30">30</button><button data-v="60">60</button></div></div>
-      <div class="row"><div><div class="font-semibold">Server region</div><div class="text-sm" style="color:var(--muted)">Pick the closest region for lower latency.</div></div>
-        <select class="field" style="width:180px" id="region" aria-label="Server region"><option value="auto">Automatic</option><option value="eu">Europe</option><option value="na">North America</option><option value="as">Asia</option></select></div>
-      <div class="row"><div><div class="font-semibold">Show performance stats</div><div class="text-sm" style="color:var(--muted)">Display ping and frame rate while you play.</div></div>
+      <div class="row"><div><div class="font-semibold">Server region</div><div class="text-sm" style="color:var(--muted)">Closer servers mean lower latency.</div></div>
+        <select class="field" style="width:170px" id="region" aria-label="Server region"><option value="auto">Automatic</option><option value="eu">Europe</option><option value="na">North America</option><option value="as">Asia</option></select></div>
+      <div class="row"><div><div class="font-semibold">Show performance stats</div><div class="text-sm" style="color:var(--muted)">Ping and frame rate overlay while you play.</div></div>
         <button class="sw" role="switch" aria-checked="false" id="stats" aria-label="Show performance stats"></button></div>
     </div>
   </div>
 </section>
 </main>
 
-<!-- profile modal -->
+<footer class="border-t" style="border-color:var(--line);background:var(--bar)">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-sm sm:px-8" style="color:var(--muted)">
+    <span>© 2026 Noxura Cloud Gaming</span>
+    <span class="flex gap-5"><a data-na>Terms</a><a data-na>Privacy</a><a data-na>Support</a></span>
+  </div>
+</footer>
+
+<!-- auth modal -->
 <div id="modal" class="scrim" aria-hidden="true">
-  <div class="panel w-full max-w-md p-6" role="dialog" aria-modal="true" aria-labelledby="mt" style="background:var(--panel)">
-    <h3 id="mt" class="text-3xl text-white">Edit profile</h3>
-    <label class="mt-5 block text-sm font-semibold" for="nameIn" style="color:var(--muted)">Display name</label>
-    <input id="nameIn" class="field mt-1.5" maxlength="20" placeholder="Guest_1337" autocomplete="off">
-    <div id="nameErr" class="mt-1.5 hidden text-sm" style="color:#f87171">Use at least 2 characters.</div>
-    <div class="mt-5 text-sm font-semibold" style="color:var(--muted)">Avatar color</div>
-    <div id="cols" class="mt-2.5 flex gap-3"></div>
-    <div class="mt-7 flex justify-end gap-3"><button id="cancel" class="btn btn-ghost">Cancel</button><button id="save" class="btn btn-primary">Save changes</button></div>
+  <div class="panel mt-[6vh] w-full max-w-md p-6" role="dialog" aria-modal="true" aria-label="Account access">
+    <div class="flex"><button class="atab on" data-tab="login">Log in</button><button class="atab" data-tab="signup">Sign up</button></div>
+    <div id="p-login">
+      <label class="lbl" for="liId">Username or email</label><input id="liId" class="field" autocomplete="username">
+      <label class="lbl" for="liPw">Password</label><input id="liPw" type="password" class="field" autocomplete="current-password">
+      <label class="mt-4 flex cursor-pointer items-center gap-2 text-sm" style="color:#b4bccb"><input id="liRem" type="checkbox" checked style="accent-color:#38bdf8"> Stay logged in on this device</label>
+      <div id="liMsg" class="err gone"></div>
+      <button id="liGo" class="btn btn-primary mt-6 w-full">Log in</button>
+      <p class="mt-4 text-center text-sm" style="color:var(--muted)">No account? <a class="cursor-pointer underline" data-tab="signup">Sign up</a></p>
+    </div>
+    <div id="p-signup" class="gone">
+      <label class="lbl" for="suUser">Username</label><input id="suUser" class="field" maxlength="16" autocomplete="username">
+      <div class="hint">3 to 16 characters: letters, numbers and underscores.</div>
+      <label class="lbl" for="suMail">Email</label><input id="suMail" type="email" class="field" autocomplete="email">
+      <label class="lbl" for="suPw">Password</label><input id="suPw" type="password" class="field" autocomplete="new-password">
+      <div class="hint">At least 8 characters.</div>
+      <label class="lbl" for="suPw2">Confirm password</label><input id="suPw2" type="password" class="field" autocomplete="new-password">
+      <label class="mt-4 flex cursor-pointer items-start gap-2 text-sm" style="color:#b4bccb"><input id="suTos" type="checkbox" class="mt-1" style="accent-color:#38bdf8"> I’m 13 or older and I agree to the Terms and Privacy Policy.</label>
+      <div id="suMsg" class="err gone"></div>
+      <button id="suGo" class="btn btn-primary mt-6 w-full">Create account</button>
+      <p class="mt-4 text-center text-sm" style="color:var(--muted)">Already have one? <a class="cursor-pointer underline" data-tab="login">Log in</a></p>
+    </div>
+    <button id="mClose" class="btn btn-ghost mt-5 w-full">Cancel</button>
   </div>
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -226,64 +297,181 @@ select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg 
   var $=function(i){return document.getElementById(i)};
   var COLORS=['#38bdf8','#4ade80','#fbbf24','#f87171','#c084fc','#e2e8f0'];
   var CATS=['All','Action','Arcade','Retro','HTML5','Custom Games'];
-  var PK='noxura_profile_v2',SK='noxura_settings_v1';
-  var profile={name:'Guest_1337',color:COLORS[0]};
-  var set={res:'1080p',fps:'60',region:'auto',stats:false};
-  var cat='All',pick=COLORS[0];
+  var UK='noxura_users_v1',SK='noxura_settings_v1',SES='noxura_session_v1';
+  var users={},set={res:'1080p',fps:'60',region:'auto',stats:false},cur=null,cat='All',pick=COLORS[0],fails=0,lockUntil=0,busy=false;
 
-  function get(k,d){try{var r=localStorage.getItem(k);if(r){var o=JSON.parse(r);if(o&&typeof o==='object')return Object.assign({},d,o)}}catch(e){}return d}
-  function put(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  function rd(k){try{var r=localStorage.getItem(k);return r?JSON.parse(r):null}catch(e){return null}}
+  function wr(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+  function sesGet(){try{return sessionStorage.getItem(SES)||localStorage.getItem(SES)}catch(e){return null}}
+  function sesSet(k,remember){try{sessionStorage.removeItem(SES);localStorage.removeItem(SES);(remember?localStorage:sessionStorage).setItem(SES,k)}catch(e){}}
+  function sesClear(){try{sessionStorage.removeItem(SES);localStorage.removeItem(SES)}catch(e){}}
 
-  var tt;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},2400)}
+  var tt;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('show')},2600)}
+  function msg(id,text){var e=$(id);e.textContent=text||'';e.classList.toggle('gone',!text)}
 
-  function avatar(el){el.textContent=(profile.name.trim()[0]||'G').toUpperCase();el.style.background=profile.color}
-  function ui(){avatar($('hAv'));avatar($('mAv'));$('hName').textContent=profile.name;$('mName').textContent=profile.name}
+  /* password hashing */
+  function b64(u){var s='';for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s)}
+  function unb64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+  async function derive(pw,salt){
+    var key=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
+    var bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:salt,iterations:150000,hash:'SHA-256'},key,256);
+    return b64(new Uint8Array(bits));
+  }
+  function canHash(){return !!(window.crypto&&crypto.subtle&&crypto.getRandomValues)}
 
+  /* ui */
+  function letter(el){el.textContent=((cur.display||cur.username)[0]||'?').toUpperCase();el.style.background=cur.color}
+  function ui(){
+    var on=!!cur;
+    document.querySelectorAll('[data-in]').forEach(function(e){e.classList.toggle('gone',!on)});
+    document.querySelectorAll('[data-out]').forEach(function(e){e.classList.toggle('gone',on)});
+    if(!on)return;
+    var name=cur.display||cur.username;
+    ['hAv','mAv','aAv'].forEach(function(i){letter($(i))});
+    $('hName').textContent=name;$('mName').textContent=name;$('mUser').textContent='@'+cur.username;
+    $('aUser').textContent='@'+cur.username;$('aMail').textContent=cur.email;
+    $('aSince').textContent='Member since '+new Date(cur.created).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  }
   function go(v){
+    if(v==='account'&&!cur){openAuth('login');return}
     document.querySelectorAll('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v)});
     document.querySelectorAll('#tabs a').forEach(function(a){a.classList.toggle('on',a.dataset.go===v)});
     $('tabs').classList.remove('open');$('menu').classList.remove('open');$('userBtn').setAttribute('aria-expanded','false');
+    if(v==='account'){$('dn').value=cur.display||'';pick=cur.color;cols();['pfMsg','pwMsg','delMsg'].forEach(function(i){msg(i)});$('delBox').classList.add('gone');$('delOpen').classList.remove('gone')}
     window.scrollTo(0,0);
   }
   function chips(){
     $('chips').innerHTML=CATS.map(function(c){return '<button class="chip'+(c===cat?' on':'')+'" data-cat="'+c+'" aria-pressed="'+(c===cat)+'">'+c+'</button>'}).join('');
     var f=cat!=='All'||$('q').value.trim();
-    $('emptyT').textContent=f?'No results':'No games available yet';
-    $('emptyP').textContent=f?'Nothing matches your search yet. The library is still being updated, so check back soon.':'The Game Library is currently being updated. New WebGL & HTML5 games are coming soon to Noxura Cloud!';
+    $('emptyT').textContent=f?'No results':'No games yet';
+    $('emptyP').textContent=f?'Nothing matches that yet. Try again after the next library update.':'The Game Library is currently being updated. New WebGL & HTML5 games are coming soon to Noxura Cloud!';
   }
+  function cols(){$('cols').innerHTML=COLORS.map(function(c){return '<button data-col="'+c+'" aria-label="Color '+c+'" style="width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;background:'+c+';box-shadow:'+(c===pick?'0 0 0 2px #161a21,0 0 0 4px #fff':'none')+'"></button>'}).join('')}
   function settingsUI(){
     document.querySelectorAll('.seg').forEach(function(s){s.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.v===set[s.dataset.set])})});
     $('region').value=set.region;$('stats').setAttribute('aria-checked',String(!!set.stats));
   }
-  function cols(){$('cols').innerHTML=COLORS.map(function(c){return '<button data-col="'+c+'" aria-label="Color '+c+'" style="width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;background:'+c+';box-shadow:'+(c===pick?'0 0 0 2px #161a21,0 0 0 4px #fff':'none')+'"></button>'}).join('')}
-  function openModal(){pick=profile.color;$('nameIn').value=profile.name;$('nameErr').classList.add('hidden');cols();$('menu').classList.remove('open');$('modal').classList.add('open');$('modal').setAttribute('aria-hidden','false');setTimeout(function(){$('nameIn').focus()},30)}
-  function closeModal(){$('modal').classList.remove('open');$('modal').setAttribute('aria-hidden','true')}
-  function save(){var n=$('nameIn').value.trim();if(n.length<2){$('nameErr').classList.remove('hidden');return}profile={name:n,color:pick};put(PK,profile);ui();closeModal();toast('Profile saved')}
+
+  /* auth modal */
+  function tab(t){
+    document.querySelectorAll('.atab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t)});
+    $('p-login').classList.toggle('gone',t!=='login');$('p-signup').classList.toggle('gone',t!=='signup');
+    msg('liMsg');msg('suMsg');
+    setTimeout(function(){$(t==='login'?'liId':'suUser').focus()},30);
+  }
+  function openAuth(t){$('menu').classList.remove('open');$('modal').classList.add('open');$('modal').setAttribute('aria-hidden','false');tab(t)}
+  function closeAuth(){$('modal').classList.remove('open');$('modal').setAttribute('aria-hidden','true');['liPw','suPw','suPw2'].forEach(function(i){$(i).value=''})}
+  function lock(btn,on,label){busy=on;btn.disabled=on;btn.textContent=on?'Please wait…':label}
+
+  async function doSignup(){
+    if(busy)return;
+    var name=$('suUser').value.trim(),mail=$('suMail').value.trim(),pw=$('suPw').value,pw2=$('suPw2').value,key=name.toLowerCase(),m='suMsg';
+    if(!/^[A-Za-z0-9_]{3,16}$/.test(name))return msg(m,'Usernames are 3 to 16 characters and can only use letters, numbers and underscores.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail))return msg(m,'That email address doesn’t look right.');
+    if(pw.length<8)return msg(m,'Your password needs at least 8 characters.');
+    if(pw!==pw2)return msg(m,'The passwords don’t match.');
+    if(!$('suTos').checked)return msg(m,'You need to accept the Terms to create an account.');
+    if(!canHash())return msg(m,'This browser can’t create accounts here. Try a current version of Chrome, Edge, Firefox or Safari.');
+    users=rd(UK)||{};
+    if(users[key])return msg(m,'That username is taken.');
+    for(var k in users){if(users[k].email.toLowerCase()===mail.toLowerCase())return msg(m,'An account with that email already exists.')}
+    msg(m);lock($('suGo'),true);
+    try{
+      var salt=crypto.getRandomValues(new Uint8Array(16));
+      users[key]={username:name,email:mail,salt:b64(salt),hash:await derive(pw,salt),color:COLORS[Math.floor(Math.random()*COLORS.length)],display:'',created:Date.now()};
+      if(!wr(UK,users)){delete users[key];msg(m,'We couldn’t save your account. Check that your browser allows site data.');return}
+      cur=users[key];sesSet(key,true);closeAuth();ui();toast('Welcome to Noxura, '+name+'.');
+    }catch(e){msg(m,'Something went wrong while creating your account. Try again.')}
+    finally{lock($('suGo'),false,'Create account')}
+  }
+
+  async function doLogin(){
+    if(busy)return;
+    var id=$('liId').value.trim().toLowerCase(),pw=$('liPw').value,m='liMsg';
+    if(!id||!pw)return msg(m,'Enter your username or email and your password.');
+    if(Date.now()<lockUntil)return msg(m,'Too many failed attempts. Wait '+Math.ceil((lockUntil-Date.now())/1000)+' seconds and try again.');
+    if(!canHash())return msg(m,'This browser can’t log in here. Try a current version of Chrome, Edge, Firefox or Safari.');
+    users=rd(UK)||{};
+    var u=users[id];
+    if(!u){for(var k in users){if(users[k].email.toLowerCase()===id){u=users[k];break}}}
+    msg(m);lock($('liGo'),true);
+    try{
+      var ok=false;
+      if(u)ok=(await derive(pw,unb64(u.salt)))===u.hash;
+      if(!ok){fails++;if(fails>=5){lockUntil=Date.now()+30000;fails=0}return msg(m,'Wrong username, email or password.')}
+      fails=0;cur=u;sesSet(u.username.toLowerCase(),$('liRem').checked);closeAuth();ui();toast('Welcome back, '+(u.display||u.username)+'.');
+    }catch(e){msg(m,'Something went wrong. Try again.')}
+    finally{lock($('liGo'),false,'Log in')}
+  }
+
+  function saveUser(){users[cur.username.toLowerCase()]=cur;return wr(UK,users)}
+  function saveProfile(){
+    var n=$('dn').value.trim();
+    if(n&&n.length<2)return msg('pfMsg','Display names need at least 2 characters, or leave it empty to use your username.');
+    cur.display=n;cur.color=pick;
+    if(!saveUser())return msg('pfMsg','We couldn’t save your changes.');
+    msg('pfMsg');ui();toast('Profile saved.');
+  }
+  async function changePw(){
+    if(busy)return;var c=$('cpw').value,n=$('npw').value;
+    if(!c||!n)return msg('pwMsg','Fill in both fields.');
+    if(n.length<8)return msg('pwMsg','Your new password needs at least 8 characters.');
+    msg('pwMsg');lock($('pwSave'),true);
+    try{
+      if((await derive(c,unb64(cur.salt)))!==cur.hash)return msg('pwMsg','Your current password is wrong.');
+      var salt=crypto.getRandomValues(new Uint8Array(16));
+      cur.salt=b64(salt);cur.hash=await derive(n,salt);
+      if(!saveUser())return msg('pwMsg','We couldn’t save your new password.');
+      $('cpw').value='';$('npw').value='';toast('Password changed.');
+    }catch(e){msg('pwMsg','Something went wrong. Try again.')}
+    finally{lock($('pwSave'),false,'Change password')}
+  }
+  async function delAcc(){
+    if(busy)return;var p=$('dpw').value;if(!p)return msg('delMsg','Enter your password.');
+    msg('delMsg');lock($('delGo'),true);
+    try{
+      if((await derive(p,unb64(cur.salt)))!==cur.hash)return msg('delMsg','That password is wrong.');
+      delete users[cur.username.toLowerCase()];wr(UK,users);sesClear();cur=null;$('dpw').value='';ui();go('home');toast('Your account was deleted.');
+    }catch(e){msg('delMsg','Something went wrong. Try again.')}
+    finally{lock($('delGo'),false,'Delete permanently')}
+  }
+  function logout(){sesClear();cur=null;ui();go('home');toast('You’re logged out.')}
 
   document.addEventListener('click',function(e){
     var t=e.target,x;
+    if((x=t.closest('[data-auth]'))){openAuth(x.dataset.auth);return}
+    if((x=t.closest('[data-tab]'))){tab(x.dataset.tab);return}
     if((x=t.closest('[data-go]'))){go(x.dataset.go);return}
     if((x=t.closest('[data-cat]'))){cat=x.dataset.cat;chips();return}
     if((x=t.closest('[data-col]'))){pick=x.dataset.col;cols();return}
-    if((x=t.closest('.seg button'))){set[x.parentNode.dataset.set]=x.dataset.v;put(SK,set);settingsUI();toast('Settings saved');return}
-    if(t.closest('[data-act=edit]')){openModal();return}
+    if((x=t.closest('.seg button'))){set[x.parentNode.dataset.set]=x.dataset.v;wr(SK,set);settingsUI();toast('Settings saved.');return}
+    if(t.closest('[data-na]')){toast('That page isn’t up yet.');return}
     if(!t.closest('#menu')&&!t.closest('#userBtn'))$('menu').classList.remove('open');
+    if(t===$('modal'))closeAuth();
   });
   document.addEventListener('keydown',function(e){
-    if(e.key==='Escape'){closeModal();$('menu').classList.remove('open')}
-    if((e.key==='Enter'||e.key===' ')&&document.activeElement&&document.activeElement.matches('#tabs a,.mr-4')){e.preventDefault();go(document.activeElement.dataset.go)}
-    if(e.key==='Enter'&&document.activeElement===$('nameIn'))save();
+    var a=document.activeElement;
+    if(e.key==='Escape'){closeAuth();$('menu').classList.remove('open')}
+    if((e.key==='Enter'||e.key===' ')&&a&&a.matches('#tabs a')){e.preventDefault();go(a.dataset.go)}
+    if(e.key==='Enter'&&a){
+      if(a.id==='liId'||a.id==='liPw')doLogin();
+      if(['suUser','suMail','suPw','suPw2'].indexOf(a.id)>-1)doSignup();
+    }
   });
   $('userBtn').addEventListener('click',function(){var o=$('menu').classList.toggle('open');this.setAttribute('aria-expanded',String(o))});
   $('burger').addEventListener('click',function(){$('tabs').classList.toggle('open')});
   $('searchBtn').addEventListener('click',function(){go('games');setTimeout(function(){$('q').focus()},30)});
   $('q').addEventListener('input',chips);
-  $('region').addEventListener('change',function(){set.region=this.value;put(SK,set);toast('Settings saved')});
-  $('stats').addEventListener('click',function(){set.stats=!set.stats;put(SK,set);settingsUI();toast('Settings saved')});
-  $('cancel').addEventListener('click',closeModal);$('save').addEventListener('click',save);
-  $('modal').addEventListener('click',function(e){if(e.target===$('modal'))closeModal()});
+  $('region').addEventListener('change',function(){set.region=this.value;wr(SK,set);toast('Settings saved.')});
+  $('stats').addEventListener('click',function(){set.stats=!set.stats;wr(SK,set);settingsUI();toast('Settings saved.')});
+  $('liGo').addEventListener('click',doLogin);$('suGo').addEventListener('click',doSignup);$('mClose').addEventListener('click',closeAuth);
+  $('pfSave').addEventListener('click',saveProfile);$('pwSave').addEventListener('click',changePw);
+  $('delOpen').addEventListener('click',function(){this.classList.add('gone');$('delBox').classList.remove('gone');$('dpw').focus()});
+  $('delNo').addEventListener('click',function(){$('delBox').classList.add('gone');$('delOpen').classList.remove('gone');$('dpw').value='';msg('delMsg')});
+  $('delGo').addEventListener('click',delAcc);$('logout').addEventListener('click',logout);
 
-  profile=get(PK,profile);set=get(SK,set);
+  users=rd(UK)||{};var s=rd(SK);if(s)set=Object.assign(set,s);
+  var sk=sesGet();if(sk&&users[sk])cur=users[sk];
   ui();chips();settingsUI();
 })();
 </script>
