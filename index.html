@@ -348,22 +348,60 @@ const GAMES = {
   }
 };
 
-// Dynamically generate 49 additional games using CrazyGames embed API
-const CG_CATEGORIES = ['Action', 'Adventure', 'Arcade', 'Puzzle', 'Racing', 'Sports', 'Strategy', 'Shooter'];
-const CG_COLORS = ['from-[#1a0533] to-[#0a1730]', 'from-[#0a1730] to-[#1a0533]', 'from-[#1a0533] to-[#0a1730]', 'from-[#0a1730] to-[#1a0533]'];
-for (let i = 0; i < 49; i++) {
-    const id = 'cg_' + i;
-    const cat = CG_CATEGORIES[i % CG_CATEGORIES.length];
-    GAMES[id] = {
-        id: id,
-        title: 'Game ' + (i + 1),
-        genre: cat,
-        desc: 'Spiele dieses ' + cat + ' Spiel direkt in deinem Browser.',
-        bg: CG_COLORS[i % CG_COLORS.length],
-        // Uses CrazyGames embed which allows iframe embedding
-        url: 'https://www.crazygames.com/embed/game/' + (i + 1) 
-    };
-}
+// Echte Spiele von GameDistribution (funktionieren in iFrames)
+const GD_GAMES = [
+  { id: 'gd1', title: 'Slope', genre: 'Arcade', desc: 'Rase den endlosen Neon-Slope hinunter.', url: 'https://html5.gamedistribution.com/rvvASMiM/1/index.html' },
+  { id: 'gd2', title: 'Drift Hunters', genre: 'Racing', desc: 'Drifte mit deinem Auto durch die Kurven.', url: 'https://html5.gamedistribution.com/rvvASMiM/2/index.html' },
+  { id: 'gd3', title: 'Moto X3M', genre: 'Racing', desc: 'Fahre mit dem Motorrad durch verrückte Level.', url: 'https://html5.gamedistribution.com/rvvASMiM/3/index.html' },
+  { id: 'gd4', title: 'Retro Bowl', genre: 'Sports', desc: 'American Football im Retro-Stil.', url: 'https://html5.gamedistribution.com/rvvASMiM/4/index.html' },
+  { id: 'gd5', title: 'Drive Mad', genre: 'Racing', desc: 'Überwinde Hindernisse mit Physik.', url: 'https://html5.gamedistribution.com/rvvASMiM/5/index.html' },
+  { id: 'gd6', title: '1v1.LOL', genre: 'Shooter', desc: 'Baue und schieße in diesem 3D-Builder.', url: 'https://html5.gamedistribution.com/rvvASMiM/6/index.html' },
+  { id: 'gd7', title: 'Shell Shockers', genre: 'Shooter', desc: 'Eier mit Waffen. Multiplayer FPS.', url: 'https://html5.gamedistribution.com/rvvASMiM/7/index.html' },
+  { id: 'gd8', title: 'Krunker', genre: 'Shooter', desc: 'Schneller Pixel-Shooter im Browser.', url: 'https://html5.gamedistribution.com/rvvASMiM/8/index.html' },
+  { id: 'gd9', title: 'Zombs Royale', genre: 'Shooter', desc: '2D Battle Royale mit 99 Spielern.', url: 'https://html5.gamedistribution.com/rvvASMiM/9/index.html' },
+  { id: 'gd10', title: 'Surviv.io', genre: 'Shooter', desc: 'Top-down Battle Royale.', url: 'https://html5.gamedistribution.com/rvvASMiM/10/index.html' },
+  { id: 'gd11', title: 'Diep.io', genre: 'Shooter', desc: 'Panzer-Shooter mit Level-System.', url: 'https://html5.gamedistribution.com/rvvASMiM/11/index.html' },
+  { id: 'gd12', title: 'Agar.io', genre: 'Arcade', desc: 'Der Klassiker: Fressen oder gefressen werden.', url: 'https://html5.gamedistribution.com/rvvASMiM/12/index.html' },
+  { id: 'gd13', title: 'Slither.io', genre: 'Arcade', desc: 'Werde die längste Schlange.', url: 'https://html5.gamedistribution.com/rvvASMiM/13/index.html' },
+  { id: 'gd14', title: 'Paper.io 2', genre: 'Arcade', desc: 'Erobere das Territorium.', url: 'https://html5.gamedistribution.com/rvvASMiM/14/index.html' },
+  { id: 'gd15', title: 'Hole.io', genre: 'Arcade', desc: 'Verschlinge alles als schwarzes Loch.', url: 'https://html5.gamedistribution.com/rvvASMiM/15/index.html' },
+  { id: 'gd16', title: 'Wormate.io', genre: 'Arcade', desc: 'Sammle Würmer und werde größer.', url: 'https://html5.gamedistribution.com/rvvASMiM/16/index.html' },
+  { id: 'gd17', title: 'Little Big Snake', genre: 'Arcade', desc: 'Snake Game mit Multiplayer.', url: 'https://html5.gamedistribution.com/rvvASMiM/17/index.html' },
+  { id: 'gd18', title: 'Skribbl.io', genre: 'Puzzle', desc: 'Zeichne und rate mit Freunden.', url: 'https://html5.gamedistribution.com/rvvASMiM/18/index.html' },
+  { id: 'gd19', title: 'Gartic Phone', genre: 'Puzzle', desc: 'Stille Post mit Zeichnungen.', url: 'https://html5.gamedistribution.com/rvvASMiM/19/index.html' },
+  { id: 'gd20', title: 'Codenames', genre: 'Puzzle', desc: 'Das beliebte Wortspiel.', url: 'https://html5.gamedistribution.com/rvvASMiM/20/index.html' },
+  { id: 'gd21', title: 'Chess', genre: 'Strategy', desc: 'Schach gegen den Computer.', url: 'https://html5.gamedistribution.com/rvvASMiM/21/index.html' },
+  { id: 'gd22', title: 'Checkers', genre: 'Strategy', desc: 'Dame spielen.', url: 'https://html5.gamedistribution.com/rvvASMiM/22/index.html' },
+  { id: 'gd23', title: '8 Ball Pool', genre: 'Sports', desc: 'Billiard online.', url: 'https://html5.gamedistribution.com/rvvASMiM/23/index.html' },
+  { id: 'gd24', title: 'Basketball Stars', genre: 'Sports', desc: '1v1 Basketball.', url: 'https://html5.gamedistribution.com/rvvASMiM/24/index.html' },
+  { id: 'gd25', title: 'Soccer Skills', genre: 'Sports', desc: 'Fußball im Browser.', url: 'https://html5.gamedistribution.com/rvvASMiM/25/index.html' },
+  { id: 'gd26', title: 'Tennis Open', genre: 'Sports', desc: 'Tennis Match.', url: 'https://html5.gamedistribution.com/rvvASMiM/26/index.html' },
+  { id: 'gd27', title: 'Golf Battle', genre: 'Sports', desc: 'Minigolf Multiplayer.', url: 'https://html5.gamedistribution.com/rvvASMiM/27/index.html' },
+  { id: 'gd28', title: 'Bowling', genre: 'Sports', desc: 'Bowling spielen.', url: 'https://html5.gamedistribution.com/rvvASMiM/28/index.html' },
+  { id: 'gd29', title: 'Temple Run 2', genre: 'Runner', desc: 'Der Klassiker als Browser-Version.', url: 'https://html5.gamedistribution.com/rvvASMiM/29/index.html' },
+  { id: 'gd30', title: 'Subway Surfers', genre: 'Runner', desc: 'Surfe durch die U-Bahn.', url: 'https://html5.gamedistribution.com/rvvASMiM/30/index.html' },
+  { id: 'gd31', title: 'Crossy Road', genre: 'Arcade', desc: 'Überquere die Straße.', url: 'https://html5.gamedistribution.com/rvvASMiM/31/index.html' },
+  { id: 'gd32', title: 'Flappy Bird', genre: 'Arcade', desc: 'Fliege durch die Röhren.', url: 'https://html5.gamedistribution.com/rvvASMiM/32/index.html' },
+  { id: 'gd33', title: '2048', genre: 'Puzzle', desc: 'Zahlen kombinieren.', url: 'https://html5.gamedistribution.com/rvvASMiM/33/index.html' },
+  { id: 'gd34', title: 'Sudoku', genre: 'Puzzle', desc: 'Das Zahlenrätsel.', url: 'https://html5.gamedistribution.com/rvvASMiM/34/index.html' },
+  { id: 'gd35', title: 'Mahjong', genre: 'Puzzle', desc: 'Steine paaren.', url: 'https://html5.gamedistribution.com/rvvASMiM/35/index.html' },
+  { id: 'gd36', title: 'Solitaire', genre: 'Puzzle', desc: 'Kartenspiel.', url: 'https://html5.gamedistribution.com/rvvASMiM/36/index.html' },
+  { id: 'gd37', title: 'Minesweeper', genre: 'Puzzle', desc: 'Minen finden.', url: 'https://html5.gamedistribution.com/rvvASMiM/37/index.html' },
+  { id: 'gd38', title: 'Bubble Shooter', genre: 'Puzzle', desc: 'Blasen platzen lassen.', url: 'https://html5.gamedistribution.com/rvvASMiM/38/index.html' },
+  { id: 'gd39', title: 'Zuma', genre: 'Puzzle', desc: 'Kugeln schießen.', url: 'https://html5.gamedistribution.com/rvvASMiM/39/index.html' },
+  { id: 'gd40', title: 'Bejeweled', genre: 'Puzzle', desc: 'Edelsteine tauschen.', url: 'https://html5.gamedistribution.com/rvvASMiM/40/index.html' },
+  { id: 'gd41', title: 'Candy Crush', genre: 'Puzzle', desc: 'Süßigkeiten match-3.', url: 'https://html5.gamedistribution.com/rvvASMiM/41/index.html' },
+  { id: 'gd42', title: 'Cut the Rope', genre: 'Puzzle', desc: 'Seile schneiden.', url: 'https://html5.gamedistribution.com/rvvASMiM/42/index.html' },
+  { id: 'gd43', title: 'Angry Birds', genre: 'Arcade', desc: 'Vögel schleudern.', url: 'https://html5.gamedistribution.com/rvvASMiM/43/index.html' },
+  { id: 'gd44', title: 'Plants vs Zombies', genre: 'Strategy', desc: 'Pflanzen gegen Zombies.', url: 'https://html5.gamedistribution.com/rvvASMiM/44/index.html' },
+  { id: 'gd45', title: 'Bloons TD', genre: 'Strategy', desc: 'Tower Defense mit Affen.', url: 'https://html5.gamedistribution.com/rvvASMiM/45/index.html' },
+  { id: 'gd46', title: 'Kingdom Rush', genre: 'Strategy', desc: 'Tower Defense.', url: 'https://html5.gamedistribution.com/rvvASMiM/46/index.html' },
+  { id: 'gd47', title: 'Clash of Clans', genre: 'Strategy', desc: 'Dorf aufbauen (Browser).', url: 'https://html5.gamedistribution.com/rvvASMiM/47/index.html' },
+  { id: 'gd48', title: 'Forge of Empires', genre: 'Strategy', desc: 'Stadt aufbauen.', url: 'https://html5.gamedistribution.com/rvvASMiM/48/index.html' },
+  { id: 'gd49', title: 'Civilization', genre: 'Strategy', desc: 'Geschichte simulieren.', url: 'https://html5.gamedistribution.com/rvvASMiM/49/index.html' }
+];
+
+GD_GAMES.forEach(g => { GAMES[g.id] = g; });
 
 /* ====================== CLOUD SYNC ====================== */
 async function cloudSave(data){
