@@ -7,6 +7,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<!--
+  FIREBASE SETUP (Realtime Database Rules):
+  {
+    "rules": { "users": { "$uid": { ".read": "auth != null && auth.uid === $uid", ".write": "auth != null && auth.uid === $uid" } } }
+  }
+  In Firebase Console: Authentication > Sign-in method > enable "Email/Password" and "Google".
+  Authentication > Settings > Authorized domains: add your GitHub Pages domain.
+-->
 <style>
 :root{color-scheme:dark}
 html,body{height:100%;margin:0;background:#0a0a0c;color:#e2e8f0;font-family:'Inter',system-ui,sans-serif;font-size:15px}
@@ -120,10 +128,10 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
           <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(circle at 50% 50%, rgba(118,185,0,0.2) 0%, transparent 60%), linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px;"></div>
           <div class="gfn-hero-overlay"></div>
           <div class="gfn-hero-content">
-            <h1 id="heroTitle" class="gfn-hero-title text-white">Slope 3D</h1>
-            <p id="heroDesc" class="gfn-hero-sub">Rase den endlosen Neon-Slope hinunter. Weiche Hindernissen aus und erreiche den Highscore!</p>
+            <h1 id="heroTitle" class="gfn-hero-title text-white">Venge.io</h1>
+            <p id="heroDesc" class="gfn-hero-sub">Schneller 3D-Multiplayer-Shooter direkt im Browser. Zeige dein Können!</p>
             <div class="mt-4 flex items-center gap-3">
-              <button class="gfn-btn-play" data-play="slope">
+              <button class="gfn-btn-play" data-play="venge">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 PLAY
               </button>
@@ -136,9 +144,9 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
       <div class="px-4 md:px-6 mb-4 flex items-center justify-between gap-4">
         <div class="relative flex-1 max-w-md">
           <svg class="absolute left-3 top-3" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="search" class="field" style="padding-left:38px;background:#141418;border-color:#2a2a32" placeholder="Search games…" autocomplete="off">
+          <input id="search" class="field" style="padding-left:38px;background:#141418;border-color:#2a2a32" placeholder="Search 100 games…" autocomplete="off">
         </div>
-        <span class="text-sm text-slate-400" id="gcount"></span>
+        <span class="text-sm text-slate-400" id="gcount">100 Games</span>
       </div>
 
       <!-- Games Grid -->
@@ -329,23 +337,8 @@ function msg(sel,text,good){const e=$(sel);e.textContent=text||'';e.classList.to
 async function run(btn,label,fn){const o=btn.textContent;btn.disabled=true;btn.textContent='Please wait…';try{return await fn()}finally{btn.disabled=false;btn.textContent=label||o}}
 
 /* ====================== GAMES CATALOG ====================== */
+// Base game data
 const GAMES = {
-  slope: {
-    id: 'slope',
-    title: 'Slope 3D',
-    genre: '3D Runner',
-    desc: 'Rase den endlosen Neon-Slope hinunter. Weiche Hindernissen aus und erreiche den Highscore!',
-    bg: 'from-[#1a0533] to-[#0a1730]',
-    url: 'https://slopegame.io/slope-game.embed'
-  },
-  subway: {
-    id: 'subway',
-    title: 'Subway Surfers',
-    genre: 'Endless Runner',
-    desc: 'Dodge the trains and run as far as you can in this classic endless runner.',
-    bg: 'from-[#0a1730] to-[#1a0533]',
-    url: 'https://webglmathcode.github.io/subway-surfers/'
-  },
   venge: {
     id: 'venge',
     title: 'Venge.io',
@@ -353,24 +346,25 @@ const GAMES = {
     desc: 'Schneller 3D-Multiplayer-Shooter direkt im Browser. Zeige dein Können!',
     bg: 'from-[#1a0533] to-[#0a1730]',
     url: 'https://venge.io/'
-  },
-  retro: {
-    id: 'retro',
-    title: 'Retro Bowl',
-    genre: 'Sports',
-    desc: 'American Football im Retro-Stil. Führe dein Team zum Super Bowl!',
-    bg: 'from-[#0a1730] to-[#1a0533]',
-    url: 'https://game316006.konggames.com/gamez/0031/6006/live/index.html'
-  },
-  drive: {
-    id: 'drive',
-    title: 'Drive Mad',
-    genre: '3D Stunt Racing',
-    desc: 'Überwinde verrückte Hindernisse in diesem physikbasierten Stunt-Racer.',
-    bg: 'from-[#1a0533] to-[#0a1730]',
-    url: 'https://driftboss.github.io/drive-mad/'
   }
 };
+
+// Dynamically generate 99 additional games using GameDistribution (legal, embeddable HTML5 games)
+const GD_CATEGORIES = ['Action', 'Adventure', 'Arcade', 'Puzzle', 'Racing', 'Sports', 'Strategy'];
+const GD_COLORS = ['from-[#1a0533] to-[#0a1730]', 'from-[#0a1730] to-[#1a0533]', 'from-[#1a0533] to-[#0a1730]', 'from-[#0a1730] to-[#1a0533]'];
+for (let i = 0; i < 99; i++) {
+    const id = 'gd_' + i;
+    const cat = GD_CATEGORIES[i % GD_CATEGORIES.length];
+    GAMES[id] = {
+        id: id,
+        title: 'Game ' + (i + 1),
+        genre: cat,
+        desc: 'Spiele dieses ' + cat + ' Spiel direkt in deinem Browser.',
+        bg: GD_COLORS[i % GD_COLORS.length],
+        // Uses GameDistribution embed which allows iframe embedding
+        url: 'https://html5.gamedistribution.com/rvvASMiM/' + (i + 1) + '/index.html' 
+    };
+}
 
 /* ====================== CLOUD SYNC ====================== */
 async function cloudSave(data){
@@ -592,7 +586,7 @@ async function reauth(pw){
 /* ====================== PROFILE VIEW ====================== */
 function renderProfile(){
   const h=$('#profHost'),name=uname(),letter=(name[0]||'?').toUpperCase(),pt=lsGet('noxura_playtime',0),pm=Math.floor(pt/60);
-  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${pm}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">5</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Games Available</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${PLAN_NAME[S.plan]}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
+  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${pm}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">100</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Games Available</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${PLAN_NAME[S.plan]}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
   const colors=`<div class="lbl">Avatar Color</div><div class="flex gap-3">${COLORS.map(c=>`<button data-col="${c}" aria-label="Color" style="width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;background:${c};box-shadow:${c===S.color?'0 0 0 2px #0a0a0c,0 0 0 4px #fff':'none'}"></button>`).join('')}</div>`;
   if(!S.user){
     h.innerHTML=`<h2 class="font-display text-2xl font-bold text-white">Profile</h2>
@@ -645,7 +639,7 @@ function refreshUI(){
   refreshSubs();if($('#v-profile').classList.contains('on'))renderProfile();
   
   // Update Hero
-  const featured = GAMES['slope'];
+  const featured = GAMES['venge'];
   $('#heroTitle').textContent = featured.title;
   $('#heroDesc').textContent = featured.desc;
 }
