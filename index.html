@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -8,12 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <!--
-  FIREBASE SETUP (Realtime Database Rules, damit Tarif/Profil/Highscores pro Nutzer gespeichert werden):
+  FIREBASE SETUP (Realtime Database Rules, so tariff/profile/highscores are saved per user):
   {
     "rules": { "users": { "$uid": { ".read": "auth != null && auth.uid === $uid", ".write": "auth != null && auth.uid === $uid" } } }
   }
-  Außerdem in der Firebase Console: Authentication > Sign-in method > "E-Mail/Passwort" und "Google" aktivieren,
-  und unter Authentication > Settings > Authorized domains deine GitHub-Pages-Domain (xyz.github.io) hinzufügen.
+  Also in the Firebase Console: Authentication > Sign-in method > enable "Email/Password" and "Google",
+  and under Authentication > Settings > Authorized domains add your GitHub Pages domain (xyz.github.io).
 -->
 <style>
 :root{color-scheme:dark}
@@ -74,24 +74,51 @@ input[type=range]{accent-color:#38bdf8;width:180px}
 #cv{display:block;width:100%;height:100%;object-fit:contain;background:#000;outline:none}
 ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:#334155;border-radius:6px}
 @media(max-width:767px){body{font-size:16px}}
+
+/* --- GeForce NOW Style Additions --- */
+.gfn-bg{background:#0a0a0c;background-image:radial-gradient(circle at 50% 0%,rgba(56,189,248,.08),transparent 60%)}
+.gfn-card{background:#1a1a1f;border:1px solid #2a2a32;border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.gfn-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 1px #38bdf8}
+.gfn-hero{position:relative;overflow:hidden;border-radius:16px}
+.gfn-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.gfn-hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0c 0%,transparent 60%,transparent 100%)}
+.gfn-btn-play{background:#76b900;color:#000;font-weight:800;font-size:18px;padding:14px 40px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all .15s}
+.gfn-btn-play:hover{background:#8ed600;transform:scale(1.02)}
+.gfn-btn-play:active{transform:scale(.98)}
+.gfn-title{font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(24px,4vw,48px);line-height:1.1;text-shadow:0 2px 20px rgba(0,0,0,.8)}
+.gfn-nav-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:8px;color:#9ca3af;font-weight:600;cursor:pointer;transition:all .15s}
+.gfn-nav-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.gfn-nav-item.active{color:#76b900;background:rgba(118,185,0,.1)}
+.gfn-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
+.gfn-scroll::-webkit-scrollbar{height:6px}
+.gfn-scroll::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:3px}
+.gfn-scroll .gfn-card{flex:0 0 280px}
+.gfn-detail{position:fixed;inset:0;z-index:90;background:#0a0a0c;overflow-y:auto;display:none}
+.gfn-detail.open{display:block}
+.gfn-detail-hero{position:relative;height:60vh;min-height:400px;overflow:hidden}
+.gfn-detail-hero img{width:100%;height:100%;object-fit:cover}
+.gfn-detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0c 0%,transparent 50%,rgba(0,0,0,.3) 100%)}
+.gfn-detail-content{position:relative;z-index:2;max-width:1200px;margin:-120px auto 0;padding:0 24px 60px}
+.gfn-detail-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.gfn-detail-meta span{background:rgba(255,255,255,.1);padding:4px 12px;border-radius:4px;font-size:13px;font-weight:600}
 </style>
 </head>
-<body>
+<body class="gfn-bg">
 
 <div class="flex h-full">
   <!-- SIDEBAR -->
-  <aside class="glass fixed bottom-0 left-0 right-0 z-40 flex h-16 flex-row items-center justify-around border-t px-2 md:static md:h-full md:w-64 md:flex-col md:items-stretch md:justify-start md:border-r md:border-t-0 md:p-4" style="border-radius:0">
+  <aside class="glass fixed bottom-0 left-0 right-0 z-40 flex h-16 flex-row items-center justify-around border-t px-2 md:static md:h-full md:w-64 md:flex-col md:items-stretch md:justify-start md:border-r md:border-t-0 md:p-4" style="border-radius:0;background:#0f0f13;border-color:#2a2a32">
     <div class="mb-6 mt-1 hidden cursor-pointer items-center gap-3 px-2 md:flex" data-go="home">
-      <svg width="38" height="38" viewBox="0 0 32 32"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="#38bdf8"/><path d="M11 22V10l10 12V10" fill="none" stroke="#0f172a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
-      <div class="leading-none"><div class="font-display text-xl font-extrabold tracking-wider text-white">NOXURA</div><div class="mt-1 text-xs font-semibold tracking-[.3em] text-cyan-300">CLOUD GAMING</div></div>
+      <svg width="38" height="38" viewBox="0 0 32 32"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="#76b900"/><path d="M11 22V10l10 12V10" fill="none" stroke="#0a0a0c" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      <div class="leading-none"><div class="font-display text-xl font-extrabold tracking-wider text-white">NOXURA</div><div class="mt-1 text-xs font-semibold tracking-[.3em] text-[#76b900]">CLOUD GAMING</div></div>
     </div>
     <nav class="flex flex-1 flex-row justify-around gap-1 md:flex-col md:justify-start" id="nav">
-      <a class="nav on" data-go="home"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg><span class="max-md:hidden">Home / Bibliothek</span></a>
-      <a class="nav" data-go="subs"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m12 2 3 7 7 .8-5.3 4.8 1.6 7.4L12 18.3 5.7 22l1.6-7.4L2 9.8 9 9z"/></svg><span class="max-md:hidden">Abos</span></a>
-      <a class="nav" data-go="settings"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="max-md:hidden">Einstellungen</span></a>
-      <a class="nav" data-go="profile"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="max-md:hidden">Profil</span></a>
+      <a class="nav gfn-nav-item" data-go="home"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg><span class="max-md:hidden">Library</span></a>
+      <a class="nav gfn-nav-item" data-go="subs"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m12 2 3 7 7 .8-5.3 4.8 1.6 7.4L12 18.3 5.7 22l1.6-7.4L2 9.8 9 9z"/></svg><span class="max-md:hidden">Membership</span></a>
+      <a class="nav gfn-nav-item" data-go="settings"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="max-md:hidden">Settings</span></a>
+      <a class="nav gfn-nav-item" data-go="profile"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="max-md:hidden">Profile</span></a>
     </nav>
-    <div id="sideCard" class="glass mt-2 hidden cursor-pointer items-center gap-3 rounded-xl p-3 transition hover:border-cyan-400/50 md:flex" data-go="profile">
+    <div id="sideCard" class="glass mt-2 hidden cursor-pointer items-center gap-3 rounded-xl p-3 transition hover:border-cyan-400/50 md:flex" data-go="profile" style="background:#1a1a1f;border-color:#2a2a32">
       <span id="sAv" class="avatar h-11 w-11 text-lg"></span>
       <div class="min-w-0 flex-1"><div id="sName" class="truncate font-bold text-white"></div><span id="sPlan" class="chip c-free mt-0.5"></span></div>
     </div>
@@ -102,45 +129,47 @@ input[type=range]{accent-color:#38bdf8;width:180px}
 
     <!-- HOME -->
     <section id="v-home" class="view on">
-      <div class="relative overflow-hidden border-b border-slate-700/40" style="background:radial-gradient(1200px 400px at 85% -10%,rgba(56,189,248,.22),transparent 60%),radial-gradient(800px 400px at 0% 110%,rgba(168,85,247,.16),transparent 60%),#0b1220">
-        <div class="absolute inset-0 opacity-30" style="background-image:linear-gradient(rgba(56,189,248,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.12) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(90deg,transparent,#000 80%)"></div>
+      <div class="relative overflow-hidden border-b border-slate-700/40 gfn-hero" style="background:radial-gradient(1200px 400px at 85% -10%,rgba(118,185,0,.15),transparent 60%),radial-gradient(800px 400px at 0% 110%,rgba(56,189,248,.08),transparent 60%),#0a0a0c">
+        <div class="absolute inset-0 opacity-20" style="background-image:linear-gradient(rgba(118,185,0,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,185,0,.1) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(90deg,transparent,#000 80%)"></div>
         <div class="relative mx-auto max-w-6xl px-5 py-10 md:px-10 md:py-16">
           <div class="flex flex-wrap items-center gap-3">
-            <span class="chip" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80;font-size:14px"><span class="pulse inline-block h-2 w-2 rounded-full bg-green-400"></span>SERVER: ONLINE</span>
+            <span class="chip" style="background:rgba(118,185,0,.15);border:1px solid rgba(118,185,0,.3);color:#76b900;font-size:14px"><span class="pulse inline-block h-2 w-2 rounded-full bg-[#76b900]"></span>SERVER: ONLINE</span>
             <span id="homePlan" class="chip c-free"></span>
           </div>
-          <h1 class="font-display mt-5 text-4xl font-extrabold leading-tight text-white md:text-6xl">Next-Gen<br><span class="text-cyan-300">Web Gaming</span></h1>
-          <p class="mt-4 max-w-lg text-lg text-slate-300">Starte High-End-Spiele direkt im Browser – ohne Download, ohne Installation. Streame in bis zu 1440p mit bis zu 144 FPS.</p>
+          <h1 class="font-display mt-5 text-4xl font-extrabold leading-tight text-white md:text-6xl gfn-title">Next-Gen<br><span class="text-[#76b900]">Cloud Gaming</span></h1>
+          <p class="mt-4 max-w-lg text-lg text-slate-300">Play high-end games directly in your browser – no downloads, no installs. Stream up to 1440p at up to 144 FPS.</p>
           <div class="relative mt-7 max-w-xl">
             <svg class="absolute left-4 top-3.5" width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input id="search" class="field glass" style="height:50px;padding-left:46px;font-size:18px" placeholder="Spiele suchen…" autocomplete="off">
+            <input id="search" class="field glass" style="height:50px;padding-left:46px;font-size:18px;background:#1a1a1f;border-color:#2a2a32" placeholder="Search games…" autocomplete="off">
           </div>
         </div>
       </div>
       <div class="mx-auto max-w-6xl px-5 py-8 md:px-10">
-        <div class="mb-5 flex items-end justify-between"><h2 class="font-display text-2xl font-extrabold text-white">Bibliothek</h2><span class="text-slate-400" id="gcount"></span></div>
+        <div class="mb-5 flex items-end justify-between"><h2 class="font-display text-2xl font-extrabold text-white">Library</h2><span class="text-slate-400" id="gcount"></span></div>
         <div id="grid" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"></div>
-        <div id="noRes" class="off glass rounded-2xl p-12 text-center text-slate-400">Keine Spiele gefunden.</div>
+        <div id="noRes" class="off glass rounded-2xl p-12 text-center text-slate-400">No games found.</div>
       </div>
     </section>
 
     <!-- SUBS -->
     <section id="v-subs" class="view">
       <div class="mx-auto max-w-4xl px-5 py-10 md:px-10">
-        <h2 class="font-display text-3xl font-extrabold text-white">Abos</h2>
-        <div class="glass mt-6 rounded-2xl p-6">
-          <div class="text-sm font-semibold uppercase tracking-widest text-slate-400">Dein aktueller Tarif</div>
+        <h2 class="font-display text-3xl font-extrabold text-white">Membership</h2>
+        <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32">
+          <div class="text-sm font-semibold uppercase tracking-widest text-slate-400">Your Current Plan</div>
           <div class="mt-2 flex flex-wrap items-center gap-4"><span id="subCur" class="font-display text-3xl font-extrabold text-white"></span><span id="subCurChip" class="chip"></span></div>
           <p id="subDesc" class="mt-2 text-slate-300"></p>
-          <button class="btn btn-p mt-5" data-act="plans">Tarif ändern</button>
+          <button class="btn btn-p mt-5" data-act="plans">Change Plan</button>
         </div>
-        <div class="glass mt-6 overflow-x-auto rounded-2xl p-2">
+        <div class="glass mt-6 overflow-x-auto rounded-2xl p-2" style="background:#1a1a1f;border-color:#2a2a32">
           <table class="w-full min-w-[520px] text-left">
-            <thead class="text-sm uppercase tracking-widest text-slate-400"><tr><th class="p-4">Leistung</th><th class="p-4">FREE</th><th class="p-4">PREMIUM</th><th class="p-4">SUPER PRO</th></tr></thead>
+            <thead class="text-sm uppercase tracking-widest text-slate-400"><tr><th class="p-4">Feature</th><th class="p-4">FREE</th><th class="p-4">PREMIUM</th><th class="p-4">SUPER PRO</th></tr></thead>
             <tbody class="divide-y divide-slate-700/40">
-              <tr><td class="p-4">Spielzeit pro Session</td><td class="p-4">10 Minuten</td><td class="p-4 text-cyan-300">Unbegrenzt</td><td class="p-4 text-cyan-300">Unbegrenzt</td></tr>
-              <tr><td class="p-4">Warteschlange</td><td class="p-4">Standard (~24 s)</td><td class="p-4 text-cyan-300">Bevorzugt (~2 s)</td><td class="p-4 text-cyan-300">0 s – Instant Access</td></tr>
-              <tr><td class="p-4">Alle Spiele &amp; Einstellungen</td><td class="p-4">✓</td><td class="p-4">✓</td><td class="p-4">✓</td></tr>
+              <tr><td class="p-4">Session Time</td><td class="p-4">30 Minutes</td><td class="p-4 text-[#76b900]">Unlimited</td><td class="p-4 text-[#76b900]">Unlimited</td></tr>
+              <tr><td class="p-4">Queue</td><td class="p-4">Standard (~24 s)</td><td class="p-4 text-[#76b900]">Priority (~2 s)</td><td class="p-4 text-[#76b900]">0 s – Instant Access</td></tr>
+              <tr><td class="p-4">Max Resolution</td><td class="p-4">1080p</td><td class="p-4 text-[#76b900]">1440p</td><td class="p-4 text-[#76b900]">1440p</td></tr>
+              <tr><td class="p-4">Max FPS</td><td class="p-4">60 FPS</td><td class="p-4 text-[#76b900]">144 FPS</td><td class="p-4 text-[#76b900]">144 FPS</td></tr>
+              <tr><td class="p-4">All Games &amp; Settings</td><td class="p-4">✓</td><td class="p-4">✓</td><td class="p-4">✓</td></tr>
             </tbody>
           </table>
         </div>
@@ -150,8 +179,8 @@ input[type=range]{accent-color:#38bdf8;width:180px}
     <!-- SETTINGS -->
     <section id="v-settings" class="view">
       <div class="mx-auto max-w-3xl px-5 py-10 md:px-10">
-        <h2 class="font-display text-3xl font-extrabold text-white">Einstellungen</h2>
-        <p class="mt-2 text-slate-400">Diese Einstellungen gelten für alle Streams und können im Spiel jederzeit im Pausenmenü geändert werden.</p>
+        <h2 class="font-display text-3xl font-extrabold text-white">Settings</h2>
+        <p class="mt-2 text-slate-400">These settings apply to all streams and can be changed anytime in the in-game pause menu.</p>
         <div id="setHost" class="mt-6"></div>
       </div>
     </section>
@@ -161,72 +190,108 @@ input[type=range]{accent-color:#38bdf8;width:180px}
   </main>
 </div>
 
+<!-- GAME DETAIL VIEW (GeForce NOW style) -->
+<div id="gameDetail" class="gfn-detail">
+  <div class="gfn-detail-hero" id="detailHero">
+    <img id="detailImg" src="" alt="Game">
+    <div class="gfn-detail-hero-overlay"></div>
+    <button class="btn btn-g sm absolute top-4 right-4" style="background:rgba(0,0,0,.6);border-color:#3a3a42" onclick="closeDetail()">✕ Close</button>
+  </div>
+  <div class="gfn-detail-content">
+    <h1 id="detailTitle" class="gfn-title text-white"></h1>
+    <div class="gfn-detail-meta" id="detailMeta"></div>
+    <p id="detailDesc" class="mt-4 max-w-2xl text-lg text-slate-300"></p>
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <button class="gfn-btn-play" id="detailPlay">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        PLAY
+      </button>
+      <button class="btn btn-g" id="detailFav">☆ Add to Favorites</button>
+      <span id="detailBest" class="text-slate-400"></span>
+    </div>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="glass rounded-xl p-5" style="background:#1a1a1f;border-color:#2a2a32">
+        <div class="text-xs uppercase tracking-widest text-slate-400">Genre</div>
+        <div id="detailGenre" class="mt-1 font-bold text-white"></div>
+      </div>
+      <div class="glass rounded-xl p-5" style="background:#1a1a1f;border-color:#2a2a32">
+        <div class="text-xs uppercase tracking-widest text-slate-400">Developer</div>
+        <div class="mt-1 font-bold text-white">Noxura Studios</div>
+      </div>
+      <div class="glass rounded-xl p-5" style="background:#1a1a1f;border-color:#2a2a32">
+        <div class="text-xs uppercase tracking-widest text-slate-400">Release</div>
+        <div class="mt-1 font-bold text-white">2026</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- AUTH MODAL -->
-<div id="authModal" class="scrim"><div class="glass mt-[5vh] w-full max-w-md rounded-2xl p-6" role="dialog" aria-modal="true">
-  <div class="flex"><button class="atab flex-1 border-b-2 py-3 font-bold" data-tab="login">Anmelden</button><button class="atab flex-1 border-b-2 py-3 font-bold" data-tab="register">Registrieren</button></div>
+<div id="authModal" class="scrim"><div class="glass mt-[5vh] w-full max-w-md rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32" role="dialog" aria-modal="true">
+  <div class="flex"><button class="atab flex-1 border-b-2 py-3 font-bold" data-tab="login">Sign In</button><button class="atab flex-1 border-b-2 py-3 font-bold" data-tab="register">Register</button></div>
   <div id="ap-login">
-    <label class="lbl" for="liMail">E-Mail</label><input id="liMail" type="email" class="field" autocomplete="email">
-    <label class="lbl" for="liPw">Passwort</label><input id="liPw" type="password" class="field" autocomplete="current-password">
-    <div class="mt-3 flex items-center justify-between text-sm text-slate-300"><label class="flex cursor-pointer items-center gap-2"><input id="liRem" type="checkbox" checked style="accent-color:#38bdf8"> Angemeldet bleiben</label><a class="cursor-pointer text-cyan-300 hover:underline" data-tab="reset">Passwort vergessen?</a></div>
+    <label class="lbl" for="liMail">Email</label><input id="liMail" type="email" class="field" autocomplete="email">
+    <label class="lbl" for="liPw">Password</label><input id="liPw" type="password" class="field" autocomplete="current-password">
+    <div class="mt-3 flex items-center justify-between text-sm text-slate-300"><label class="flex cursor-pointer items-center gap-2"><input id="liRem" type="checkbox" checked style="accent-color:#76b900"> Stay signed in</label><a class="cursor-pointer text-[#76b900] hover:underline" data-tab="reset">Forgot password?</a></div>
     <div id="liMsg" class="err off"></div>
-    <button id="liGo" class="btn btn-p mt-5 w-full">Anmelden</button>
+    <button id="liGo" class="btn btn-p mt-5 w-full" style="background:#76b900;color:#000">Sign In</button>
   </div>
   <div id="ap-register" class="off">
-    <label class="lbl" for="reName">Benutzername</label><input id="reName" class="field" maxlength="20" autocomplete="nickname">
-    <label class="lbl" for="reMail">E-Mail</label><input id="reMail" type="email" class="field" autocomplete="email">
-    <label class="lbl" for="rePw">Passwort (min. 8 Zeichen)</label><input id="rePw" type="password" class="field" autocomplete="new-password">
-    <label class="lbl" for="rePw2">Passwort bestätigen</label><input id="rePw2" type="password" class="field" autocomplete="new-password">
-    <label class="mt-4 flex cursor-pointer items-start gap-2 text-sm text-slate-300"><input id="reTos" type="checkbox" class="mt-1" style="accent-color:#38bdf8"> Ich bin mindestens 13 Jahre alt und akzeptiere die Nutzungsbedingungen.</label>
+    <label class="lbl" for="reName">Username</label><input id="reName" class="field" maxlength="20" autocomplete="nickname">
+    <label class="lbl" for="reMail">Email</label><input id="reMail" type="email" class="field" autocomplete="email">
+    <label class="lbl" for="rePw">Password (min. 8 characters)</label><input id="rePw" type="password" class="field" autocomplete="new-password">
+    <label class="lbl" for="rePw2">Confirm Password</label><input id="rePw2" type="password" class="field" autocomplete="new-password">
+    <label class="mt-4 flex cursor-pointer items-start gap-2 text-sm text-slate-300"><input id="reTos" type="checkbox" class="mt-1" style="accent-color:#76b900"> I am at least 13 years old and accept the Terms of Service.</label>
     <div id="reMsg" class="err off"></div>
-    <button id="reGo" class="btn btn-p mt-5 w-full">Konto erstellen</button>
+    <button id="reGo" class="btn btn-p mt-5 w-full" style="background:#76b900;color:#000">Create Account</button>
   </div>
   <div id="ap-reset" class="off">
-    <p class="mt-4 text-slate-300">Gib deine E-Mail ein. Wir senden dir einen Link zum Zurücksetzen deines Passworts.</p>
-    <label class="lbl" for="rsMail">E-Mail</label><input id="rsMail" type="email" class="field" autocomplete="email">
+    <p class="mt-4 text-slate-300">Enter your email. We'll send you a link to reset your password.</p>
+    <label class="lbl" for="rsMail">Email</label><input id="rsMail" type="email" class="field" autocomplete="email">
     <div id="rsMsg" class="err off"></div>
-    <button id="rsGo" class="btn btn-p mt-5 w-full">Link senden</button>
-    <p class="mt-4 text-center text-sm"><a class="cursor-pointer text-cyan-300 hover:underline" data-tab="login">Zurück zur Anmeldung</a></p>
+    <button id="rsGo" class="btn btn-p mt-5 w-full" style="background:#76b900;color:#000">Send Link</button>
+    <p class="mt-4 text-center text-sm"><a class="cursor-pointer text-[#76b900] hover:underline" data-tab="login">Back to Sign In</a></p>
   </div>
   <div id="ap-or" class="mt-5">
-    <div class="mb-4 flex items-center gap-3 text-xs uppercase tracking-widest text-slate-500"><span class="h-px flex-1 bg-slate-700"></span>oder<span class="h-px flex-1 bg-slate-700"></span></div>
-    <button id="gGo" class="btn btn-g w-full"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3A12 12 0 1 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 1 0 44 24c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 0 0 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.7 28l-6.5 5A20 20 0 0 0 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Mit Google fortfahren</button>
-    <button id="mClose" class="btn btn-g mt-3 w-full">Als Gast fortfahren</button>
+    <div class="mb-4 flex items-center gap-3 text-xs uppercase tracking-widest text-slate-500"><span class="h-px flex-1 bg-slate-700"></span>or<span class="h-px flex-1 bg-slate-700"></span></div>
+    <button id="gGo" class="btn btn-g w-full"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3A12 12 0 1 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 1 0 44 24c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 0 0 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.7 28l-6.5 5A20 20 0 0 0 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Continue with Google</button>
+    <button id="mClose" class="btn btn-g mt-3 w-full">Continue as Guest</button>
   </div>
 </div></div>
 
 <!-- PLAN MODAL -->
-<div id="planModal" class="scrim"><div class="glass mt-[4vh] w-full max-w-4xl rounded-2xl p-6 md:p-8" role="dialog" aria-modal="true">
-  <div class="flex items-start justify-between gap-4"><div><h2 class="font-display text-2xl font-extrabold text-white">Wähle deinen Tarif</h2><p class="mt-1 text-slate-400">Premium und Super Pro werden mit einem Aktivierungs-Code freigeschaltet.</p></div><button class="btn btn-g sm" data-act="closePlans">✕</button></div>
+<div id="planModal" class="scrim"><div class="glass mt-[4vh] w-full max-w-4xl rounded-2xl p-6 md:p-8" style="background:#1a1a1f;border-color:#2a2a32" role="dialog" aria-modal="true">
+  <div class="flex items-start justify-between gap-4"><div><h2 class="font-display text-2xl font-extrabold text-white">Choose Your Plan</h2><p class="mt-1 text-slate-400">Premium and Super Pro are unlocked with an activation code.</p></div><button class="btn btn-g sm" data-act="closePlans">✕</button></div>
   <div id="planCards" class="mt-6 grid gap-4 md:grid-cols-3"></div>
   <div id="codeBox" class="off mt-6 rounded-xl border border-slate-700 bg-slate-900/60 p-5">
-    <div class="font-bold text-white">Aktivierungs-Code für <span id="codePlan" class="text-cyan-300"></span></div>
-    <div class="mt-3 flex flex-col gap-3 sm:flex-row"><input id="codeIn" class="field" placeholder="Code eingeben" inputmode="numeric" autocomplete="off" maxlength="12"><button id="codeGo" class="btn btn-p sm:w-48" style="height:46px">Freischalten</button></div>
+    <div class="font-bold text-white">Activation Code for <span id="codePlan" class="text-[#76b900]"></span></div>
+    <div class="mt-3 flex flex-col gap-3 sm:flex-row"><input id="codeIn" class="field" placeholder="Enter code" inputmode="numeric" autocomplete="off" maxlength="12"><button id="codeGo" class="btn btn-p sm:w-48" style="height:46px;background:#76b900;color:#000">Unlock</button></div>
     <div id="codeMsg" class="err off"></div>
   </div>
 </div></div>
 
 <!-- END MODAL -->
-<div id="endModal" class="scrim" style="z-index:150"><div class="glass mt-[12vh] w-full max-w-md rounded-2xl p-7 text-center">
-  <div class="font-display text-2xl font-extrabold text-white">Spielzeit abgelaufen</div>
-  <p class="mt-3 text-slate-300">Deine 10 kostenlosen Minuten sind vorbei. Mit dem Code <b class="text-cyan-300">1902</b> kannst du auf Premium upgraden und unbegrenzt weiterspielen.</p>
-  <div class="mt-6 flex flex-col gap-3 sm:flex-row"><button class="btn btn-p flex-1" data-act="upgrade">Jetzt upgraden</button><button class="btn btn-g flex-1" data-act="closeEnd">Schließen</button></div>
+<div id="endModal" class="scrim" style="z-index:150"><div class="glass mt-[12vh] w-full max-w-md rounded-2xl p-7 text-center" style="background:#1a1a1f;border-color:#2a2a32">
+  <div class="font-display text-2xl font-extrabold text-white">Session Expired</div>
+  <p class="mt-3 text-slate-300">Your 30 free minutes are up. Use code <b class="text-[#76b900]">1902</b> to upgrade to Premium and play unlimited.</p>
+  <div class="mt-6 flex flex-col gap-3 sm:flex-row"><button class="btn btn-p flex-1" data-act="upgrade" style="background:#76b900;color:#000">Upgrade Now</button><button class="btn btn-g flex-1" data-act="closeEnd">Close</button></div>
 </div></div>
 
 <!-- QUEUE OVERLAY -->
 <div id="queue" class="off fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-slate-950 p-4">
   <canvas id="qBg" class="absolute inset-0 h-full w-full object-cover" style="opacity:.28;filter:blur(6px)"></canvas>
   <div class="absolute inset-0" style="background:radial-gradient(800px 500px at 50% 40%,transparent,#020617 80%)"></div>
-  <div class="glass relative w-full max-w-lg rounded-2xl p-8 text-center glow">
-    <div class="flex items-center justify-center gap-2"><span id="qPlan" class="chip c-free"></span><span class="chip" style="background:rgba(74,222,128,.1);color:#4ade80">● <span id="qRegion"></span></span></div>
+  <div class="glass relative w-full max-w-lg rounded-2xl p-8 text-center glow" style="background:#1a1a1f;border-color:#2a2a32">
+    <div class="flex items-center justify-center gap-2"><span id="qPlan" class="chip c-free"></span><span class="chip" style="background:rgba(118,185,0,.1);color:#76b900">● <span id="qRegion"></span></span></div>
     <h2 id="qGame" class="font-display mt-4 text-2xl font-extrabold text-white"></h2>
-    <div class="mt-6 text-sm font-semibold uppercase tracking-[.25em] text-slate-400" id="qLabel">Position in der Warteschlange</div>
-    <div id="qNum" class="font-display my-2 text-8xl font-extrabold text-cyan-300" style="text-shadow:0 0 40px rgba(56,189,248,.5)"></div>
+    <div class="mt-6 text-sm font-semibold uppercase tracking-[.25em] text-slate-400" id="qLabel">Queue Position</div>
+    <div id="qNum" class="font-display my-2 text-8xl font-extrabold text-[#76b900]" style="text-shadow:0 0 40px rgba(118,185,0,.5)"></div>
     <div id="qText" class="text-lg text-slate-200"></div>
-    <div class="mt-5 h-2 overflow-hidden rounded bg-slate-800"><div id="qBar" class="h-2 rounded bg-cyan-400 transition-all duration-700" style="width:0"></div></div>
+    <div class="mt-5 h-2 overflow-hidden rounded bg-slate-800"><div id="qBar" class="h-2 rounded bg-[#76b900] transition-all duration-700" style="width:0"></div></div>
     <div id="qEta" class="mt-2 text-sm text-slate-400"></div>
     <ul id="qSteps" class="mt-6 space-y-3 text-left"></ul>
     <p id="qHint" class="mt-5 text-sm text-slate-500"></p>
-    <button id="qCancel" class="btn btn-g mt-5">Abbrechen</button>
+    <button id="qCancel" class="btn btn-g mt-5">Cancel</button>
   </div>
 </div>
 
@@ -235,7 +300,7 @@ input[type=range]{accent-color:#38bdf8;width:180px}
   <canvas id="cv" tabindex="0"></canvas>
   <div class="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3">
     <div class="pointer-events-auto flex items-center gap-2 opacity-70 transition hover:opacity-100">
-      <button id="hPause" class="btn btn-g sm" style="background:rgba(2,6,23,.7)">⏸ Menü</button>
+      <button id="hPause" class="btn btn-g sm" style="background:rgba(2,6,23,.7)">⏸ Menu</button>
       <span id="hGame" class="font-display hidden text-xs tracking-widest text-slate-300 sm:block"></span>
     </div>
     <div class="flex flex-col items-end gap-2">
@@ -244,14 +309,14 @@ input[type=range]{accent-color:#38bdf8;width:180px}
     </div>
   </div>
   <div id="pause" class="off absolute inset-0 flex items-center justify-center bg-slate-950/85 p-4 backdrop-blur-md">
-    <div class="glass flex max-h-[92vh] w-full max-w-2xl flex-col rounded-2xl p-6">
-      <div class="font-display text-center text-3xl font-extrabold text-white">PAUSIERT</div>
+    <div class="glass flex max-h-[92vh] w-full max-w-2xl flex-col rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32">
+      <div class="font-display text-center text-3xl font-extrabold text-white">PAUSED</div>
       <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <button class="btn btn-p" data-act="resume">Fortsetzen</button><button class="btn btn-g" data-act="restart">Neustart</button>
-        <button class="btn btn-g" data-act="fs">Vollbild</button><button class="btn btn-d" data-act="quit">Beenden</button>
+        <button class="btn btn-p" data-act="resume" style="background:#76b900;color:#000">Resume</button><button class="btn btn-g" data-act="restart">Restart</button>
+        <button class="btn btn-g" data-act="fs">Fullscreen</button><button class="btn btn-d" data-act="quit">Quit</button>
       </div>
       <div class="mt-5 overflow-y-auto pr-2" id="pSet"></div>
-      <p class="mt-3 text-center text-sm text-slate-500">Tipp: P oder Esc öffnet dieses Menü</p>
+      <p class="mt-3 text-center text-sm text-slate-500">Tip: P or Esc opens this menu</p>
     </div>
   </div>
 </div>
@@ -290,18 +355,18 @@ const ACTIVATION_CODE='1902';
 const DEF_SET={res:'1080p',fps:'60',quality:'2',bitrate:'auto',region:'auto',vol:60,music:true,fs:true,stats:true};
 const lsGet=(k,d)=>{try{const r=localStorage.getItem(k);return r===null?d:JSON.parse(r)}catch(e){return d}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-const S={user:null,plan:'free',color:lsGet('noxura_color',COLORS[0]),guest:lsGet('noxura_guest_name','Gast_1337'),settings:Object.assign({},DEF_SET,lsGet('noxura_settings',{})),host:null,cloudOk:true};
-const uname=()=>S.user?(S.user.displayName||(S.user.email||'Spieler').split('@')[0]):S.guest;
+const S={user:null,plan:'free',color:lsGet('noxura_color',COLORS[0]),guest:lsGet('noxura_guest_name','Guest_1337'),settings:Object.assign({},DEF_SET,lsGet('noxura_settings',{})),host:null,cloudOk:true};
+const uname=()=>S.user?(S.user.displayName||(S.user.email||'Player').split('@')[0]):S.guest;
 const planKey=()=>'noxura_plan_'+(S.user?S.user.uid:'guest');
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),3000)}
 const show=(el,on)=>el.classList.toggle('off',!on);
 function msg(sel,text,good){const e=$(sel);e.textContent=text||'';e.classList.toggle('off',!text);e.className=(good?'ok':'err')+(text?'':' off')}
-async function run(btn,label,fn){const o=btn.textContent;btn.disabled=true;btn.textContent='Bitte warten…';try{return await fn()}finally{btn.disabled=false;btn.textContent=label||o}}
+async function run(btn,label,fn){const o=btn.textContent;btn.disabled=true;btn.textContent='Please wait…';try{return await fn()}finally{btn.disabled=false;btn.textContent=label||o}}
 
 /* ====================== CLOUD SYNC (Realtime Database) ====================== */
 async function cloudSave(data){
   if(!S.user)return;
-  try{await update(ref(db,'users/'+S.user.uid),data)}catch(e){console.warn('Cloud-Speichern fehlgeschlagen',e.code||e)}
+  try{await update(ref(db,'users/'+S.user.uid),data)}catch(e){console.warn('Cloud save failed',e.code||e)}
 }
 async function cloudLoad(){
   S.plan=lsGet(planKey(),'free');
@@ -314,7 +379,7 @@ async function cloudLoad(){
     if(v.scores)for(const id in v.scores){const loc=lsGet('noxura_hs_'+id,0);if(v.scores[id]>loc)lsSet('noxura_hs_'+id,v.scores[id]);else if(loc>v.scores[id])cloudSave({['scores/'+id]:loc})}
     else for(const id in GAMES){const loc=lsGet('noxura_hs_'+id,0);if(loc)cloudSave({['scores/'+id]:loc})}
     lsSet(planKey(),S.plan);
-  }catch(e){console.warn('Cloud-Laden fehlgeschlagen (Database Rules prüfen):',e.code||e)}
+  }catch(e){console.warn('Cloud load failed (check Database Rules):',e.code||e)}
 }
 function setPlan(p){S.plan=p;lsSet(planKey(),p);cloudSave({plan:p});refreshUI()}
 const getBest=id=>lsGet('noxura_hs_'+id,0);
@@ -375,8 +440,8 @@ class Base{
   constructor(h){this.h=h;this.in=h.input;this.sfx=h.sfx;this.state='menu';this.sel=0;this.t=0;this.score=0;this.parts=[];this.help=false;this.shake=0;this.flash=0;this.newBest=false}
   get q(){return this.h.q}
   get best(){return getBest(this.id)}
-  mainItems(){return[{l:'SPIELEN',f:()=>this.begin()},{l:this.help?'STEUERUNG AUSBLENDEN':'STEUERUNG',f:()=>{this.help=!this.help}},{l:'BEENDEN',f:()=>this.h.quit()}]}
-  overItems(){return[{l:'NOCHMAL',f:()=>this.begin()},{l:'HAUPTMENÜ',f:()=>{this.reset();this.state='menu';this.sel=0}},{l:'BEENDEN',f:()=>this.h.quit()}]}
+  mainItems(){return[{l:'PLAY',f:()=>this.begin()},{l:this.help?'HIDE CONTROLS':'CONTROLS',f:()=>{this.help=!this.help}},{l:'QUIT',f:()=>this.h.quit()}]}
+  overItems(){return[{l:'RETRY',f:()=>this.begin()},{l:'MAIN MENU',f:()=>{this.reset();this.state='menu';this.sel=0}},{l:'QUIT',f:()=>this.h.quit()}]}
   begin(){this.reset();this.state='play';this.newBest=false;this.sfx.tone(520,.15,'square',.12,400)}
   over(){this.state='over';this.sel=0;const s=Math.floor(this.score);if(s>this.best){this.newBest=true;saveBest(this.id,s)}this.sfx.noise(.5,.25)}
   txt(c,s,x,y,sz=24,col='#fff',al='center',font='Rajdhani',w=700){c.font=`${w} ${sz}px ${font},sans-serif`;c.textAlign=al;c.textBaseline='middle';c.fillStyle=col;c.fillText(s,x,y)}
@@ -406,20 +471,20 @@ class Base{
     if(this.flash>0){c.fillStyle=`rgba(255,255,255,${this.flash*.5})`;c.fillRect(0,0,W,H)}
     if(this.state==='menu')this.drawMenu(c);else if(this.state==='over')this.drawOver(c);
   }
-  btns(c,items,y0){items.forEach((it,n)=>{const r=this.btnRect(n,y0),on=n===this.sel;c.save();rr(c,r.x,r.y,r.w,r.h,12);c.fillStyle=on?'#38bdf8':'rgba(15,23,42,.85)';if(on)this.glow(c,'#38bdf8',22);c.fill();this.ng(c);c.lineWidth=2;c.strokeStyle=on?'#bae6fd':'rgba(148,163,184,.35)';c.stroke();c.restore();this.txt(c,it.l,W/2,r.y+r.h/2+1,26,on?'#04121c':'#e2e8f0','center','Rajdhani',700)})}
+  btns(c,items,y0){items.forEach((it,n)=>{const r=this.btnRect(n,y0),on=n===this.sel;c.save();rr(c,r.x,r.y,r.w,r.h,12);c.fillStyle=on?'#76b900':'rgba(15,23,42,.85)';if(on)this.glow(c,'#76b900',22);c.fill();this.ng(c);c.lineWidth=2;c.strokeStyle=on?'#bae6fd':'rgba(148,163,184,.35)';c.stroke();c.restore();this.txt(c,it.l,W/2,r.y+r.h/2+1,26,on?'#04121c':'#e2e8f0','center','Rajdhani',700)})}
   drawMenu(c){
     c.fillStyle='rgba(5,8,20,.62)';c.fillRect(0,0,W,H);
-    c.save();this.glow(c,'#38bdf8',30);this.txt(c,this.title,W/2,165,this.title.length>18?60:76,'#fff','center','Orbitron',800);c.restore();
-    this.txt(c,this.tag.toUpperCase(),W/2,232,24,'#38bdf8');
-    if(this.best)this.txt(c,'REKORD  '+this.best,W/2,285,22,'#94a3b8');
+    c.save();this.glow(c,'#76b900',30);this.txt(c,this.title,W/2,165,this.title.length>18?60:76,'#fff','center','Orbitron',800);c.restore();
+    this.txt(c,this.tag.toUpperCase(),W/2,232,24,'#76b900');
+    if(this.best)this.txt(c,'HIGH SCORE  '+this.best,W/2,285,22,'#94a3b8');
     this.btns(c,this.mainItems(),360);
     if(this.help)this.helpText.forEach((l,i)=>this.txt(c,l,W/2,604+i*27,20,'#cbd5e1'));
   }
   drawOver(c){
     c.fillStyle='rgba(5,8,20,.72)';c.fillRect(0,0,W,H);
     c.save();this.glow(c,'#ff2d86',30);this.txt(c,'GAME OVER',W/2,180,78,'#ff2d86','center','Orbitron',800);c.restore();
-    this.txt(c,'PUNKTE  '+Math.floor(this.score),W/2,265,38,'#fff');
-    this.txt(c,this.newBest?'★ NEUER REKORD! ★':'REKORD  '+this.best,W/2,318,26,this.newBest?'#ffd23f':'#94a3b8');
+    this.txt(c,'SCORE  '+Math.floor(this.score),W/2,265,38,'#fff');
+    this.txt(c,this.newBest?'★ NEW HIGH SCORE! ★':'BEST  '+this.best,W/2,318,26,this.newBest?'#ffd23f':'#94a3b8');
     this.btns(c,this.overItems(),400);
   }
 }
@@ -427,7 +492,7 @@ class Base{
 /* ====================== GAME 1: CYBER RUNNER 3D ====================== */
 class Runner extends Base{
   constructor(h){super(h);this.id='runner';this.title='CYBER RUNNER 3D';this.tag='Synthwave Endless Runner';
-    this.helpText=['← → / A D : Spur wechseln','↑ / W / LEERTASTE : Springen','Weiche hohen Mauern aus, springe über niedrige Barrieren','Sammle Münzen für Bonuspunkte – es wird immer schneller'];
+    this.helpText=['← → / A D : Change lane','↑ / W / SPACE : Jump','Avoid high walls, jump over low barriers','Collect coins for bonus points – it gets faster and faster'];
     this.stars=Array.from({length:70},()=>({x:rnd(0,W),y:rnd(0,260),s:rnd(.6,2.2)}));this.mt=Array.from({length:30},()=>rnd(25,95));this.reset()}
   reset(){this.lane=1;this.lx=1;this.jh=0;this.jv=0;this.trav=0;this.speed=24;this.obs=[];this.spawnD=30;this.coins=0;this.score=0;this.bt=0;this.bend=0;this.parts=[]}
   idle(dt){this.trav+=dt*28;this.bt+=dt*.2;this.bend=Math.sin(this.bt)*.45}
@@ -501,7 +566,7 @@ class Runner extends Base{
   }
   hud(c){
     this.txt(c,'SCORE',40,38,18,'#94a3b8','left');this.txt(c,String(Math.floor(this.score)),40,72,48,'#fff','left','Orbitron',800);
-    this.txt(c,'REKORD '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');this.txt(c,'● '+this.coins,W-40,72,34,'#ffd23f','right','Orbitron',800);
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');this.txt(c,'● '+this.coins,W-40,72,34,'#ffd23f','right','Orbitron',800);
     c.fillStyle='rgba(15,23,42,.7)';c.fillRect(40,H-50,240,12);c.fillStyle='#38bdf8';c.fillRect(40,H-50,240*(this.speed-24)/46+10,12);this.txt(c,'SPEED '+Math.floor(this.speed*3.6)+' km/h',40,H-68,16,'#94a3b8','left');
   }
 }
@@ -509,12 +574,12 @@ class Runner extends Base{
 /* ====================== GAME 2: SPACE SHOOTER ====================== */
 class Shooter extends Base{
   constructor(h){super(h);this.id='shooter';this.title='NOXURA SPACE SHOOTER';this.tag='Retro Arcade Space Shooter';
-    this.helpText=['WASD / Pfeiltasten : Fliegen','LEERTASTE / Maus halten : Schießen','Power-Ups: S Streuschuss · R Schnellfeuer · H Schild · + Leben','Alle 5 Wellen wartet ein Boss auf dich'];
+    this.helpText=['WASD / Arrow Keys : Fly','SPACE / Hold Mouse : Shoot','Power-Ups: S Spread · R Rapid Fire · H Shield · + Life','Every 5 waves a boss awaits you'];
     this.stars=[0,1,2].flatMap(l=>Array.from({length:40},()=>({x:rnd(0,W),y:rnd(0,H),l})));this.reset()}
   reset(){this.p={x:W/2,y:H-110,hp:3,inv:0,sh:0,cd:0,spread:0,rapid:0,bank:0};this.b=[];this.eb=[];this.en=[];this.pu=[];this.wave=0;this.sq=[];this.banner=0;this.bt='';this.combo=0;this.ct=0;this.score=0;this.parts=[];this.nextWave()}
   idle(dt){for(const s of this.stars)s.y=(s.y+dt*(30+s.l*50))%H;this.p.x=W/2+Math.sin(this.t)*60}
   nextWave(){
-    this.wave++;this.banner=2.4;this.bt=this.wave%5===0?'BOSS-WELLE '+this.wave:'WELLE '+this.wave;this.sq=[];
+    this.wave++;this.banner=2.4;this.bt=this.wave%5===0?'BOSS WAVE '+this.wave:'WAVE '+this.wave;this.sq=[];
     if(this.wave%5===0){this.sq.push({t:.8,k:'boss',x:W/2});for(let i=0;i<6;i++)this.sq.push({t:4+i*.9,k:'drone',x:rnd(100,W-100)})}
     else{const n=Math.min(26,5+this.wave*2),kinds=['drone'];if(this.wave>=2)kinds.push('zig');if(this.wave>=3)kinds.push('kami');if(this.wave>=4)kinds.push('tank');
       for(let i=0;i<n;i++)this.sq.push({t:1+i*.55+Math.random()*.2,k:kinds[Math.floor(Math.random()*kinds.length)],x:rnd(100,W-100)})}
@@ -622,9 +687,9 @@ class Shooter extends Base{
   hud(c){
     const p=this.p;this.txt(c,String(Math.floor(this.score)),40,40,40,'#fff','left','Orbitron',800);
     if(this.combo>1)this.txt(c,'COMBO x'+this.combo,40,82,24,'#facc15','left');
-    this.txt(c,'WELLE '+this.wave,W-40,40,26,'#38bdf8','right','Orbitron',700);this.txt(c,'REKORD '+Math.max(this.best,Math.floor(this.score)),W-40,74,18,'#94a3b8','right');
+    this.txt(c,'WAVE '+this.wave,W-40,40,26,'#38bdf8','right','Orbitron',700);this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,74,18,'#94a3b8','right');
     for(let i=0;i<p.hp;i++){c.fillStyle='#f87171';c.beginPath();c.moveTo(W/2-60+i*28,34);c.lineTo(W/2-48+i*28,52);c.lineTo(W/2-72+i*28,52);c.closePath();c.fill()}
-    let y=H-30;[['SCHILD',p.sh,8,'#4ade80'],['STREUSCHUSS',p.spread,10,'#38bdf8'],['SCHNELLFEUER',p.rapid,10,'#facc15']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,40,y,15,col,'left');c.fillStyle='rgba(255,255,255,.12)';c.fillRect(150,y-5,140,10);c.fillStyle=col;c.fillRect(150,y-5,140*v/m,10);y-=26}});
+    let y=H-30;[['SHIELD',p.sh,8,'#4ade80'],['SPREAD',p.spread,10,'#38bdf8'],['RAPID',p.rapid,10,'#facc15']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,40,y,15,col,'left');c.fillStyle='rgba(255,255,255,.12)';c.fillRect(150,y-5,140,10);c.fillStyle=col;c.fillRect(150,y-5,140*v/m,10);y-=26}});
     if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);c.save();this.glow(c,'#38bdf8',26);this.txt(c,this.bt,W/2,H*.35,64,'#fff','center','Orbitron',800);c.restore();c.globalAlpha=1}
     const boss=this.en.find(e=>e.k==='boss');if(boss){c.fillStyle='rgba(255,255,255,.12)';c.fillRect(W/2-300,92,600,12);c.fillStyle='#ff2d86';c.fillRect(W/2-300,92,600*boss.hp/boss.mx,12)}
   }
@@ -634,7 +699,7 @@ class Shooter extends Base{
 const HC=['#38bdf8','#ff2d86','#ffd23f','#4ade80','#a78bfa'],HA=62,HB=34,HMAX=8;
 class Hex extends Base{
   constructor(h){super(h);this.id='hex';this.title='NEON HEXTRIS';this.tag='Hexagon Puzzle';
-    this.helpText=['← → / A D / Q E : Sechseck drehen','↓ / S : Blöcke schneller fallen lassen','Verbinde 3 oder mehr gleiche Farben, um sie aufzulösen','Lass keinen Stapel zu hoch werden!'];this.reset()}
+    this.helpText=['← → / A D / Q E : Rotate hexagon','↓ / S : Drop blocks faster','Connect 3 or more of the same color to clear them','Don\'t let the stack get too high!'];this.reset()}
   reset(){this.st=[[],[],[],[],[],[]];this.rot=0;this.ang=0;this.fall=[];this.sp=.4;this.lvl=1;this.score=0;this.spawned=0;this.next=this.rc();this.parts=[];this.banner=0}
   rc(){return Math.floor(Math.random()*5)}
   idle(dt){this.ang+=dt*.15}
@@ -685,8 +750,8 @@ class Hex extends Base{
   hud(c){
     this.txt(c,'SCORE',40,38,18,'#94a3b8','left');this.txt(c,String(Math.floor(this.score)),40,72,46,'#fff','left','Orbitron',800);
     this.txt(c,'LEVEL '+this.lvl,40,116,24,'#38bdf8','left','Orbitron',700);
-    this.txt(c,'REKORD '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');
-    this.txt(c,'NÄCHSTER',W-60,90,16,'#94a3b8','right');c.save();this.glow(c,HC[this.next],12);rr(c,W-52,76,26,26,6);c.fillStyle=HC[this.next];c.fill();c.restore();
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');
+    this.txt(c,'NEXT',W-60,90,16,'#94a3b8','right');c.save();this.glow(c,HC[this.next],12);rr(c,W-52,76,26,26,6);c.fillStyle=HC[this.next];c.fill();c.restore();
     if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);this.txt(c,'LEVEL '+this.lvl,W/2,120,56,'#fff','center','Orbitron',800);c.globalAlpha=1}
   }
 }
@@ -695,7 +760,7 @@ class Hex extends Base{
 const AL=70,AR=1210,AT=78,PY=662,PAL=['#ff2d86','#ff7a59','#ffd23f','#4ade80','#38bdf8','#a78bfa','#f472b6','#22d3ee'];
 class Brick extends Base{
   constructor(h){super(h);this.id='brick';this.title='CYBER BRICK BREAKER';this.tag='Arcade Breakout';
-    this.helpText=['Maus / ← → / A D : Schläger bewegen','LEERTASTE / Klick : Ball starten &amp; Laser feuern'.replace('&amp;','&'),'Power-Ups: W breit · M Multiball · S Slow · L Laser · + Leben','Zerstöre alle Steine – Combos geben Bonuspunkte'];this.reset()}
+    this.helpText=['Mouse / ← → / A D : Move paddle','SPACE / Click : Launch ball & fire lasers','Power-Ups: W wide · M multiball · S slow · L laser · + life','Destroy all bricks – combos give bonus points'];this.reset()}
   reset(){this.lives=3;this.level=1;this.score=0;this.px=W/2;this.pw=150;this.pus=[];this.las=[];this.fx={wide:0,slow:0,laser:0};this.combo=0;this.banner=0;this.lcd=0;this.parts=[];this.mk();this.serve()}
   serve(){this.balls=[{x:this.px,y:PY-12,vx:0,vy:0,stuck:true,tr:[]}];this.combo=0}
   idle(dt){this.px=W/2+Math.sin(this.t*.8)*300;this.balls[0].x=this.px}
@@ -769,10 +834,10 @@ class Brick extends Base{
   hud(c){
     this.txt(c,String(Math.floor(this.score)),AL,38,40,'#fff','left','Orbitron',800);this.txt(c,'LEVEL '+this.level,W/2,38,26,'#38bdf8','center','Orbitron',700);
     for(let i=0;i<this.lives;i++){c.fillStyle='#f87171';c.beginPath();c.arc(AR-14-i*28,38,9,0,7);c.fill()}
-    this.txt(c,'REKORD '+Math.max(this.best,Math.floor(this.score)),AR,62,16,'#94a3b8','right');
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),AR,62,16,'#94a3b8','right');
     if(this.combo>2)this.txt(c,'COMBO x'+this.combo,AL,66,20,'#facc15','left');
-    let y=H-24;[['BREIT',this.fx.wide,14,'#38bdf8'],['SLOW',this.fx.slow,10,'#4ade80'],['LASER',this.fx.laser,12,'#ef4444']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,AL+10,y,15,col,'left');c.fillStyle='rgba(255,255,255,.12)';c.fillRect(AL+70,y-5,110,10);c.fillStyle=col;c.fillRect(AL+70,y-5,110*v/m,10);y-=24}});
-    if(this.balls.some(b=>b.stuck)&&this.state==='play')this.txt(c,'LEERTASTE / KLICK ZUM STARTEN',W/2,H*.62,28,'#e2e8f0');
+    let y=H-24;[['WIDE',this.fx.wide,14,'#38bdf8'],['SLOW',this.fx.slow,10,'#4ade80'],['LASER',this.fx.laser,12,'#ef4444']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,AL+10,y,15,col,'left');c.fillStyle='rgba(255,255,255,.12)';c.fillRect(AL+70,y-5,110,10);c.fillStyle=col;c.fillRect(AL+70,y-5,110*v/m,10);y-=24}});
+    if(this.balls.some(b=>b.stuck)&&this.state==='play')this.txt(c,'SPACE / CLICK TO START',W/2,H*.62,28,'#e2e8f0');
     if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);this.txt(c,'LEVEL '+this.level,W/2,H*.45,70,'#fff','center','Orbitron',800);c.globalAlpha=1}
   }
 }
@@ -782,7 +847,7 @@ const hx=s=>[parseInt(s.slice(1,3),16),parseInt(s.slice(3,5),16),parseInt(s.slic
 const mix=(a,b,t)=>{const A=hx(a),B=hx(b);return`rgb(${A.map((v,i)=>Math.round(lerp(v,B[i],t))).join(',')})`};
 class Voxel extends Base{
   constructor(h){super(h);this.id='voxel';this.title='NOXURA VOXEL JUMP';this.tag='Endless Voxel Platformer';
-    this.helpText=['← → / A D : Bewegen (am Rand geht es auf der anderen Seite weiter)','Du springst automatisch – lande auf den Plattformen','Rot = Sprungfeder · Braun = bricht · Blau = bewegt sich · Kiste = Jetpack','Spring auf Käfer, um sie zu besiegen – Berührung von der Seite ist tödlich'];
+    this.helpText=['← → / A D : Move (wrap around at edges)','You jump automatically – land on platforms','Red = Spring · Brown = Breaks · Blue = Moving · Crate = Jetpack','Jump on bugs to defeat them – touching them from the side is deadly'];
     this.clouds=Array.from({length:12},()=>({x:rnd(0,W),y:rnd(0,H),s:rnd(.7,1.6)}));this.stars=Array.from({length:90},()=>({x:rnd(0,W),y:rnd(0,H),s:rnd(1,3)}));this.reset()}
   reset(){
     this.p={x:W/2,y:590,vx:0,vy:0,jet:0,sq:0,face:1};this.cam=0;this.plats=[{x:W/2-70,y:600,w:140,h:22,t:'n'}];this.gems=[];this.pk=[];this.bugs=[];this.topY=600;this.startY=600;this.hmax=0;this.gc=0;this.lastBreak=false;this.shortNext=false;this.score=0;this.parts=[];
@@ -861,18 +926,106 @@ class Voxel extends Base{
   }
   hud(c){
     this.txt(c,Math.floor(this.hmax)+' m',40,44,46,'#fff','left','Orbitron',800);this.txt(c,'◆ '+this.gc,40,92,26,'#67e8f9','left','Orbitron',700);
-    this.txt(c,'REKORD '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#e2e8f0','right');
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#e2e8f0','right');
     if(this.p.jet>0){c.fillStyle='rgba(0,0,0,.3)';c.fillRect(W-240,60,200,10);c.fillStyle='#ffb703';c.fillRect(W-240,60,200*this.p.jet/2.2,10)}
+  }
+}
+
+/* ====================== GAME 6: NEON DRIFT RACER ====================== */
+class Racer extends Base{
+  constructor(h){super(h);this.id='racer';this.title='NEON DRIFT RACER';this.tag='3D Synthwave Racing';
+    this.helpText=['↑ / W : Accelerate','↓ / S : Brake','← → / A D : Steer','Collect boost pads and avoid obstacles – reach the finish line!'];
+    this.stars=Array.from({length:80},()=>({x:rnd(0,W),y:rnd(0,300),s:rnd(.6,2)}));this.mt=Array.from({length:20},()=>rnd(30,100));this.reset()}
+  reset(){this.lane=1;this.lx=1;this.speed=0;this.maxSpeed=110;this.dist=0;this.trav=0;this.obs=[];this.spawnD=0;this.score=0;this.bt=0;this.bend=0;this.parts=[];this.boost=0;this.finished=false;this.time=0}
+  idle(dt){this.trav+=dt*20;this.bt+=dt*.15;this.bend=Math.sin(this.bt)*.4}
+  step(dt){
+    if(this.finished)return;
+    const i=this.in;
+    const accel=(i.down('ArrowUp','KeyW')?1:0),brake=(i.down('ArrowDown','KeyS')?1:0);
+    if(accel)this.speed=Math.min(this.maxSpeed,this.speed+90*dt);
+    else if(brake)this.speed=Math.max(0,this.speed-160*dt);
+    else this.speed=Math.max(0,this.speed-25*dt);
+    if(this.boost>0){this.speed=Math.min(this.maxSpeed*1.3,this.speed+200*dt);this.boost-=dt}
+    if(i.hit('ArrowLeft','KeyA')&&this.lane>0){this.lane--;this.sfx.tone(300,.06,'triangle',.1,100)}
+    if(i.hit('ArrowRight','KeyD')&&this.lane<2){this.lane++;this.sfx.tone(300,.06,'triangle',.1,100)}
+    this.lx=lerp(this.lx,this.lane,1-Math.pow(.0001,dt));
+    this.dist+=this.speed*dt;this.trav+=this.speed*dt;
+    this.bt+=dt*.1*(this.speed/80);this.bend=Math.sin(this.bt)*.4;
+    this.spawnD-=this.speed*dt;
+    if(this.spawnD<=0){
+      this.spawnD=Math.max(30,this.speed*.8)+rnd(0,20);
+      const lanes=[0,1,2].sort(()=>Math.random()-.5),blocked=lanes[0];
+      if(Math.random()<.7)this.obs.push({t:'wall',lane:blocked,d:80});
+      if(Math.random()<.4){const l=lanes[1];this.obs.push({t:'boost',lane:l,d:80})}
+    }
+    for(let k=this.obs.length-1;k>=0;k--){
+      const o=this.obs[k];o.d-=this.speed*dt;
+      const dl=Math.abs(this.lx-o.lane);
+      if(o.t==='wall'&&o.d<.8&&o.d>-.8&&dl<.5){this.crash();return}
+      if(o.t==='boost'&&o.d<.8&&o.d>-.8&&dl<.6){this.boost=1.5;this.sfx.tone(800,.15,'square',.12,400);this.burst(W/2+(this.lx-1)*200,H*.85,'#ffd23f',12,260,.5,4);this.obs.splice(k,1);continue}
+      if(o.d<-3)this.obs.splice(k,1);
+    }
+    this.score=Math.floor(this.dist*.2+this.time*10);
+    if(this.dist>12000&&!this.finished){this.finished=true;this.over()}
+  }
+  crash(){this.burst(W/2+(this.lx-1)*200,H*.85,'#ff2d86',60,540,.9,7);this.burst(W/2+(this.lx-1)*200,H*.85,'#38bdf8',30,400,.8,5);this.shake=1;this.flash=.8;this.over()}
+  draw(c){
+    const hy=H*.4,by=H*.88,P=d=>1/(1+d*.1),Y=d=>hy+(by-hy)*P(d),X=(l,d)=>W/2+(l+this.bend*d*d)*P(d);
+    let g=c.createLinearGradient(0,0,0,hy);g.addColorStop(0,'#04010e');g.addColorStop(.55,'#1a0533');g.addColorStop(1,'#ff2d86');c.fillStyle=g;c.fillRect(-20,-20,W+40,hy+21);
+    c.fillStyle='#fff';for(const s of this.stars){c.globalAlpha=.35+.65*Math.abs(Math.sin(this.t*s.s+s.x));c.fillRect(s.x,s.y,s.s,s.s)}c.globalAlpha=1;
+    const sx=W/2-this.bend*140,sy=hy-60;g=c.createLinearGradient(0,sy-130,0,sy+130);g.addColorStop(0,'#ffe66d');g.addColorStop(1,'#ff2d86');
+    c.save();c.beginPath();c.arc(sx,sy,130,0,7);c.clip();c.fillStyle=g;c.fillRect(sx-130,sy-130,260,260);c.fillStyle='#1a0533';
+    for(let k=0;k<6;k++)c.fillRect(sx-130,sy+8+k*20,260,2+k*1.5);c.restore();
+    const ox=-this.bend*120;c.beginPath();c.moveTo(-60+ox,hy+2);this.mt.forEach((m,i)=>c.lineTo(-60+ox+i*(W+240)/(this.mt.length-1),hy-m));c.lineTo(W+180+ox,hy+2);c.closePath();c.fillStyle='#0c0220';c.fill();c.strokeStyle='#a21caf';c.lineWidth=2;c.stroke();
+    c.fillStyle='#07010f';c.fillRect(-20,hy,W+40,H-hy+20);
+    for(let k=0;k<30;k++){const d=k*3-(this.trav%3);if(d<.4)continue;const y=Y(d);c.strokeStyle=`rgba(255,45,134,${.12+.5*P(d)})`;c.lineWidth=1+2*P(d);c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
+    c.strokeStyle='rgba(168,85,247,.35)';c.lineWidth=1.5;
+    for(let k=-14;k<=14;k++){const lat=k*240;if(Math.abs(lat)<400)continue;c.beginPath();for(let d=-3,f=true;d<=66;d+=7,f=false){const x=X(lat,d),y=Y(d);f?c.moveTo(x,y):c.lineTo(x,y)}c.stroke()}
+    const off=this.trav%6;
+    for(let j=23;j>=-2;j--){const d0=j*3-off,d1=d0+3;c.beginPath();c.moveTo(X(-330,d1),Y(d1));c.lineTo(X(330,d1),Y(d1));c.lineTo(X(330,d0),Y(d0));c.lineTo(X(-330,d0),Y(d0));c.closePath();c.fillStyle=(j&1)?'#1a1030':'#140b26';c.fill();c.strokeStyle=c.fillStyle;c.lineWidth=1;c.stroke()}
+    g=c.createLinearGradient(0,hy,0,hy+100);g.addColorStop(0,'rgba(255,45,134,.4)');g.addColorStop(1,'rgba(255,45,134,0)');c.fillStyle=g;c.fillRect(0,hy,W,100);
+    const L=(lat,d0,d1)=>{c.beginPath();c.moveTo(X(lat,d0),Y(d0));c.lineTo(X(lat,d1),Y(d1));c.stroke()};
+    c.save();this.glow(c,'#38bdf8',14);c.strokeStyle='#38bdf8';
+    for(let j=-2;j<23;j++){const d0=j*3-off;c.lineWidth=2+7*P(Math.max(d0,0));L(-330,d0,d0+3.15);L(330,d0,d0+3.15)}this.ng(c);
+    c.strokeStyle='rgba(255,255,255,.55)';for(let j=-2;j<23;j+=2){const d0=j*3-off;c.lineWidth=1+4*P(Math.max(d0,0));L(-100,d0,d0+3);L(100,d0,d0+3)}c.restore();
+    const ob=this.obs.slice().sort((a,b)=>b.d-a.d);
+    for(const o of ob){
+      if(o.d<-2.5||o.d>66)continue;const p=P(o.d),x=X((o.lane-1)*200,o.d),y=Y(o.d);c.globalAlpha=clamp((66-o.d)/14,0,1);
+      if(o.t==='wall'){const w=170*p,h=180*p;c.save();this.glow(c,'#ff2d86',20);g=c.createLinearGradient(0,y-h,0,y);g.addColorStop(0,'#ff5aa5');g.addColorStop(1,'#a3195b');c.fillStyle=g;c.fillRect(x-w/2,y-h,w,h);c.restore();c.fillStyle='rgba(255,255,255,.8)';for(let k=0;k<5;k++)c.fillRect(x-w/2+k*w/5+w/20,y-h*.55,w/10,h*.16)}
+      else{const r=20*p;c.save();this.glow(c,'#ffd23f',18);c.fillStyle='#ffd23f';c.beginPath();c.arc(x,y-r,Math.max(2,r),0,7);c.fill();c.restore();c.fillStyle='#fff6c9';c.beginPath();c.arc(x,y-r,Math.max(1,r*.5),0,7);c.fill()}
+    }
+    c.globalAlpha=1;
+    const px=W/2+(this.lx-1)*200,py=by-20;
+    c.fillStyle='rgba(0,0,0,.5)';c.beginPath();c.ellipse(px,by+8,Math.max(30,74),Math.max(6,14),0,0,7);c.fill();
+    c.save();c.translate(px,py);c.rotate((this.lane-this.lx)*.2);
+    this.glow(c,this.boost>0?'#ffd23f':'#38bdf8',24);
+    c.fillStyle='#0b1a33';c.beginPath();c.moveTo(-64,0);c.lineTo(-50,-34);c.lineTo(-26,-54);c.lineTo(26,-54);c.lineTo(50,-34);c.lineTo(64,0);c.closePath();c.fill();c.strokeStyle=this.boost>0?'#ffd23f':'#38bdf8';c.lineWidth=3;c.stroke();this.ng(c);
+    c.fillStyle='rgba(56,189,248,.4)';c.beginPath();c.moveTo(-24,-50);c.lineTo(24,-50);c.lineTo(34,-32);c.lineTo(-34,-32);c.closePath();c.fill();
+    c.fillStyle='#050b16';c.fillRect(-70,-16,18,20);c.fillRect(52,-16,18,20);
+    this.glow(c,'#ff2d55',16);c.fillStyle='#ff2d55';c.fillRect(-56,-22,28,8);c.fillRect(28,-22,28,8);this.ng(c);
+    c.fillStyle='#ff2d86';c.fillRect(-40,-6,80,3);
+    if(this.speed>10){c.fillStyle=`rgba(255,160,40,${.4+Math.random()*.5})`;c.beginPath();c.moveTo(-14,2);c.lineTo(0,18+Math.random()*14);c.lineTo(14,2);c.closePath();c.fill()}
+    c.restore();
+    this.drawParts(c);
+  }
+  hud(c){
+    this.txt(c,'SCORE',40,38,18,'#94a3b8','left');this.txt(c,String(Math.floor(this.score)),40,72,48,'#fff','left','Orbitron',800);
+    this.txt(c,'DIST '+Math.floor(this.dist/10)+'m',40,116,24,'#38bdf8','left','Orbitron',700);
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');
+    if(this.boost>0){this.txt(c,'BOOST',W-40,72,34,'#ffd23f','right','Orbitron',800)}
+    c.fillStyle='rgba(15,23,42,.7)';c.fillRect(40,H-50,240,12);c.fillStyle=this.boost>0?'#ffd23f':'#38bdf8';c.fillRect(40,H-50,240*(this.speed/this.maxSpeed),12);
+    this.txt(c,'SPEED '+Math.floor(this.speed*3.6)+' km/h',40,H-68,16,'#94a3b8','left');
   }
 }
 
 /* ====================== GAME REGISTRY + THUMBNAILS ====================== */
 const GAMES={
-  runner:{id:'runner',title:'Cyber Runner 3D',genre:'Endless Runner',desc:'Rase durch eine Synthwave-Welt, weiche Mauern aus und springe über Barrieren.',cls:Runner},
-  shooter:{id:'shooter',title:'Noxura Space Shooter',genre:'Arcade Shooter',desc:'Retro-Weltraumaction mit Gegnerwellen, Power-Ups und Boss-Kämpfen.',cls:Shooter},
-  hex:{id:'hex',title:'Neon Hextris',genre:'Puzzle',desc:'Drehe das Sechseck, verbinde Farben und halte die Stapel niedrig.',cls:Hex},
-  brick:{id:'brick',title:'Cyber Brick Breaker',genre:'Arcade',desc:'Moderner Breakout mit Power-Ups, Lasern, Multiball und Combos.',cls:Brick},
-  voxel:{id:'voxel',title:'Noxura Voxel Jump',genre:'Platformer',desc:'Hüpfe als Voxel-Würfel immer höher – bis in den Weltraum.',cls:Voxel}
+  runner:{id:'runner',title:'Cyber Runner 3D',genre:'Endless Runner',desc:'Race through a synthwave world, dodge walls and jump over barriers.',cls:Runner},
+  shooter:{id:'shooter',title:'Noxura Space Shooter',genre:'Arcade Shooter',desc:'Retro space action with enemy waves, power-ups and boss fights.',cls:Shooter},
+  hex:{id:'hex',title:'Neon Hextris',genre:'Puzzle',desc:'Rotate the hexagon, connect colors and keep the stacks low.',cls:Hex},
+  brick:{id:'brick',title:'Cyber Brick Breaker',genre:'Arcade',desc:'Modern breakout with power-ups, lasers, multiball and combos.',cls:Brick},
+  voxel:{id:'voxel',title:'Noxura Voxel Jump',genre:'Platformer',desc:'Jump as a voxel cube higher and higher – up into space.',cls:Voxel},
+  racer:{id:'racer',title:'Neon Drift Racer',genre:'Racing',desc:'3D synthwave racing – steer through neon tracks at insane speeds.',cls:Racer}
 };
 function thumb(id,cv){
   cv.width=640;cv.height=360;const c=cv.getContext('2d');let g;
@@ -898,26 +1051,33 @@ function thumb(id,cv){
     for(let r=0;r<6;r++)for(let k=0;k<10;k++){c.fillStyle=PAL[r];c.globalAlpha=.9;c.beginPath();c.roundRect?c.roundRect(40+k*56,40+r*26,52,22,5):c.rect(40+k*56,40+r*26,52,22);c.fill();c.fillStyle='rgba(255,255,255,.25)';c.fillRect(44+k*56,43+r*26,44,5)}c.globalAlpha=1;
     c.fillStyle='rgba(255,255,255,.25)';[[330,250],[340,238],[350,226]].forEach(([x,y],i)=>{c.beginPath();c.arc(x,y,6+i,0,7);c.fill()});c.fillStyle='#fff';c.shadowColor='#fff';c.shadowBlur=18;c.beginPath();c.arc(362,212,10,0,7);c.fill();c.shadowBlur=0;
     g=c.createLinearGradient(0,320,0,336);g.addColorStop(0,'#bae6fd');g.addColorStop(1,'#0ea5e9');c.fillStyle=g;c.beginPath();c.roundRect?c.roundRect(250,318,140,16,8):c.rect(250,318,140,16);c.fill()}
-  else{g=c.createLinearGradient(0,0,0,360);g.addColorStop(0,'#6ec6ff');g.addColorStop(1,'#d6f1ff');c.fillStyle=g;c.fillRect(0,0,640,360);
+  else if(id==='voxel'){g=c.createLinearGradient(0,0,0,360);g.addColorStop(0,'#6ec6ff');g.addColorStop(1,'#d6f1ff');c.fillStyle=g;c.fillRect(0,0,640,360);
     c.fillStyle='rgba(255,255,255,.9)';c.fillRect(60,50,110,30);c.fillRect(80,32,60,26);c.fillRect(440,90,120,32);c.fillRect(470,70,60,26);
     const cube=(x,y,w,h,d,a,b,s)=>{c.fillStyle=b;c.fillRect(x,y,w,h);c.fillStyle=a;c.beginPath();c.moveTo(x,y);c.lineTo(x+d,y-d);c.lineTo(x+w+d,y-d);c.lineTo(x+w,y);c.fill();c.fillStyle=s;c.beginPath();c.moveTo(x+w,y);c.lineTo(x+w+d,y-d);c.lineTo(x+w+d,y+h-d);c.lineTo(x+w,y+h);c.fill()};
     [[60,300],[260,240],[430,170],[200,120],[470,300],[330,60]].forEach(([x,y],i)=>{cube(x,y,140,22,10,i===2?'#8fd0ff':'#7ee06b',i===2?'#3b5b8a':'#7a4b2a',i===2?'#2a4468':'#5c3720');c.fillStyle=i===2?'#8fd0ff':'#7ee06b';c.fillRect(x,y,140,7)});
     cube(310,160,32,14,6,'#ff7b7b','#e63f3f','#a82a2a');cube(300,236,0.1,0.1,0,'#fff','#fff','#fff');cube(310,196,40,40,10,'#ffe08a','#ffb347','#e07a00');c.fillStyle='#fff';c.fillRect(320,206,9,11);c.fillRect(335,206,9,11);c.fillStyle='#1e293b';c.fillRect(324,210,4,6);c.fillRect(339,210,4,6)}
+  else if(id==='racer'){g=c.createLinearGradient(0,0,0,150);g.addColorStop(0,'#04010e');g.addColorStop(1,'#ff2d86');c.fillStyle=g;c.fillRect(0,0,640,360);
+    g=c.createLinearGradient(0,40,0,200);g.addColorStop(0,'#ffe66d');g.addColorStop(1,'#ff2d86');c.fillStyle=g;c.beginPath();c.arc(320,140,70,0,7);c.fill();c.fillStyle='#07010f';c.fillRect(0,150,640,210);
+    c.strokeStyle='#ff2d86';c.lineWidth=2;for(let k=0;k<9;k++){const y=150+Math.pow(k/8,2)*210;c.beginPath();c.moveTo(0,y);c.lineTo(640,y);c.stroke()}
+    c.strokeStyle='#a855f7';for(let k=-8;k<=8;k++){c.beginPath();c.moveTo(320,150);c.lineTo(320+k*130,360);c.stroke()}
+    c.fillStyle='#140b26';c.beginPath();c.moveTo(290,150);c.lineTo(350,150);c.lineTo(520,360);c.lineTo(120,360);c.fill();c.strokeStyle='#38bdf8';c.lineWidth=4;c.beginPath();c.moveTo(290,150);c.lineTo(120,360);c.moveTo(350,150);c.lineTo(520,360);c.stroke();
+    c.fillStyle='#ff2d86';c.fillRect(270,240,60,30);c.fillStyle='#0a1730';c.fillRect(350,220,60,60);c.strokeStyle='#38bdf8';c.strokeRect(350,220,60,60);
+    c.save();c.translate(320,320);c.fillStyle='#0b1a33';c.strokeStyle='#38bdf8';c.lineWidth=4;c.beginPath();c.moveTo(-50,20);c.lineTo(-38,-18);c.lineTo(-18,-35);c.lineTo(18,-35);c.lineTo(38,-18);c.lineTo(50,20);c.closePath();c.fill();c.stroke();c.fillStyle='#ff2d55';c.fillRect(-40,-8,20,6);c.fillRect(20,-8,20,6);c.restore()}
 }
 
 /* ====================== SETTINGS UI ====================== */
 const SCHEMA=[
   {g:'Streaming',items:[
-    {k:'res',t:'seg',l:'Auflösung',d:'Interne Render-Auflösung. Höher = schärfer, aber mehr GPU-Last.',o:[['540p','540p'],['720p','720p'],['1080p','1080p'],['1440p','1440p']]},
-    {k:'fps',t:'seg',l:'Bildrate (FPS-Limit)',d:'Begrenzt die Bildrate des Streams. „Max“ nutzt die Bildwiederholrate deines Monitors.',o:[['30','30'],['60','60'],['90','90'],['120','120'],['144','144'],['0','Max']]},
-    {k:'bitrate',t:'sel',l:'Bitrate',d:'Streaming-Qualität (wird im Performance-Overlay angezeigt).',o:[['auto','Automatisch'],['10','10 Mbit/s'],['25','25 Mbit/s'],['50','50 Mbit/s'],['75','75 Mbit/s']]},
-    {k:'region',t:'sel',l:'Serverregion',d:'Näher = geringere Latenz.',o:[['auto','Automatisch'],['eu','Europa (Frankfurt)'],['na','Nordamerika (Ashburn)'],['as','Asien (Tokio)']]}]},
-  {g:'Grafik',items:[{k:'quality',t:'seg',l:'Grafikqualität',d:'Steuert Glow-Effekte und Partikelmenge.',o:[['0','Niedrig'],['1','Mittel'],['2','Hoch']]}]},
-  {g:'Audio',items:[{k:'vol',t:'range',l:'Lautstärke'},{k:'music',t:'sw',l:'Hintergrundmusik'}]},
-  {g:'Allgemein',items:[{k:'fs',t:'sw',l:'Vollbild beim Spielstart',d:'Wechselt beim Start eines Spiels automatisch in den Vollbildmodus.'},{k:'stats',t:'sw',l:'Performance-Overlay',d:'Zeigt FPS, Ping, Auflösung und Bitrate während des Spiels.'}]}
+    {k:'res',t:'seg',l:'Resolution',d:'Internal render resolution. Higher = sharper but more GPU load.',o:[['540p','540p'],['720p','720p'],['1080p','1080p'],['1440p','1440p']]},
+    {k:'fps',t:'seg',l:'Frame Rate (FPS Limit)',d:'Limits the stream frame rate. "Max" uses your monitor\'s refresh rate.',o:[['30','30'],['60','60'],['90','90'],['120','120'],['144','144'],['0','Max']]},
+    {k:'bitrate',t:'sel',l:'Bitrate',d:'Streaming quality (shown in the performance overlay).',o:[['auto','Auto'],['10','10 Mbit/s'],['25','25 Mbit/s'],['50','50 Mbit/s'],['75','75 Mbit/s']]},
+    {k:'region',t:'sel',l:'Server Region',d:'Closer = lower latency.',o:[['auto','Auto'],['eu','Europe (Frankfurt)'],['na','North America (Ashburn)'],['as','Asia (Tokyo)']]}]},
+  {g:'Graphics',items:[{k:'quality',t:'seg',l:'Graphics Quality',d:'Controls glow effects and particle count.',o:[['0','Low'],['1','Medium'],['2','High']]}]},
+  {g:'Audio',items:[{k:'vol',t:'range',l:'Volume'},{k:'music',t:'sw',l:'Background Music'}]},
+  {g:'General',items:[{k:'fs',t:'sw',l:'Fullscreen on Game Start',d:'Automatically enters fullscreen mode when starting a game.'},{k:'stats',t:'sw',l:'Performance Overlay',d:'Shows FPS, ping, resolution and bitrate during gameplay.'}]}
 ];
 function renderSettings(host){
-  host.innerHTML=SCHEMA.map(gr=>`<div class="glass mb-5 rounded-2xl px-5 py-3"><div class="font-display pt-2 text-sm font-extrabold uppercase tracking-widest text-cyan-300">${gr.g}</div>${gr.items.map(it=>{
+  host.innerHTML=SCHEMA.map(gr=>`<div class="glass mb-5 rounded-2xl px-5 py-3" style="background:#1a1a1f;border-color:#2a2a32"><div class="font-display pt-2 text-sm font-extrabold uppercase tracking-widest text-[#76b900]">${gr.g}</div>${gr.items.map(it=>{
     let ctl='';const v=S.settings[it.k];
     if(it.t==='seg')ctl=`<div class="seg" data-k="${it.k}">${it.o.map(o=>`<button data-v="${o[0]}" class="${String(v)===o[0]?'on':''}">${o[1]}</button>`).join('')}</div>`;
     else if(it.t==='sel')ctl=`<select class="field" style="width:200px" data-k="${it.k}">${it.o.map(o=>`<option value="${o[0]}" ${String(v)===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select>`;
@@ -949,7 +1109,7 @@ class Host{
     this.applyRes();this.game=new GAMES[id].cls(this);
     this.fc=0;this.ft=performance.now();this.last=this.ft;this.fps=0;this.ping=18;this.startAt=Date.now();
     $('#hGame').textContent=GAMES[id].title.toUpperCase();show($('#hStats'),!!S.settings.stats);
-    if(S.plan==='free'){this.end=Date.now()+600000;show($('#hTimer'),true);this.tick();this.ti=setInterval(()=>this.tick(),250)}else show($('#hTimer'),false);
+    if(S.plan==='free'){this.end=Date.now()+1800000;show($('#hTimer'),true);this.tick();this.ti=setInterval(()=>this.tick(),250)}else show($('#hTimer'),false);
     this.kd=e=>{if(e.code==='Escape'||e.code==='KeyP'){e.preventDefault();this.setPause(!this.paused)}if(e.code==='F3'){e.preventDefault();setSetting('stats',!S.settings.stats,$('#pSet'))}};
     this.vis=()=>{if(document.hidden)this.setPause(true)};
     addEventListener('keydown',this.kd);document.addEventListener('visibilitychange',this.vis);
@@ -962,6 +1122,7 @@ class Host{
     if(k==='vol')this.sfx.vol(S.settings.vol);
     if(k==='music')this.sfx.music(S.settings.music);
     if(k==='stats')show($('#hStats'),!!S.settings.stats);
+    if(k==='fps'&&S.settings.fps==='60'&&S.plan==='free')toast('Free plan is limited to 60 FPS.');
   }
   safeRender(){try{this.game.render(this.ctx)}catch(e){}}
   tick(){const left=this.end-Date.now();const t=$('#hTimer');t.textContent='⏱ '+fmt(left);t.style.color=left<60000?'#f87171':'#e2e8f0';if(left<=0){this.quit('time')}}
@@ -971,9 +1132,9 @@ class Host{
   }
   loop(now){
     if(this.dead)return;this.raf=requestAnimationFrame(t=>this.loop(t));
-    const cap=+S.settings.fps,mf=cap?1000/cap:0,el=now-this.last;if(cap&&el<mf-1.5)return;
+    const cap=S.plan==='free'?60:(+S.settings.fps||0),mf=cap?1000/cap:0,el=now-this.last;if(cap&&el<mf-1.5)return;
     const dt=Math.min(el/1000,.05);this.last=now;
-    try{if(!this.paused){this.game.update(dt);this.game.render(this.ctx)}}catch(e){console.error(e);toast('Spielfehler – Session beendet');this.quit();return}
+    try{if(!this.paused){this.game.update(dt);this.game.render(this.ctx)}}catch(e){console.error(e);toast('Game error – session ended');this.quit();return}
     this.input.end();
     this.fc++;if(now-this.ft>=500){this.fps=Math.round(this.fc*1000/(now-this.ft));this.fc=0;this.ft=now;this.stats()}
   }
@@ -981,7 +1142,8 @@ class Host{
     if(!S.settings.stats)return;
     const base={auto:16,eu:14,na:96,as:142}[S.settings.region]||16;this.ping=Math.max(4,Math.round(base+rnd(-3,5)));
     const r=RES[S.settings.res]||RES['1080p'],br=S.settings.bitrate==='auto'?Math.round({'540p':8,'720p':14,'1080p':26,'1440p':44}[S.settings.res]+rnd(-2,3)):S.settings.bitrate;
-    const col=this.fps<(+S.settings.fps||60)*.8?'#f87171':'#4ade80';
+    const maxFps=S.plan==='free'?60:(+S.settings.fps||144);
+    const col=this.fps<maxFps*.8?'#f87171':'#4ade80';
     $('#hStats').innerHTML=`<span style="color:${col}">${this.fps} FPS</span> · ${this.ping} ms · ${r[0]}×${r[1]} · ${br} Mbit/s`;
   }
   restart(){this.game.begin();this.setPause(false)}
@@ -1000,20 +1162,20 @@ function openQueue(id){
   if(S.settings.fs)goFs();
   thumb(id,$('#qBg'));$('#qGame').textContent=g.title.toUpperCase();
   const pc=$('#qPlan');pc.textContent=PLAN_NAME[plan];pc.className='chip c-'+plan;
-  $('#qRegion').textContent={auto:'Server: Auto',eu:'Server: Frankfurt',na:'Server: Ashburn',as:'Server: Tokio'}[S.settings.region];
+  $('#qRegion').textContent={auto:'Server: Auto',eu:'Server: Frankfurt',na:'Server: Ashburn',as:'Server: Tokyo'}[S.settings.region];
   show($('#queue'),true);
   let n=plan==='free'?12:plan==='premium'?2:0;const tick=plan==='free'?2000:1000,tot=n;
   Q={id,timers:[],cancelled:false};
-  const steps=[['Server wird zugewiesen','Verbunden mit '+({auto:'Frankfurt',eu:'Frankfurt',na:'Ashburn',as:'Tokio'}[S.settings.region])],['Spiel wird geladen','Assets &amp; Shader'],['Stream wird gestartet',(S.settings.res)+' · '+(+S.settings.fps?S.settings.fps+' FPS':'Max FPS')]];
-  const drawSteps=cur=>{$('#qSteps').innerHTML=steps.map((s,i)=>`<li class="flex items-center gap-3">${i<cur?'<span class="flex h-6 w-6 items-center justify-center rounded-full bg-green-400 text-sm font-extrabold text-slate-900">✓</span>':i===cur?'<span class="spin"></span>':'<span class="h-6 w-6 rounded-full border-2 border-slate-700"></span>'}<div><div class="font-bold ${i>cur?'text-slate-500':'text-white'}">${s[0]}</div><div class="text-sm text-slate-400">${i<=cur?s[1]:''}</div></div></li>`).join('')};
+  const steps=[['Assigning server','Connected to '+({auto:'Frankfurt',eu:'Frankfurt',na:'Ashburn',as:'Tokyo'}[S.settings.region])],['Loading game','Assets & shaders'],['Starting stream',(S.settings.res)+' · '+(+S.settings.fps?S.settings.fps+' FPS':'Max FPS')]];
+  const drawSteps=cur=>{$('#qSteps').innerHTML=steps.map((s,i)=>`<li class="flex items-center gap-3">${i<cur?'<span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#76b900] text-sm font-extrabold text-slate-900">✓</span>':i===cur?'<span class="spin"></span>':'<span class="h-6 w-6 rounded-full border-2 border-slate-700"></span>'}<div><div class="font-bold ${i>cur?'text-slate-500':'text-white'}">${s[0]}</div><div class="text-sm text-slate-400">${i<=cur?s[1]:''}</div></div></li>`).join('')};
   const info=()=>{
-    if(plan==='pro'){$('#qLabel').textContent='Instant Access';$('#qNum').textContent='⚡';$('#qText').textContent='Instant Access: Verbindung wird hergestellt...';$('#qBar').style.width='100%';$('#qEta').textContent='Keine Wartezeit';$('#qHint').textContent='';return}
-    $('#qLabel').textContent=plan==='free'?'Position in der Warteschlange':'Bevorzugter Zugang';
+    if(plan==='pro'){$('#qLabel').textContent='Instant Access';$('#qNum').textContent='⚡';$('#qText').textContent='Instant Access: Connecting...';$('#qBar').style.width='100%';$('#qEta').textContent='No wait time';$('#qHint').textContent='';return}
+    $('#qLabel').textContent=plan==='free'?'Queue Position':'Priority Access';
     $('#qNum').textContent=n;
-    $('#qText').textContent=n>0?(plan==='free'?`Warteschlange: ${n} Spieler vor dir...`:`Bevorzugter Zugang: ${n} Spieler vor dir...`):'Du bist dran!';
+    $('#qText').textContent=n>0?(plan==='free'?`Queue: ${n} players ahead of you...`:`Priority Access: ${n} players ahead of you...`):'It\'s your turn!';
     $('#qBar').style.width=(tot?(tot-n)/tot*100:100)+'%';
-    $('#qEta').textContent=n>0?`Geschätzte Wartezeit: ~${Math.ceil(n*tick/1000)} Sekunden`:'Wartezeit abgeschlossen';
-    $('#qHint').innerHTML=plan==='free'?'Kostenlose Session: max. 10 Minuten. Mit Premium oder Super Pro entfällt das Limit.':'';
+    $('#qEta').textContent=n>0?`Estimated wait: ~${Math.ceil(n*tick/1000)} seconds`:'Wait time complete';
+    $('#qHint').innerHTML=plan==='free'?'Free session: max. 30 minutes. With Premium or Super Pro the limit is removed.':'';
   };
   const runSteps=()=>{
     $('#qCancel').classList.remove('off');let i=0;const d=plan==='pro'?260:850;drawSteps(0);
@@ -1037,9 +1199,9 @@ function play(id){
 
 /* ====================== PLANS ====================== */
 const PLANS=[
-  {id:'free',name:'FREE',tag:'Zum Ausprobieren',feat:['Max. 10 Minuten Spielzeit pro Session','Standard-Warteschlange']},
-  {id:'premium',name:'PREMIUM',tag:'Für Vielspieler',feat:['Unbegrenzte Spielzeit','Bevorzugte Warteschlange (sehr schnell)']},
-  {id:'pro',name:'SUPER PRO',tag:'Maximale Leistung',feat:['Unbegrenzte Spielzeit','0 Sekunden Wartezeit (Instant Access)']}
+  {id:'free',name:'FREE',tag:'Try it out',feat:['30 minutes per session','1080p resolution, 60 FPS limit','Standard queue']},
+  {id:'premium',name:'PREMIUM',tag:'For regular players',feat:['Unlimited playtime','Up to 1440p & 144 FPS','Priority queue (very fast)']},
+  {id:'pro',name:'SUPER PRO',tag:'Maximum performance',feat:['Unlimited playtime','Up to 1440p & 144 FPS','0 seconds wait time (Instant Access)']}
 ];
 let pendingPlan=null;
 function openPlans(pre){
@@ -1048,59 +1210,59 @@ function openPlans(pre){
 }
 function renderPlanCards(){
   $('#planCards').innerHTML=PLANS.map(p=>`<div class="plan ${(pendingPlan||S.plan)===p.id?'sel':''}" data-plan="${p.id}">
-    ${S.plan===p.id?'<span class="chip c-'+p.id+' absolute right-4 top-4">AKTIV</span>':''}
+    ${S.plan===p.id?'<span class="chip c-'+p.id+' absolute right-4 top-4">ACTIVE</span>':''}
     <div class="text-sm font-semibold tracking-widest text-slate-400">${p.tag}</div><div class="font-display mt-1 text-2xl font-extrabold text-white">${p.name}</div>
-    <div class="mt-1 text-lg font-bold text-cyan-300">${p.id==='free'?'Gratis':'Code erforderlich'}</div><ul class="mt-3">${p.feat.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join('');
+    <div class="mt-1 text-lg font-bold text-[#76b900]">${p.id==='free'?'Free':'Code required'}</div><ul class="mt-3">${p.feat.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join('');
 }
 function selectPlan(id){
-  if(id==='free'){setPlan('free');toast('Tarif FREE aktiv.');$('#planModal').classList.remove('open');return}
-  if(S.plan===id){toast('Dieser Tarif ist bereits aktiv.');return}
+  if(id==='free'){setPlan('free');toast('FREE plan activated.');$('#planModal').classList.remove('open');return}
+  if(S.plan===id){toast('This plan is already active.');return}
   pendingPlan=id;renderPlanCards();$('#codePlan').textContent=PLAN_NAME[id];show($('#codeBox'),true);msg('#codeMsg','');$('#codeIn').value='';setTimeout(()=>$('#codeIn').focus(),30);
 }
 function submitCode(){
   const v=$('#codeIn').value.trim();
-  if(v!==ACTIVATION_CODE){msg('#codeMsg','Falscher Aktivierungs-Code. Bitte versuche es erneut.');const b=$('#codeBox');b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
-  setPlan(pendingPlan);toast(PLAN_NAME[pendingPlan]+' wurde freigeschaltet!');$('#planModal').classList.remove('open');pendingPlan=null;
+  if(v!==ACTIVATION_CODE){msg('#codeMsg','Wrong activation code. Please try again.');const b=$('#codeBox');b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
+  setPlan(pendingPlan);toast(PLAN_NAME[pendingPlan]+' has been unlocked!');$('#planModal').classList.remove('open');pendingPlan=null;
 }
 
 /* ====================== AUTH ====================== */
 const FB_ERR={
-  'auth/invalid-credential':'E-Mail oder Passwort ist falsch.','auth/wrong-password':'E-Mail oder Passwort ist falsch.','auth/user-not-found':'E-Mail oder Passwort ist falsch.','auth/invalid-email':'Die E-Mail-Adresse ist ungültig.',
-  'auth/email-already-in-use':'Mit dieser E-Mail existiert bereits ein Konto.','auth/weak-password':'Das Passwort ist zu schwach (mind. 8 Zeichen).','auth/too-many-requests':'Zu viele Versuche. Bitte warte kurz und versuche es erneut.',
-  'auth/network-request-failed':'Netzwerkfehler. Prüfe deine Internetverbindung.','auth/popup-closed-by-user':'Das Anmeldefenster wurde geschlossen.','auth/cancelled-popup-request':'Anmeldung abgebrochen.',
-  'auth/requires-recent-login':'Aus Sicherheitsgründen bitte erneut anmelden und es nochmal versuchen.','auth/operation-not-allowed':'Diese Anmeldemethode ist in Firebase noch nicht aktiviert.',
-  'auth/unauthorized-domain':'Diese Domain ist in Firebase nicht autorisiert (Authentication > Settings > Authorized domains).','auth/popup-blocked':'Das Popup wurde vom Browser blockiert.','auth/user-disabled':'Dieses Konto wurde deaktiviert.'
+  'auth/invalid-credential':'Email or password is incorrect.','auth/wrong-password':'Email or password is incorrect.','auth/user-not-found':'Email or password is incorrect.','auth/invalid-email':'The email address is invalid.',
+  'auth/email-already-in-use':'An account with this email already exists.','auth/weak-password':'Password is too weak (min. 8 characters).','auth/too-many-requests':'Too many attempts. Please wait a moment and try again.',
+  'auth/network-request-failed':'Network error. Check your internet connection.','auth/popup-closed-by-user':'The sign-in window was closed.','auth/cancelled-popup-request':'Sign-in cancelled.',
+  'auth/requires-recent-login':'For security reasons, please sign in again and try once more.','auth/operation-not-allowed':'This sign-in method is not activated in Firebase yet.',
+  'auth/unauthorized-domain':'This domain is not authorized in Firebase (Authentication > Settings > Authorized domains).','auth/popup-blocked':'The popup was blocked by your browser.','auth/user-disabled':'This account has been disabled.'
 };
-const fbErr=e=>FB_ERR[e&&e.code]||('Fehler: '+((e&&e.code)||(e&&e.message)||'unbekannt'));
+const fbErr=e=>FB_ERR[e&&e.code]||('Error: '+((e&&e.code)||(e&&e.message)||'unknown'));
 function openAuth(t){$('#authModal').classList.add('open');atab(t||'login')}
 function closeAuth(){$('#authModal').classList.remove('open');['liPw','rePw','rePw2'].forEach(i=>$('#'+i).value='')}
 function atab(t){
-  $$('.atab').forEach(b=>{const on=b.dataset.tab===t||(t==='reset'&&b.dataset.tab==='login');b.style.borderColor=on?'#38bdf8':'rgba(148,163,184,.2)';b.style.color=on?'#fff':'#94a3b8'});
+  $$('.atab').forEach(b=>{const on=b.dataset.tab===t||(t==='reset'&&b.dataset.tab==='login');b.style.borderColor=on?'#76b900':'rgba(148,163,184,.2)';b.style.color=on?'#fff':'#94a3b8'});
   ['login','register','reset'].forEach(x=>show($('#ap-'+x),x===t));['#liMsg','#reMsg','#rsMsg'].forEach(s=>msg(s,''));
   setTimeout(()=>$(t==='login'?'#liMail':t==='register'?'#reName':'#rsMail').focus(),30);
 }
 async function doLogin(){
-  const em=$('#liMail').value.trim(),pw=$('#liPw').value;if(!em||!pw)return msg('#liMsg','Bitte E-Mail und Passwort eingeben.');
-  await run($('#liGo'),'Anmelden',async()=>{try{await setPersistence(auth,$('#liRem').checked?browserLocalPersistence:browserSessionPersistence);await signInWithEmailAndPassword(auth,em,pw);closeAuth();toast('Willkommen zurück!')}catch(e){msg('#liMsg',fbErr(e))}});
+  const em=$('#liMail').value.trim(),pw=$('#liPw').value;if(!em||!pw)return msg('#liMsg','Please enter email and password.');
+  await run($('#liGo'),'Sign In',async()=>{try{await setPersistence(auth,$('#liRem').checked?browserLocalPersistence:browserSessionPersistence);await signInWithEmailAndPassword(auth,em,pw);closeAuth();toast('Welcome back!')}catch(e){msg('#liMsg',fbErr(e))}});
 }
 async function doRegister(){
   const name=$('#reName').value.trim(),em=$('#reMail').value.trim(),pw=$('#rePw').value,m='#reMsg';
-  if(!/^[A-Za-z0-9_ÄÖÜäöüß-]{3,20}$/.test(name))return msg(m,'Benutzername: 3–20 Zeichen (Buchstaben, Zahlen, _ und -).');
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em))return msg(m,'Die E-Mail-Adresse sieht nicht richtig aus.');
-  if(pw.length<8)return msg(m,'Das Passwort braucht mindestens 8 Zeichen.');
-  if(pw!==$('#rePw2').value)return msg(m,'Die Passwörter stimmen nicht überein.');
-  if(!$('#reTos').checked)return msg(m,'Bitte akzeptiere die Nutzungsbedingungen.');
-  await run($('#reGo'),'Konto erstellen',async()=>{try{
+  if(!/^[A-Za-z0-9_ÄÖÜäöüß-]{3,20}$/.test(name))return msg(m,'Username: 3–20 characters (letters, numbers, _ and -).');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em))return msg(m,'The email address doesn\'t look right.');
+  if(pw.length<8)return msg(m,'The password needs at least 8 characters.');
+  if(pw!==$('#rePw2').value)return msg(m,'The passwords don\'t match.');
+  if(!$('#reTos').checked)return msg(m,'Please accept the Terms of Service.');
+  await run($('#reGo'),'Create Account',async()=>{try{
     const carry=S.plan;const cr=await createUserWithEmailAndPassword(auth,em,pw);
     await updateProfile(cr.user,{displayName:name});try{await sendEmailVerification(cr.user)}catch(e){}
     S.user=auth.currentUser;if(carry!=='free'){S.plan=carry;lsSet(planKey(),carry)}cloudSave({plan:S.plan,color:S.color,name});
-    closeAuth();refreshUI();toast('Konto erstellt! Bestätigungs-E-Mail wurde gesendet.')}catch(e){msg(m,fbErr(e))}});
+    closeAuth();refreshUI();toast('Account created! Confirmation email has been sent.')}catch(e){msg(m,fbErr(e))}});
 }
 async function doReset(){
-  const em=$('#rsMail').value.trim();if(!em)return msg('#rsMsg','Bitte E-Mail eingeben.');
-  await run($('#rsGo'),'Link senden',async()=>{try{await sendPasswordResetEmail(auth,em);msg('#rsMsg','Falls ein Konto existiert, wurde ein Link zum Zurücksetzen gesendet.',true)}catch(e){msg('#rsMsg',fbErr(e))}});
+  const em=$('#rsMail').value.trim();if(!em)return msg('#rsMsg','Please enter email.');
+  await run($('#rsGo'),'Send Link',async()=>{try{await sendPasswordResetEmail(auth,em);msg('#rsMsg','If an account exists, a reset link has been sent.',true)}catch(e){msg('#rsMsg',fbErr(e))}});
 }
-async function doGoogle(){try{await signInWithPopup(auth,new GoogleAuthProvider());closeAuth();toast('Mit Google angemeldet.')}catch(e){const t=$('#ap-login').classList.contains('off')?($('#ap-register').classList.contains('off')?'#rsMsg':'#reMsg'):'#liMsg';msg(t,fbErr(e))}}
+async function doGoogle(){try{await signInWithPopup(auth,new GoogleAuthProvider());closeAuth();toast('Signed in with Google.')}catch(e){const t=$('#ap-login').classList.contains('off')?($('#ap-register').classList.contains('off')?'#rsMsg':'#reMsg'):'#liMsg';msg(t,fbErr(e))}}
 const isPw=()=>S.user&&S.user.providerData.some(p=>p.providerId==='password');
 async function reauth(pw){
   if(isPw()){await reauthenticateWithCredential(S.user,EmailAuthProvider.credential(S.user.email,pw))}
@@ -1110,42 +1272,42 @@ async function reauth(pw){
 /* ====================== PROFILE VIEW ====================== */
 function renderProfile(){
   const h=$('#profHost'),name=uname(),letter=(name[0]||'?').toUpperCase(),pt=lsGet('noxura_playtime',0),pm=Math.floor(pt/60);
-  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${pm}</div><div class="text-xs uppercase tracking-widest text-slate-400">Minuten gespielt</div></div><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${Object.keys(GAMES).filter(k=>getBest(k)>0).length}/5</div><div class="text-xs uppercase tracking-widest text-slate-400">Spiele gespielt</div></div><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${PLAN_NAME[S.plan]}</div><div class="text-xs uppercase tracking-widest text-slate-400">Tarif</div></div></div>`;
-  const colors=`<div class="lbl">Avatar-Farbe</div><div class="flex gap-3">${COLORS.map(c=>`<button data-col="${c}" aria-label="Farbe" style="width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;background:${c};box-shadow:${c===S.color?'0 0 0 2px #0f172a,0 0 0 4px #fff':'none'}"></button>`).join('')}</div>`;
-  const scores=`<div class="glass mt-6 rounded-2xl p-6"><h3 class="font-display text-lg font-extrabold text-white">Highscores</h3><div class="mt-3 divide-y divide-slate-700/40">${Object.values(GAMES).map(g=>`<div class="flex justify-between py-2"><span>${g.title}</span><b class="text-cyan-300">${getBest(g.id)||'–'}</b></div>`).join('')}</div></div>`;
+  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${pm}</div><div class="text-xs uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${Object.keys(GAMES).filter(k=>getBest(k)>0).length}/6</div><div class="text-xs uppercase tracking-widest text-slate-400">Games Played</div></div><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${PLAN_NAME[S.plan]}</div><div class="text-xs uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
+  const colors=`<div class="lbl">Avatar Color</div><div class="flex gap-3">${COLORS.map(c=>`<button data-col="${c}" aria-label="Color" style="width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;background:${c};box-shadow:${c===S.color?'0 0 0 2px #0f172a,0 0 0 4px #fff':'none'}"></button>`).join('')}</div>`;
+  const scores=`<div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Highscores</h3><div class="mt-3 divide-y divide-slate-700/40">${Object.values(GAMES).map(g=>`<div class="flex justify-between py-2"><span>${g.title}</span><b class="text-[#76b900]">${getBest(g.id)||'–'}</b></div>`).join('')}</div></div>`;
   if(!S.user){
-    h.innerHTML=`<h2 class="font-display text-3xl font-extrabold text-white">Profil</h2>
-    <div class="glass mt-6 rounded-2xl p-6"><div class="flex items-center gap-4"><span class="avatar h-16 w-16 text-2xl" style="background:${S.color}">${letter}</span><div><div class="text-xl font-bold text-white">${name}</div><div class="text-slate-400">Gastkonto – Daten nur in diesem Browser</div></div></div>
-    <label class="lbl" for="gName">Gast-Name</label><input id="gName" class="field" maxlength="20" value="${name}">${colors}<button class="btn btn-g mt-5" data-act="saveGuest">Speichern</button>${stats}</div>
-    <div class="glass mt-6 rounded-2xl p-6"><h3 class="font-display text-lg font-extrabold text-white">Konto erstellen</h3><p class="mt-2 text-slate-300">Melde dich an, um deinen Tarif, Highscores und dein Profil auf allen Geräten zu behalten.</p><div class="mt-4 flex gap-3"><button class="btn btn-p" data-act="login">Anmelden</button><button class="btn btn-g" data-act="register">Registrieren</button></div></div>${scores}`;
+    h.innerHTML=`<h2 class="font-display text-3xl font-extrabold text-white">Profile</h2>
+    <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div class="flex items-center gap-4"><span class="avatar h-16 w-16 text-2xl" style="background:${S.color}">${letter}</span><div><div class="text-xl font-bold text-white">${name}</div><div class="text-slate-400">Guest account – data only in this browser</div></div></div>
+    <label class="lbl" for="gName">Guest Name</label><input id="gName" class="field" maxlength="20" value="${name}">${colors}<button class="btn btn-g mt-5" data-act="saveGuest">Save</button>${stats}</div>
+    <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Create Account</h3><p class="mt-2 text-slate-300">Sign in to keep your plan, highscores and profile across all devices.</p><div class="mt-4 flex gap-3"><button class="btn btn-p" data-act="login" style="background:#76b900;color:#000">Sign In</button><button class="btn btn-g" data-act="register">Register</button></div></div>${scores}`;
     return;
   }
-  const u=S.user,pwBlock=isPw()?`<div class="glass mt-6 rounded-2xl p-6"><h3 class="font-display text-lg font-extrabold text-white">Passwort ändern</h3>
-    <label class="lbl" for="cpw">Aktuelles Passwort</label><input id="cpw" type="password" class="field" autocomplete="current-password">
-    <label class="lbl" for="npw">Neues Passwort (min. 8 Zeichen)</label><input id="npw" type="password" class="field" autocomplete="new-password"><div id="pwMsg" class="err off"></div><button class="btn btn-p mt-5" data-act="changePw">Passwort ändern</button></div>`:`<div class="glass mt-6 rounded-2xl p-6"><h3 class="font-display text-lg font-extrabold text-white">Passwort</h3><p class="mt-2 text-slate-300">Du bist über Google angemeldet – das Passwort wird bei Google verwaltet.</p></div>`;
-  h.innerHTML=`<h2 class="font-display text-3xl font-extrabold text-white">Profil</h2>
-  <div class="glass mt-6 rounded-2xl p-6"><div class="flex items-center gap-4"><span class="avatar h-16 w-16 text-2xl" style="background:${S.color}">${letter}</span><div class="min-w-0"><div class="truncate text-xl font-bold text-white">${name}</div><div class="truncate text-slate-400">${u.email||''}</div>
-    <div class="mt-1 text-sm ${u.emailVerified?'text-green-400':'text-amber-300'}">${u.emailVerified?'✓ E-Mail bestätigt':'E-Mail noch nicht bestätigt'} ${u.emailVerified?'':'<a class="cursor-pointer underline" data-act="verify">Erneut senden</a>'}</div></div></div>
-    <label class="lbl" for="dName">Anzeigename</label><input id="dName" class="field" maxlength="20" value="${name}">${colors}<div id="pfMsg" class="err off"></div><button class="btn btn-p mt-5" data-act="saveProfile">Profil speichern</button>${stats}</div>
+  const u=S.user,pwBlock=isPw()?`<div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Change Password</h3>
+    <label class="lbl" for="cpw">Current Password</label><input id="cpw" type="password" class="field" autocomplete="current-password">
+    <label class="lbl" for="npw">New Password (min. 8 characters)</label><input id="npw" type="password" class="field" autocomplete="new-password"><div id="pwMsg" class="err off"></div><button class="btn btn-p mt-5" data-act="changePw" style="background:#76b900;color:#000">Change Password</button></div>`:`<div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Password</h3><p class="mt-2 text-slate-300">You are signed in with Google – the password is managed by Google.</p></div>`;
+  h.innerHTML=`<h2 class="font-display text-3xl font-extrabold text-white">Profile</h2>
+  <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div class="flex items-center gap-4"><span class="avatar h-16 w-16 text-2xl" style="background:${S.color}">${letter}</span><div class="min-w-0"><div class="truncate text-xl font-bold text-white">${name}</div><div class="truncate text-slate-400">${u.email||''}</div>
+    <div class="mt-1 text-sm ${u.emailVerified?'text-green-400':'text-amber-300'}">${u.emailVerified?'✓ Email verified':'Email not verified yet'} ${u.emailVerified?'':'<a class="cursor-pointer underline" data-act="verify">Resend</a>'}</div></div></div>
+    <label class="lbl" for="dName">Display Name</label><input id="dName" class="field" maxlength="20" value="${name}">${colors}<div id="pfMsg" class="err off"></div><button class="btn btn-p mt-5" data-act="saveProfile" style="background:#76b900;color:#000">Save Profile</button>${stats}</div>
   ${pwBlock}${scores}
-  <div class="glass mt-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl p-6"><div><h3 class="font-display text-lg font-extrabold text-white">Abmelden</h3><p class="text-slate-400">Beende die Sitzung auf diesem Gerät.</p></div><button class="btn btn-g" data-act="logout">Abmelden</button></div>
-  <div class="glass mt-6 rounded-2xl p-6"><div class="flex flex-wrap items-center justify-between gap-4"><div><h3 class="font-display text-lg font-extrabold text-red-300">Konto löschen</h3><p class="text-slate-400">Löscht dein Konto und deine Cloud-Daten dauerhaft.</p></div><button class="btn btn-d" data-act="delOpen">Konto löschen</button></div>
-  <div id="delBox" class="off mt-4">${isPw()?'<label class="lbl" for="dpw">Passwort zur Bestätigung</label><input id="dpw" type="password" class="field" autocomplete="current-password">':'<p class="text-slate-300">Zur Bestätigung musst du dich erneut bei Google anmelden.</p>'}<div id="delMsg" class="err off"></div><div class="mt-4 flex gap-3"><button class="btn btn-d" data-act="delGo">Endgültig löschen</button><button class="btn btn-g" data-act="delNo">Abbrechen</button></div></div></div>`;
+  <div class="glass mt-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div><h3 class="font-display text-lg font-extrabold text-white">Sign Out</h3><p class="text-slate-400">End the session on this device.</p></div><button class="btn btn-g" data-act="logout">Sign Out</button></div>
+  <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div class="flex flex-wrap items-center justify-between gap-4"><div><h3 class="font-display text-lg font-extrabold text-red-300">Delete Account</h3><p class="text-slate-400">Permanently deletes your account and cloud data.</p></div><button class="btn btn-d" data-act="delOpen">Delete Account</button></div>
+  <div id="delBox" class="off mt-4">${isPw()?'<label class="lbl" for="dpw">Password for confirmation</label><input id="dpw" type="password" class="field" autocomplete="current-password">':'<p class="text-slate-300">To confirm, you must sign in with Google again.</p>'}<div id="delMsg" class="err off"></div><div class="mt-4 flex gap-3"><button class="btn btn-d" data-act="delGo">Delete Permanently</button><button class="btn btn-g" data-act="delNo">Cancel</button></div></div></div>`;
 }
 let pickCol=null;
 async function profileAction(act,btn){
   if(act==='login')return openAuth('login');if(act==='register')return openAuth('register');
-  if(act==='saveGuest'){const n=$('#gName').value.trim();if(n.length<2)return toast('Name zu kurz.');S.guest=n;lsSet('noxura_guest_name',n);if(pickCol){S.color=pickCol;lsSet('noxura_color',pickCol)}refreshUI();return toast('Gespeichert.')}
-  if(act==='saveProfile'){const n=$('#dName').value.trim();if(n.length<3)return msg('#pfMsg','Der Anzeigename braucht mindestens 3 Zeichen.');
-    return run(btn,'Profil speichern',async()=>{try{await updateProfile(S.user,{displayName:n});if(pickCol){S.color=pickCol;lsSet('noxura_color',pickCol)}cloudSave({name:n,color:S.color});msg('#pfMsg','');refreshUI();toast('Profil gespeichert.')}catch(e){msg('#pfMsg',fbErr(e))}})}
-  if(act==='verify'){try{await sendEmailVerification(S.user);toast('Bestätigungs-E-Mail gesendet.')}catch(e){toast(fbErr(e))}return}
-  if(act==='changePw'){const c=$('#cpw').value,n=$('#npw').value;if(!c||!n)return msg('#pwMsg','Bitte beide Felder ausfüllen.');if(n.length<8)return msg('#pwMsg','Das neue Passwort braucht mindestens 8 Zeichen.');
-    return run(btn,'Passwort ändern',async()=>{try{await reauth(c);await updatePassword(S.user,n);$('#cpw').value='';$('#npw').value='';msg('#pwMsg','');toast('Passwort geändert.')}catch(e){msg('#pwMsg',fbErr(e))}})}
-  if(act==='logout'){await signOut(auth);go('home');return toast('Du bist abgemeldet.')}
+  if(act==='saveGuest'){const n=$('#gName').value.trim();if(n.length<2)return toast('Name too short.');S.guest=n;lsSet('noxura_guest_name',n);if(pickCol){S.color=pickCol;lsSet('noxura_color',pickCol)}refreshUI();return toast('Saved.')}
+  if(act==='saveProfile'){const n=$('#dName').value.trim();if(n.length<3)return msg('#pfMsg','The display name needs at least 3 characters.');
+    return run(btn,'Save Profile',async()=>{try{await updateProfile(S.user,{displayName:n});if(pickCol){S.color=pickCol;lsSet('noxura_color',pickCol)}cloudSave({name:n,color:S.color});msg('#pfMsg','');refreshUI();toast('Profile saved.')}catch(e){msg('#pfMsg',fbErr(e))}})}
+  if(act==='verify'){try{await sendEmailVerification(S.user);toast('Verification email sent.')}catch(e){toast(fbErr(e))}return}
+  if(act==='changePw'){const c=$('#cpw').value,n=$('#npw').value;if(!c||!n)return msg('#pwMsg','Please fill in both fields.');if(n.length<8)return msg('#pwMsg','The new password needs at least 8 characters.');
+    return run(btn,'Change Password',async()=>{try{await reauth(c);await updatePassword(S.user,n);$('#cpw').value='';$('#npw').value='';msg('#pwMsg','');toast('Password changed.')}catch(e){msg('#pwMsg',fbErr(e))}})}
+  if(act==='logout'){await signOut(auth);go('home');return toast('You have been signed out.')}
   if(act==='delOpen'){show($('#delBox'),true);btn.classList.add('off');return}
   if(act==='delNo'){show($('#delBox'),false);$('[data-act=delOpen]').classList.remove('off');return}
-  if(act==='delGo'){const pw=isPw()?$('#dpw').value:'';if(isPw()&&!pw)return msg('#delMsg','Bitte Passwort eingeben.');
-    return run(btn,'Endgültig löschen',async()=>{try{const uid=S.user.uid;await reauth(pw);try{await remove(ref(db,'users/'+uid))}catch(e){}await deleteUser(S.user);try{localStorage.removeItem('noxura_plan_'+uid)}catch(e){}go('home');toast('Dein Konto wurde gelöscht.')}catch(e){msg('#delMsg',fbErr(e))}})}
+  if(act==='delGo'){const pw=isPw()?$('#dpw').value:'';if(isPw()&&!pw)return msg('#delMsg','Please enter password.');
+    return run(btn,'Delete Permanently',async()=>{try{const uid=S.user.uid;await reauth(pw);try{await remove(ref(db,'users/'+uid))}catch(e){}await deleteUser(S.user);try{localStorage.removeItem('noxura_plan_'+uid)}catch(e){}go('home');toast('Your account has been deleted.')}catch(e){msg('#delMsg',fbErr(e))}})}
 }
 
 /* ====================== NAV / UI ====================== */
@@ -1155,25 +1317,43 @@ function go(v){
   $('#main').scrollTo(0,0);
 }
 function refreshSubs(){
-  const p=PLANS.find(x=>x.id===S.plan);$('#subCur').textContent=p.name;const c=$('#subCurChip');c.textContent='AKTIV';c.className='chip c-'+S.plan;
+  const p=PLANS.find(x=>x.id===S.plan);$('#subCur').textContent=p.name;const c=$('#subCurChip');c.textContent='ACTIVE';c.className='chip c-'+S.plan;
   $('#subDesc').textContent=p.feat.join(' · ');
 }
 function refreshUI(){
   const name=uname();$('#sAv').textContent=(name[0]||'?').toUpperCase();$('#sAv').style.background=S.color;$('#sName').textContent=name;
   const c=$('#sPlan');c.textContent=PLAN_NAME[S.plan];c.className='chip c-'+S.plan+' mt-0.5';
-  const hp=$('#homePlan');hp.textContent='TARIF: '+PLAN_NAME[S.plan];hp.className='chip c-'+S.plan;hp.style.cursor='pointer';hp.onclick=()=>openPlans();
+  const hp=$('#homePlan');hp.textContent='PLAN: '+PLAN_NAME[S.plan];hp.className='chip c-'+S.plan;hp.style.cursor='pointer';hp.onclick=()=>openPlans();
   refreshSubs();if($('#v-profile').classList.contains('on'))renderProfile();
 }
 function buildGrid(){
   const f=$('#search').value.trim().toLowerCase(),list=Object.values(GAMES).filter(g=>!f||(g.title+g.genre+g.desc).toLowerCase().includes(f));
-  $('#gcount').textContent=list.length+' Spiele';show($('#noRes'),!list.length);
-  $('#grid').innerHTML=list.map(g=>`<div class="card glass" data-play="${g.id}"><canvas data-th="${g.id}"></canvas><div class="p-5"><div class="flex items-center justify-between gap-2"><h3 class="font-display text-lg font-extrabold text-white">${g.title}</h3><span class="chip c-free">${g.genre}</span></div><p class="mt-2 min-h-[48px] text-slate-300">${g.desc}</p><div class="mt-4 flex items-center justify-between"><span class="text-sm text-slate-400">Rekord: <b class="text-cyan-300">${getBest(g.id)||'–'}</b></span><button class="btn btn-p sm" data-play="${g.id}">▶ SPIELEN</button></div></div></div>`).join('');
+  $('#gcount').textContent=list.length+' Games';show($('#noRes'),!list.length);
+  $('#grid').innerHTML=list.map(g=>`<div class="gfn-card" data-detail="${g.id}"><canvas data-th="${g.id}"></canvas><div class="p-4"><div class="flex items-center justify-between gap-2"><h3 class="font-display text-lg font-extrabold text-white">${g.title}</h3><span class="chip c-free">${g.genre}</span></div><p class="mt-1 min-h-[40px] text-sm text-slate-400">${g.desc}</p><div class="mt-3 flex items-center justify-between"><span class="text-sm text-slate-400">Highscore: <b class="text-[#76b900]">${getBest(g.id)||'–'}</b></span><button class="btn btn-p sm" data-detail="${g.id}">View</button></div></div></div>`).join('');
   $$('canvas[data-th]').forEach(cv=>thumb(cv.dataset.th,cv));
+}
+
+/* --- Game Detail View --- */
+let currentDetail=null;
+function openDetail(id){
+  const g=GAMES[id];if(!g)return;currentDetail=id;
+  $('#detailTitle').textContent=g.title;
+  $('#detailDesc').textContent=g.desc;
+  $('#detailGenre').textContent=g.genre;
+  $('#detailBest').textContent='Highscore: '+(getBest(id)||'–');
+  const cvs=document.createElement('canvas');thumb(id,cvs);const img=$('#detailImg');img.src=cvs.toDataURL();
+  $('#detailPlay').onclick=()=>{closeDetail();play(id)};
+  $('#gameDetail').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDetail(){
+  $('#gameDetail').classList.remove('open');document.body.style.overflow='';currentDetail=null;
 }
 
 document.addEventListener('click',e=>{
   const t=e.target;let x;
   if((x=t.closest('[data-play]'))){play(x.dataset.play);return}
+  if((x=t.closest('[data-detail]'))){openDetail(x.dataset.detail);return}
   if((x=t.closest('[data-go]'))){go(x.dataset.go);return}
   if((x=t.closest('[data-tab]'))){atab(x.dataset.tab);return}
   if((x=t.closest('[data-plan]'))){selectPlan(x.dataset.plan);return}
@@ -1196,7 +1376,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'){const a=document.activeElement&&document.activeElement.id;
     if(a==='liMail'||a==='liPw')doLogin();else if(['reName','reMail','rePw','rePw2'].includes(a))doRegister();else if(a==='rsMail')doReset();else if(a==='codeIn')submitCode()}
-  if(e.key==='Escape'&&!S.host){closeAuth();$('#planModal').classList.remove('open');$('#endModal').classList.remove('open')}
+  if(e.key==='Escape'&&!S.host){closeAuth();$('#planModal').classList.remove('open');$('#endModal').classList.remove('open');if($('#gameDetail').classList.contains('open'))closeDetail()}
 });
 const onFs=()=>{if(S.host){if(fsEl())S.host.wasFs=true;else if(S.host.wasFs){S.host.wasFs=false;S.host.setPause(true)}}else if(Q&&!fsEl()){}};
 document.addEventListener('fullscreenchange',onFs);document.addEventListener('webkitfullscreenchange',onFs);
