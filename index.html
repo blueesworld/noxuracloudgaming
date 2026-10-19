@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Noxura Cloud Gaming - FPS 3D</title>
+<title>Noxura Cloud Gaming</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
@@ -74,7 +74,7 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:4px}::-webkit-scrollbar-track{background:transparent}
 
 /* GeForce NOW Style */
-.gfn-hero-banner{position:relative;width:100%;height:480px;overflow:hidden;border-radius:12px;margin-bottom:24px;border:1px solid #2a2a32}
+.gfn-hero-banner{position:relative;width:100%;height:420px;overflow:hidden;border-radius:12px;margin-bottom:24px;border:1px solid #2a2a32}
 .gfn-hero-banner img{width:100%;height:100%;object-fit:cover;display:block}
 .gfn-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,12,.95) 0%,rgba(10,10,12,.7) 40%,transparent 100%)}
 .gfn-hero-content{position:absolute;bottom:40px;left:40px;max-width:500px}
@@ -131,58 +131,38 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
 
     <!-- HOME -->
     <section id="v-home" class="view on">
-      <div class="p-4 md:p-8 max-w-7xl mx-auto">
-        <!-- Hero Section -->
+      <!-- Hero Banner -->
+      <div class="p-4 md:p-6">
         <div class="gfn-hero-banner">
-          <!-- Using a placeholder gradient/pattern since we don't have an external image -->
-          <div class="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#0a0a0c] to-[#0a1730]"></div>
-          <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(circle at 50% 50%, rgba(118,185,0,0.2) 0%, transparent 60%), linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px;"></div>
+          <img id="heroImg" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" alt="Featured Game">
           <div class="gfn-hero-overlay"></div>
           <div class="gfn-hero-content">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="chip" style="background:rgba(118,185,0,.15);border:1px solid rgba(118,185,0,.3);color:#76b900"><span class="pulse inline-block h-2 w-2 rounded-full bg-[#76b900]"></span>FLAGSHIP TITLE</span>
-              <span class="chip c-free">3D WEBGL</span>
-            </div>
-            <h1 class="gfn-hero-title text-white">Noxura FPS 3D</h1>
-            <p class="gfn-hero-sub">Echter 3D Browser FPS mit WASD-Steuerung, Physik und Pointer-Lock. Erlebe Konsolen-Qualität direkt in deinem Browser – ohne Download.</p>
-            <div class="mt-6 flex flex-wrap items-center gap-4">
-              <button class="gfn-btn-play" id="btnPlayFps">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                Session Starten
+            <h1 id="heroTitle" class="gfn-hero-title text-white">Combat Online</h1>
+            <p id="heroDesc" class="gfn-hero-sub">Erlebe packende 3D-Shooter Action direkt in deinem Browser. Keine Downloads, sofort spielbar.</p>
+            <div class="mt-4 flex items-center gap-3">
+              <button class="gfn-btn-play" data-play="combat">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                PLAY
               </button>
-              <button class="btn btn-g" id="btnDetailsFps" style="height:54px;font-size:15px;background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.2)">Mehr Erfahren</button>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Game Catalog / Single Card -->
-        <div class="mt-10">
-          <div class="gfn-section-title">Deine Bibliothek <span class="text-sm font-normal text-[#76b900] cursor-pointer" id="seeAllBtn">ALLE ANZEIGEN</span></div>
-          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <!-- The ONLY Game Card -->
-            <div class="gfn-card" data-detail="fps3d">
-              <div class="gfn-card-img">
-                 <div class="absolute inset-0 bg-gradient-to-br from-[#1a0533] to-[#0a1730]"></div>
-                 <div class="absolute inset-0 flex items-center justify-center">
-                   <svg width="64" height="64" fill="none" stroke="#76b900" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:0.8">
-                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                   </svg>
-                 </div>
-              </div>
-              <div class="gfn-card-body">
-                <div class="flex items-center justify-between gap-2">
-                  <h3 class="gfn-card-title">Noxura FPS 3D</h3>
-                  <span class="chip c-free">3D WebGL</span>
-                </div>
-                <p class="mt-2 text-sm text-slate-400 line-clamp-2">Echter 3D Browser FPS mit WASD-Steuerung, Physik und Pointer-Lock.</p>
-                <div class="mt-4 flex items-center justify-between">
-                  <span class="text-xs text-slate-400">Instant Boot</span>
-                  <button class="btn btn-p sm" data-play="fps3d">Spielen</button>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- Search & Count -->
+      <div class="px-4 md:px-6 mb-4 flex items-center justify-between gap-4">
+        <div class="relative flex-1 max-w-md">
+          <svg class="absolute left-3 top-3" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="search" class="field" style="padding-left:38px;background:#141418;border-color:#2a2a32" placeholder="Search games…" autocomplete="off">
         </div>
+        <span class="text-sm text-slate-400" id="gcount"></span>
+      </div>
+
+      <!-- Games Grid -->
+      <div class="px-4 md:px-6 pb-8">
+        <div class="gfn-section-title">My Library <span class="text-sm font-normal text-[#76b900] cursor-pointer" id="seeAllBtn">SEE ALL</span></div>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" id="grid"></div>
+        <div id="noRes" class="off glass rounded-xl p-12 text-center text-slate-400">No games found.</div>
       </div>
     </section>
 
@@ -223,45 +203,6 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
     <!-- PROFILE -->
     <section id="v-profile" class="view"><div id="profHost" class="mx-auto max-w-3xl px-4 py-8 md:px-6"></div></section>
   </main>
-</div>
-
-<!-- GAME DETAIL VIEW -->
-<div id="gameDetail" class="gfn-detail">
-  <div class="gfn-detail-hero">
-    <div class="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#0a0a0c] to-[#0a1730]"></div>
-    <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(circle at 50% 50%, rgba(118,185,0,0.2) 0%, transparent 60%)"></div>
-    <div class="gfn-detail-hero-overlay"></div>
-    <button class="btn btn-g sm absolute top-4 right-4" style="background:rgba(0,0,0,.6);border-color:#3a3a42" onclick="closeDetail()">✕ Close</button>
-  </div>
-  <div class="gfn-detail-content">
-    <h1 id="detailTitle" class="gfn-detail-title text-white">Noxura FPS 3D</h1>
-    <div class="gfn-detail-meta" id="detailMeta">
-       <span>3D WebGL</span>
-       <span>Instant Boot</span>
-       <span>FPS</span>
-    </div>
-    <p id="detailDesc" class="mt-3 max-w-2xl text-base text-slate-300">Echter 3D Browser FPS mit WASD-Steuerung, Physik und Pointer-Lock. Erlebe Konsolen-Qualität direkt in deinem Browser – ohne Download.</p>
-    <div class="mt-6 flex flex-wrap items-center gap-3">
-      <button class="gfn-btn-play" id="detailPlay">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Session Starten
-      </button>
-    </div>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <div class="glass rounded-lg p-4" style="background:#141418;border-color:#2a2a32">
-        <div class="text-[10px] uppercase tracking-widest text-slate-400">Genre</div>
-        <div class="mt-1 font-bold text-white">First-Person Shooter</div>
-      </div>
-      <div class="glass rounded-lg p-4" style="background:#141418;border-color:#2a2a32">
-        <div class="text-[10px] uppercase tracking-widest text-slate-400">Developer</div>
-        <div class="mt-1 font-bold text-white">Noxura Studios</div>
-      </div>
-      <div class="glass rounded-lg p-4" style="background:#141418;border-color:#2a2a32">
-        <div class="text-[10px] uppercase tracking-widest text-slate-400">Release</div>
-        <div class="mt-1 font-bold text-white">2026</div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- AUTH MODAL -->
@@ -320,7 +261,7 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
   <div class="absolute inset-0 opacity-20" style="background-image:radial-gradient(circle at 50% 50%, rgba(118,185,0,0.3) 0%, transparent 60%)"></div>
   <div class="glass relative w-full max-w-lg rounded-xl p-8 text-center" style="background:#141418;border-color:#2a2a32">
     <div class="flex items-center justify-center gap-2"><span id="qPlan" class="chip c-free"></span><span class="chip" style="background:rgba(118,185,0,.1);color:#76b900">● <span id="qRegion"></span></span></div>
-    <h2 id="qGame" class="font-display mt-4 text-xl font-bold text-white">NOXURA FPS 3D</h2>
+    <h2 id="qGame" class="font-display mt-4 text-xl font-bold text-white"></h2>
     <div class="mt-6 text-xs font-semibold uppercase tracking-[.25em] text-slate-400" id="qLabel">Queue Position</div>
     <div id="qNum" class="font-display my-2 text-7xl font-bold text-[#76b900]" style="text-shadow:0 0 40px rgba(118,185,0,.5)"></div>
     <div id="qText" class="text-base text-slate-200"></div>
@@ -332,9 +273,9 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
   </div>
 </div>
 
-<!-- SESSION OVERLAY (Will load the iframe) -->
+<!-- SESSION OVERLAY -->
 <div id="session" class="off fixed inset-0 z-[110] bg-black select-none">
-  <iframe id="gameFrame" src="" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  <iframe id="gameFrame" src="" allow="autoplay; fullscreen; gamepad; accelerometer; gyroscope; magnetometer; clipboard-read; clipboard-write" style="width:100%;height:100%;border:none;display:block;"></iframe>
   <div class="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3 opacity-0 hover:opacity-100 transition-opacity">
     <div class="pointer-events-auto flex items-center gap-2">
       <button id="hPause" class="btn btn-g sm" style="background:rgba(2,6,23,.7)">⏱ Session Info</button>
@@ -386,6 +327,50 @@ const show=(el,on)=>el.classList.toggle('off',!on);
 function msg(sel,text,good){const e=$(sel);e.textContent=text||'';e.classList.toggle('off',!text);e.className=(good?'ok':'err')+(text?'':' off')}
 async function run(btn,label,fn){const o=btn.textContent;btn.disabled=true;btn.textContent='Please wait…';try{return await fn()}finally{btn.disabled=false;btn.textContent=label||o}}
 
+/* ====================== GAMES CATALOG ====================== */
+const GAMES = {
+  combat: {
+    id: 'combat',
+    title: 'Combat Online',
+    genre: '3D FPS Shooter',
+    desc: 'Erlebe packende 3D-Shooter Action direkt in deinem Browser.',
+    img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+    url: 'https://poki.com/de/g/combat-online'
+  },
+  subway: {
+    id: 'subway',
+    title: 'Subway Surfers',
+    genre: 'Endless Runner',
+    desc: 'Dodge the trains and run as far as you can in this classic endless runner.',
+    img: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop',
+    url: 'https://poki.com/de/g/subway-surfers'
+  },
+  drive: {
+    id: 'drive',
+    title: 'Drive Mad',
+    genre: '3D Stunt Racing',
+    desc: 'Überwinde verrückte Hindernisse in diesem physikbasierten Stunt-Racer.',
+    img: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600&auto=format&fit=crop',
+    url: 'https://poki.com/de/g/drive-mad'
+  },
+  narrow: {
+    id: 'narrow',
+    title: 'Narrow.one',
+    genre: '3D Multiplayer Archery FPS',
+    desc: 'Zeige dein Können mit Pfeil und Bogen im Multiplayer-Kampf.',
+    img: 'https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=600&auto=format&fit=crop',
+    url: 'https://poki.com/de/g/narrow-one'
+  },
+  chess: {
+    id: 'chess',
+    title: 'Master Chess',
+    genre: 'Strategy',
+    desc: 'Teste deine Strategie gegen den Computer oder Freunde.',
+    img: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=600&auto=format&fit=crop',
+    url: 'https://poki.com/de/g/master-chess'
+  }
+};
+
 /* ====================== CLOUD SYNC ====================== */
 async function cloudSave(data){
   if(!S.user)return;
@@ -399,12 +384,10 @@ async function cloudLoad(){
     const snap=await get(ref(db,'users/'+S.user.uid));const v=snap.val()||{};
     if(v.plan&&PLAN_NAME[v.plan])S.plan=v.plan;else if(S.plan!=='free')cloudSave({plan:S.plan});
     if(v.color){S.color=v.color;lsSet('noxura_color',v.color)}
-    if(v.scores)for(const id in v.scores){const loc=lsGet('noxura_hs_'+id,0);if(v.scores[id]>loc)lsSet('noxura_hs_'+id,v.scores[id]);else if(loc>v.scores[id])cloudSave({['scores/'+id]:loc})}
     lsSet(planKey(),S.plan);
   }catch(e){console.warn('Cloud load failed:',e.code||e)}
 }
 function setPlan(p){S.plan=p;lsSet(planKey(),p);cloudSave({plan:p});refreshUI()}
-const getBest=id=>lsGet('noxura_hs_'+id,0);
 
 /* ====================== SETTINGS UI ====================== */
 const SCHEMA=[
@@ -441,8 +424,9 @@ function setSetting(k,v,host,noRender){
 /* ====================== SESSION LOGIC ====================== */
 let Q=null;
 function openQueue(id){
+  const game = GAMES[id];
   const plan=S.plan;
-  $('#qGame').textContent = "NOXURA FPS 3D";
+  $('#qGame').textContent = game.title.toUpperCase();
   const pc=$('#qPlan');pc.textContent=PLAN_NAME[plan];pc.className='chip c-'+plan;
   $('#qRegion').textContent={auto:'Server: Auto',eu:'Server: Frankfurt',na:'Server: Ashburn',as:'Server: Tokyo'}[S.settings.region];
   show($('#queue'),true);
@@ -470,8 +454,13 @@ function openQueue(id){
 }
 function cancelQueue(){if(!Q)return;Q.cancelled=true;Q.timers.forEach(t=>{clearTimeout(t);clearInterval(t)});Q=null;show($('#queue'),false)}
 function launch(id){
-  if(!Q||Q.cancelled)return;Q=null;show($('#queue'),false);show($('#session'),true);
-  $('#gameFrame').src = './games/shooter/index.html';
+  if(!Q||Q.cancelled)return;
+  const game = GAMES[id];
+  Q=null;show($('#queue'),false);show($('#session'),true);
+  
+  // Load game in iframe
+  $('#gameFrame').src = game.url;
+  
   startSessionTimer();
 }
 function startSessionTimer() {
@@ -488,6 +477,7 @@ function startSessionTimer() {
             if (left <= 0) {
                 clearInterval(window.sessionInterval);
                 $('#session').classList.add('off');
+                $('#gameFrame').src = '';
                 $('#endModal').classList.add('open');
             }
         }, 250);
@@ -575,7 +565,7 @@ async function reauth(pw){
 /* ====================== PROFILE VIEW ====================== */
 function renderProfile(){
   const h=$('#profHost'),name=uname(),letter=(name[0]||'?').toUpperCase(),pt=lsGet('noxura_playtime',0),pm=Math.floor(pt/60);
-  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${pm}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">1</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Games Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${PLAN_NAME[S.plan]}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
+  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${pm}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">5</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Games Available</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${PLAN_NAME[S.plan]}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
   const colors=`<div class="lbl">Avatar Color</div><div class="flex gap-3">${COLORS.map(c=>`<button data-col="${c}" aria-label="Color" style="width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;background:${c};box-shadow:${c===S.color?'0 0 0 2px #0a0a0c,0 0 0 4px #fff':'none'}"></button>`).join('')}</div>`;
   if(!S.user){
     h.innerHTML=`<h2 class="font-display text-2xl font-bold text-white">Profile</h2>
@@ -626,23 +616,43 @@ function refreshUI(){
   const name=uname();$('#sAv').textContent=(name[0]||'?').toUpperCase();$('#sAv').style.background=S.color;$('#sName').textContent=name;
   const c=$('#sPlan');c.textContent=PLAN_NAME[S.plan];c.className='chip c-'+S.plan+' mt-0.5';
   refreshSubs();if($('#v-profile').classList.contains('on'))renderProfile();
+  
+  // Update Hero
+  const featured = GAMES['combat'];
+  $('#heroTitle').textContent = featured.title;
+  $('#heroDesc').textContent = featured.desc;
+  $('#heroImg').src = featured.img;
 }
 
-/* --- Game Detail View --- */
-function openDetail(id){
-  // We only have one game, so we show that.
-  $('#gameDetail').classList.add('open');
-  document.body.style.overflow='hidden';
+function buildGrid(){
+  const f=$('#search').value.trim().toLowerCase();
+  const list = Object.values(GAMES).filter(g => !f || (g.title + g.genre + g.desc).toLowerCase().includes(f));
+  $('#gcount').textContent = list.length + ' Games';
+  show($('#noRes'), !list.length);
+  
+  $('#grid').innerHTML = list.map(g => `
+    <div class="gfn-card" data-play="${g.id}">
+      <div class="gfn-card-img">
+        <img src="${g.img}" alt="${g.title}" loading="lazy">
+      </div>
+      <div class="gfn-card-body">
+        <div class="flex items-center justify-between gap-2">
+          <h3 class="gfn-card-title">${g.title}</h3>
+          <span class="chip c-free">${g.genre}</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-400 line-clamp-2 min-h-[40px]">${g.desc}</p>
+        <div class="mt-4 flex items-center justify-between">
+          <span class="text-xs text-slate-400">Instant Play</span>
+          <button class="btn btn-p sm" data-play="${g.id}">Play</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
-function closeDetail(){
-  $('#gameDetail').classList.remove('open');document.body.style.overflow='';
-}
-window.closeDetail=closeDetail;
 
 document.addEventListener('click',e=>{
   const t=e.target;let x;
   if((x=t.closest('[data-play]'))){play(x.dataset.play);return}
-  if((x=t.closest('[data-detail]'))){openDetail();return}
   if((x=t.closest('[data-go]'))){go(x.dataset.go);return}
   if((x=t.closest('[data-tab]'))){atab(x.dataset.tab);return}
   if((x=t.closest('[data-plan]'))){selectPlan(x.dataset.plan);return}
@@ -661,14 +671,13 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'){const a=document.activeElement&&document.activeElement.id;
     if(a==='liMail'||a==='liPw')doLogin();else if(['reName','reMail','rePw','rePw2'].includes(a))doRegister();else if(a==='rsMail')doReset();else if(a==='codeIn')submitCode()}
-  if(e.key==='Escape'&&$('#session').classList.contains('off')){closeAuth();$('#planModal').classList.remove('open');$('#endModal').classList.remove('open');if($('#gameDetail').classList.contains('open'))closeDetail()}
+  if(e.key==='Escape'&&$('#session').classList.contains('off')){closeAuth();$('#planModal').classList.remove('open');$('#endModal').classList.remove('open')}
 });
 
 $('#liGo').onclick=doLogin;$('#reGo').onclick=doRegister;$('#rsGo').onclick=doReset;$('#gGo').onclick=doGoogle;$('#mClose').onclick=closeAuth;$('#codeGo').onclick=submitCode;
 $('#qCancel').onclick=cancelQueue;
-$('#btnPlayFps').onclick = () => play('fps3d');
-$('#btnDetailsFps').onclick = () => openDetail();
-$('#detailPlay').onclick = () => { closeDetail(); play('fps3d'); };
+$('#search').oninput=buildGrid;
+$('#seeAllBtn').onclick=()=>{$('#search').value='';buildGrid();$('#main').scrollTo({top:400,behavior:'smooth'})};
 $('#hPause').onclick = () => {
     // End session manually
     $('#session').classList.add('off');
@@ -680,8 +689,8 @@ $('#hPause').onclick = () => {
 try{document.fonts.load('700 40px Rajdhani');document.fonts.load('600 16px Inter')}catch(e){}
 
 /* auth state */
-onAuthStateChanged(auth,async u=>{S.user=u;await cloudLoad();refreshUI()});
-S.plan=lsGet(planKey(),'free');refreshUI();
+onAuthStateChanged(auth,async u=>{S.user=u;await cloudLoad();refreshUI();buildGrid()});
+S.plan=lsGet(planKey(),'free');refreshUI();buildGrid();
 if(!S.user&&!lsGet('noxura_seen',false)){lsSet('noxura_seen',true)}
 </script>
 </body>
