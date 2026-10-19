@@ -5,171 +5,192 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Noxura Cloud Gaming</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <!--
-  FIREBASE SETUP (Realtime Database Rules, so tariff/profile/highscores are saved per user):
+  FIREBASE SETUP (Realtime Database Rules):
   {
     "rules": { "users": { "$uid": { ".read": "auth != null && auth.uid === $uid", ".write": "auth != null && auth.uid === $uid" } } }
   }
-  Also in the Firebase Console: Authentication > Sign-in method > enable "Email/Password" and "Google",
-  and under Authentication > Settings > Authorized domains add your GitHub Pages domain (xyz.github.io).
+  In Firebase Console: Authentication > Sign-in method > enable "Email/Password" and "Google".
+  Authentication > Settings > Authorized domains: add your GitHub Pages domain.
 -->
 <style>
 :root{color-scheme:dark}
-html,body{height:100%;margin:0;background:#0f172a;color:#e2e8f0;font-family:'Rajdhani',system-ui,sans-serif;font-size:17px}
+html,body{height:100%;margin:0;background:#0a0a0c;color:#e2e8f0;font-family:'Inter',system-ui,sans-serif;font-size:15px}
 *{box-sizing:border-box}
-.font-display{font-family:'Orbitron',sans-serif}
+.font-display{font-family:'Rajdhani',sans-serif}
 .off{display:none!important}
 .glass{background:rgba(30,41,59,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(148,163,184,.14)}
-.glow{box-shadow:0 0 28px rgba(56,189,248,.22)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:10px;font-weight:700;letter-spacing:.03em;cursor:pointer;border:1px solid transparent;transition:all .15s;user-select:none}
+.glow{box-shadow:0 0 28px rgba(118,185,0,.22)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:8px;font-weight:600;letter-spacing:.02em;cursor:pointer;border:1px solid transparent;transition:all .15s;user-select:none;font-size:14px}
 .btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.5;cursor:default}
-.btn-p{background:#38bdf8;color:#04121c}.btn-p:not(:disabled):hover{background:#7dd3fc;box-shadow:0 0 22px rgba(56,189,248,.5)}
-.btn-g{background:rgba(255,255,255,.04);border-color:rgba(148,163,184,.3);color:#e2e8f0}.btn-g:not(:disabled):hover{border-color:#38bdf8;color:#fff}
+.btn-p{background:#76b900;color:#000}.btn-p:not(:disabled):hover{background:#8ed600}
+.btn-g{background:rgba(255,255,255,.06);border-color:rgba(148,163,184,.2);color:#e2e8f0}.btn-g:not(:disabled):hover{background:rgba(255,255,255,.1);border-color:#76b900}
 .btn-d{background:transparent;border-color:#7f1d1d;color:#f87171}.btn-d:hover{background:rgba(248,113,113,.1)}
-.btn.sm{height:36px;padding:0 14px;font-size:15px}
-.field{width:100%;height:46px;background:#0b1220;border:1px solid #334155;border-radius:10px;padding:0 14px;color:#fff;outline:none;font:inherit;transition:border-color .15s}
-.field:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.15)}
+.btn.sm{height:36px;padding:0 14px;font-size:13px}
+.field{width:100%;height:44px;background:#141418;border:1px solid #2a2a32;border-radius:8px;padding:0 14px;color:#fff;outline:none;font:inherit;transition:border-color .15s}
+.field:focus{border-color:#76b900;box-shadow:0 0 0 3px rgba(118,185,0,.15)}
 select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2394a3b8' stroke-width='2'><path d='m1 1 5 5 5-5'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-.lbl{display:block;margin:14px 0 6px;font-size:14px;font-weight:600;color:#94a3b8;letter-spacing:.04em;text-transform:uppercase}
-.err{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:15px;color:#fecaca;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3)}
-.ok{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:15px;color:#bbf7d0;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3)}
-.nav{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:#94a3b8;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.lbl{display:block;margin:14px 0 6px;font-size:13px;font-weight:600;color:#94a3b8;letter-spacing:.03em;text-transform:uppercase}
+.err{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:14px;color:#fecaca;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3)}
+.ok{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:14px;color:#bbf7d0;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3)}
+.nav{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;color:#9ca3af;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent}
 .nav:hover{color:#fff;background:rgba(255,255,255,.04)}
-.nav.on{color:#38bdf8;background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.25)}
+.nav.on{color:#76b900;background:rgba(118,185,0,.1)}
 .view{display:none}.view.on{display:block}
-.card{position:relative;overflow:hidden;border-radius:16px;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:pointer}
-.card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(56,189,248,.18);border-color:rgba(56,189,248,.5)}
-.card canvas{display:block;width:100%;aspect-ratio:16/9}
-.seg{display:inline-flex;flex-wrap:wrap;border:1px solid #334155;border-radius:10px;overflow:hidden}
-.seg button{background:none;border:0;padding:0 14px;height:38px;font-weight:700;color:#94a3b8;cursor:pointer;transition:all .15s}
-.seg button+button{border-left:1px solid #334155}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid #2a2a32;border-radius:8px;overflow:hidden}
+.seg button{background:none;border:0;padding:0 14px;height:36px;font-weight:600;color:#94a3b8;cursor:pointer;transition:all .15s;font-size:13px}
+.seg button+button{border-left:1px solid #2a2a32}
 .seg button:hover{background:rgba(255,255,255,.05);color:#fff}
-.seg button.on{background:#38bdf8;color:#04121c}
-.sw{position:relative;width:48px;height:26px;border-radius:13px;background:#334155;border:0;cursor:pointer;transition:background .2s;flex:none}
-.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}
-.sw[aria-checked=true]{background:#38bdf8}.sw[aria-checked=true]::after{transform:translateX(22px)}
-.srow{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 0;border-top:1px solid rgba(148,163,184,.12)}
+.seg button.on{background:#76b900;color:#000}
+.sw{position:relative;width:44px;height:24px;border-radius:12px;background:#2a2a32;border:0;cursor:pointer;transition:background .2s;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw[aria-checked=true]{background:#76b900}.sw[aria-checked=true]::after{transform:translateX(20px)}
+.sw:disabled{opacity:.3;cursor:not-allowed}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 0;border-top:1px solid rgba(148,163,184,.1)}
 .srow:first-of-type{border-top:0}
-input[type=range]{accent-color:#38bdf8;width:180px}
-.scrim{position:fixed;inset:0;z-index:80;background:rgba(2,6,23,.78);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.srow.locked{opacity:.5;pointer-events:none}
+input[type=range]{accent-color:#76b900;width:180px}
+input[type=range]:disabled{opacity:.3;cursor:not-allowed}
+.scrim{position:fixed;inset:0;z-index:80;background:rgba(2,6,23,.85);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
 .scrim.open{display:flex}
-.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:200;background:#f8fafc;color:#0f172a;font-weight:700;padding:12px 20px;border-radius:10px;transition:all .25s;max-width:92%}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:200;background:#fff;color:#0a0a0c;font-weight:700;padding:12px 20px;border-radius:8px;transition:all .25s;max-width:92%;font-size:14px}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.plan{border-radius:16px;padding:22px;border:1px solid rgba(148,163,184,.2);background:rgba(15,23,42,.6);cursor:pointer;transition:all .15s;position:relative}
-.plan:hover{border-color:#38bdf8}
-.plan.sel{border-color:#38bdf8;box-shadow:0 0 0 2px rgba(56,189,248,.35),0 0 30px rgba(56,189,248,.15)}
-.plan li{display:flex;gap:8px;margin-top:8px;color:#cbd5e1}
-.plan li::before{content:"✓";color:#38bdf8;font-weight:800}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:.06em}
+.plan{border-radius:12px;padding:22px;border:1px solid #2a2a32;background:#141418;cursor:pointer;transition:all .15s;position:relative}
+.plan:hover{border-color:#76b900}
+.plan.sel{border-color:#76b900;box-shadow:0 0 0 2px rgba(118,185,0,.3)}
+.plan li{display:flex;gap:8px;margin-top:8px;color:#cbd5e1;font-size:14px}
+.plan li::before{content:"✓";color:#76b900;font-weight:800}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700;letter-spacing:.04em}
 .c-free{background:rgba(148,163,184,.15);color:#cbd5e1}.c-premium{background:rgba(167,139,250,.18);color:#c4b5fd}.c-pro{background:rgba(251,191,36,.18);color:#fcd34d}
-.avatar{display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:800;color:#04121c;flex:none}
+.avatar{display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:800;color:#000;flex:none}
 .shake{animation:shake .35s}
 @keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
-.spin{width:22px;height:22px;border-radius:50%;border:3px solid rgba(56,189,248,.25);border-top-color:#38bdf8;animation:sp 1s linear infinite;flex:none}
+.spin{width:20px;height:20px;border-radius:50%;border:3px solid rgba(118,185,0,.25);border-top-color:#76b900;animation:sp 1s linear infinite;flex:none}
 @keyframes sp{to{transform:rotate(360deg)}}
 .pulse{animation:pl 1.6s ease-in-out infinite}@keyframes pl{50%{opacity:.45}}
 #cv{display:block;width:100%;height:100%;object-fit:contain;background:#000;outline:none}
-::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:#334155;border-radius:6px}
-@media(max-width:767px){body{font-size:16px}}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:4px}::-webkit-scrollbar-track{background:transparent}
 
-/* --- GeForce NOW Style Additions --- */
-.gfn-bg{background:#0a0a0c;background-image:radial-gradient(circle at 50% 0%,rgba(56,189,248,.08),transparent 60%)}
-.gfn-card{background:#1a1a1f;border:1px solid #2a2a32;border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s}
-.gfn-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 1px #38bdf8}
-.gfn-hero{position:relative;overflow:hidden;border-radius:16px}
-.gfn-hero img{width:100%;height:100%;object-fit:cover;display:block}
-.gfn-hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0c 0%,transparent 60%,transparent 100%)}
-.gfn-btn-play{background:#76b900;color:#000;font-weight:800;font-size:18px;padding:14px 40px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all .15s}
-.gfn-btn-play:hover{background:#8ed600;transform:scale(1.02)}
+/* GeForce NOW Style */
+.gfn-header{background:#1a1a1f;border-bottom:1px solid #2a2a32}
+.gfn-logo{display:flex;align-items:center;gap:10px}
+.gfn-hero-banner{position:relative;width:100%;height:420px;overflow:hidden;border-radius:12px;margin-bottom:24px}
+.gfn-hero-banner img{width:100%;height:100%;object-fit:cover;display:block}
+.gfn-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,12,.9) 0%,rgba(10,10,12,.4) 50%,transparent 100%)}
+.gfn-hero-content{position:absolute;bottom:40px;left:40px;max-width:400px}
+.gfn-hero-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:36px;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.gfn-hero-sub{font-size:13px;color:#9ca3af;margin-top:8px}
+.gfn-btn-play{background:#76b900;color:#000;font-weight:700;font-size:14px;padding:12px 28px;border-radius:6px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .15s}
+.gfn-btn-play:hover{background:#8ed600}
 .gfn-btn-play:active{transform:scale(.98)}
-.gfn-title{font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(24px,4vw,48px);line-height:1.1;text-shadow:0 2px 20px rgba(0,0,0,.8)}
-.gfn-nav-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:8px;color:#9ca3af;font-weight:600;cursor:pointer;transition:all .15s}
-.gfn-nav-item:hover{color:#fff;background:rgba(255,255,255,.06)}
-.gfn-nav-item.active{color:#76b900;background:rgba(118,185,0,.1)}
-.gfn-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
-.gfn-scroll::-webkit-scrollbar{height:6px}
-.gfn-scroll::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:3px}
-.gfn-scroll .gfn-card{flex:0 0 280px}
+.gfn-section-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.gfn-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
+.gfn-row::-webkit-scrollbar{height:6px}
+.gfn-row::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:3px}
+.gfn-card{flex:0 0 260px;background:#141418;border:1px solid #2a2a32;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
+.gfn-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4);border-color:#76b900}
+.gfn-card canvas{display:block;width:100%;aspect-ratio:16/9;background:#0a0a0c}
+.gfn-card-body{padding:12px}
+.gfn-card-title{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gfn-card-meta{font-size:12px;color:#9ca3af;margin-top:4px}
 .gfn-detail{position:fixed;inset:0;z-index:90;background:#0a0a0c;overflow-y:auto;display:none}
 .gfn-detail.open{display:block}
-.gfn-detail-hero{position:relative;height:60vh;min-height:400px;overflow:hidden}
+.gfn-detail-hero{position:relative;height:50vh;min-height:360px;overflow:hidden}
 .gfn-detail-hero img{width:100%;height:100%;object-fit:cover}
-.gfn-detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0c 0%,transparent 50%,rgba(0,0,0,.3) 100%)}
-.gfn-detail-content{position:relative;z-index:2;max-width:1200px;margin:-120px auto 0;padding:0 24px 60px}
+.gfn-detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0c 0%,transparent 60%,rgba(0,0,0,.2) 100%)}
+.gfn-detail-content{position:relative;z-index:2;max-width:1100px;margin:-100px auto 0;padding:0 24px 60px}
+.gfn-detail-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:40px;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.8)}
 .gfn-detail-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.gfn-detail-meta span{background:rgba(255,255,255,.1);padding:4px 12px;border-radius:4px;font-size:13px;font-weight:600}
+.gfn-detail-meta span{background:rgba(255,255,255,.1);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600}
 </style>
 </head>
-<body class="gfn-bg">
+<body>
 
 <div class="flex h-full">
   <!-- SIDEBAR -->
-  <aside class="glass fixed bottom-0 left-0 right-0 z-40 flex h-16 flex-row items-center justify-around border-t px-2 md:static md:h-full md:w-64 md:flex-col md:items-stretch md:justify-start md:border-r md:border-t-0 md:p-4" style="border-radius:0;background:#0f0f13;border-color:#2a2a32">
+  <aside class="fixed bottom-0 left-0 right-0 z-40 flex h-16 flex-row items-center justify-around border-t px-2 md:static md:h-full md:w-56 md:flex-col md:items-stretch md:justify-start md:border-r md:border-t-0 md:p-3" style="border-radius:0;background:#0f0f13;border-color:#2a2a32">
     <div class="mb-6 mt-1 hidden cursor-pointer items-center gap-3 px-2 md:flex" data-go="home">
-      <svg width="38" height="38" viewBox="0 0 32 32"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="#76b900"/><path d="M11 22V10l10 12V10" fill="none" stroke="#0a0a0c" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
-      <div class="leading-none"><div class="font-display text-xl font-extrabold tracking-wider text-white">NOXURA</div><div class="mt-1 text-xs font-semibold tracking-[.3em] text-[#76b900]">CLOUD GAMING</div></div>
+      <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#76b900]">
+        <svg width="24" height="24" viewBox="0 0 32 32"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="#0a0a0c"/><path d="M11 22V10l10 12V10" fill="none" stroke="#76b900" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      </div>
+      <div class="leading-none"><div class="font-display text-xl font-bold tracking-wide text-white">NOXURA</div><div class="mt-1 text-[10px] font-semibold tracking-[.25em] text-[#76b900]">CLOUD GAMING</div></div>
     </div>
     <nav class="flex flex-1 flex-row justify-around gap-1 md:flex-col md:justify-start" id="nav">
-      <a class="nav gfn-nav-item" data-go="home"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg><span class="max-md:hidden">Library</span></a>
-      <a class="nav gfn-nav-item" data-go="subs"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m12 2 3 7 7 .8-5.3 4.8 1.6 7.4L12 18.3 5.7 22l1.6-7.4L2 9.8 9 9z"/></svg><span class="max-md:hidden">Membership</span></a>
-      <a class="nav gfn-nav-item" data-go="settings"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="max-md:hidden">Settings</span></a>
-      <a class="nav gfn-nav-item" data-go="profile"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="max-md:hidden">Profile</span></a>
+      <a class="nav on" data-go="home"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg><span class="max-md:hidden">Library</span></a>
+      <a class="nav" data-go="subs"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m12 2 3 7 7 .8-5.3 4.8 1.6 7.4L12 18.3 5.7 22l1.6-7.4L2 9.8 9 9z"/></svg><span class="max-md:hidden">Membership</span></a>
+      <a class="nav" data-go="settings"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="max-md:hidden">Settings</span></a>
+      <a class="nav" data-go="profile"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="max-md:hidden">Profile</span></a>
     </nav>
-    <div id="sideCard" class="glass mt-2 hidden cursor-pointer items-center gap-3 rounded-xl p-3 transition hover:border-cyan-400/50 md:flex" data-go="profile" style="background:#1a1a1f;border-color:#2a2a32">
-      <span id="sAv" class="avatar h-11 w-11 text-lg"></span>
-      <div class="min-w-0 flex-1"><div id="sName" class="truncate font-bold text-white"></div><span id="sPlan" class="chip c-free mt-0.5"></span></div>
+    <div id="sideCard" class="mt-2 hidden cursor-pointer items-center gap-3 rounded-lg p-3 transition hover:bg-white/5 md:flex" data-go="profile" style="border:1px solid #2a2a32">
+      <span id="sAv" class="avatar h-10 w-10 text-base"></span>
+      <div class="min-w-0 flex-1"><div id="sName" class="truncate font-bold text-white text-sm"></div><span id="sPlan" class="chip c-free mt-0.5"></span></div>
     </div>
   </aside>
 
   <!-- MAIN -->
-  <main class="relative h-full flex-1 overflow-y-auto pb-20 md:pb-0" id="main">
+  <main class="relative h-full flex-1 overflow-y-auto pb-20 md:pb-0" id="main" style="background:#0a0a0c">
 
     <!-- HOME -->
     <section id="v-home" class="view on">
-      <div class="relative overflow-hidden border-b border-slate-700/40 gfn-hero" style="background:radial-gradient(1200px 400px at 85% -10%,rgba(118,185,0,.15),transparent 60%),radial-gradient(800px 400px at 0% 110%,rgba(56,189,248,.08),transparent 60%),#0a0a0c">
-        <div class="absolute inset-0 opacity-20" style="background-image:linear-gradient(rgba(118,185,0,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,185,0,.1) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(90deg,transparent,#000 80%)"></div>
-        <div class="relative mx-auto max-w-6xl px-5 py-10 md:px-10 md:py-16">
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="chip" style="background:rgba(118,185,0,.15);border:1px solid rgba(118,185,0,.3);color:#76b900;font-size:14px"><span class="pulse inline-block h-2 w-2 rounded-full bg-[#76b900]"></span>SERVER: ONLINE</span>
-            <span id="homePlan" class="chip c-free"></span>
-          </div>
-          <h1 class="font-display mt-5 text-4xl font-extrabold leading-tight text-white md:text-6xl gfn-title">Next-Gen<br><span class="text-[#76b900]">Cloud Gaming</span></h1>
-          <p class="mt-4 max-w-lg text-lg text-slate-300">Play high-end games directly in your browser – no downloads, no installs. Stream up to 1440p at up to 144 FPS.</p>
-          <div class="relative mt-7 max-w-xl">
-            <svg class="absolute left-4 top-3.5" width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input id="search" class="field glass" style="height:50px;padding-left:46px;font-size:18px;background:#1a1a1f;border-color:#2a2a32" placeholder="Search games…" autocomplete="off">
+      <!-- Hero Banner -->
+      <div class="p-4 md:p-6">
+        <div class="gfn-hero-banner" id="heroBanner">
+          <img id="heroImg" src="" alt="Featured Game">
+          <div class="gfn-hero-overlay"></div>
+          <div class="gfn-hero-content">
+            <h1 id="heroTitle" class="gfn-hero-title text-white">Featured Game</h1>
+            <p id="heroDesc" class="gfn-hero-sub"></p>
+            <div class="mt-4 flex items-center gap-3">
+              <button class="gfn-btn-play" id="heroPlay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                PLAY
+              </button>
+              <button class="btn btn-g sm" id="heroDetails" style="background:rgba(0,0,0,.5)">View Details</button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="mx-auto max-w-6xl px-5 py-8 md:px-10">
-        <div class="mb-5 flex items-end justify-between"><h2 class="font-display text-2xl font-extrabold text-white">Library</h2><span class="text-slate-400" id="gcount"></span></div>
-        <div id="grid" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"></div>
-        <div id="noRes" class="off glass rounded-2xl p-12 text-center text-slate-400">No games found.</div>
+
+      <!-- Search & Count -->
+      <div class="px-4 md:px-6 mb-4 flex items-center justify-between gap-4">
+        <div class="relative flex-1 max-w-md">
+          <svg class="absolute left-3 top-3" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="search" class="field" style="padding-left:38px;background:#141418;border-color:#2a2a32" placeholder="Search games…" autocomplete="off">
+        </div>
+        <span class="text-sm text-slate-400" id="gcount"></span>
+      </div>
+
+      <!-- Games Grid -->
+      <div class="px-4 md:px-6 pb-8">
+        <div class="gfn-section-title">My Library <span class="text-sm font-normal text-[#76b900] cursor-pointer" id="seeAllBtn">SEE ALL</span></div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" id="grid"></div>
+        <div id="noRes" class="off glass rounded-xl p-12 text-center text-slate-400">No games found.</div>
       </div>
     </section>
 
     <!-- SUBS -->
     <section id="v-subs" class="view">
-      <div class="mx-auto max-w-4xl px-5 py-10 md:px-10">
-        <h2 class="font-display text-3xl font-extrabold text-white">Membership</h2>
-        <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32">
-          <div class="text-sm font-semibold uppercase tracking-widest text-slate-400">Your Current Plan</div>
-          <div class="mt-2 flex flex-wrap items-center gap-4"><span id="subCur" class="font-display text-3xl font-extrabold text-white"></span><span id="subCurChip" class="chip"></span></div>
-          <p id="subDesc" class="mt-2 text-slate-300"></p>
-          <button class="btn btn-p mt-5" data-act="plans">Change Plan</button>
+      <div class="mx-auto max-w-4xl px-4 py-8 md:px-6">
+        <h2 class="font-display text-2xl font-bold text-white">Membership</h2>
+        <div class="glass mt-4 rounded-xl p-6" style="background:#141418;border-color:#2a2a32">
+          <div class="text-xs font-semibold uppercase tracking-widest text-slate-400">Your Current Plan</div>
+          <div class="mt-2 flex flex-wrap items-center gap-4"><span id="subCur" class="font-display text-2xl font-bold text-white"></span><span id="subCurChip" class="chip"></span></div>
+          <p id="subDesc" class="mt-2 text-slate-300 text-sm"></p>
+          <button class="btn btn-p mt-4" data-act="plans">Change Plan</button>
         </div>
-        <div class="glass mt-6 overflow-x-auto rounded-2xl p-2" style="background:#1a1a1f;border-color:#2a2a32">
-          <table class="w-full min-w-[520px] text-left">
-            <thead class="text-sm uppercase tracking-widest text-slate-400"><tr><th class="p-4">Feature</th><th class="p-4">FREE</th><th class="p-4">PREMIUM</th><th class="p-4">SUPER PRO</th></tr></thead>
-            <tbody class="divide-y divide-slate-700/40">
-              <tr><td class="p-4">Session Time</td><td class="p-4">30 Minutes</td><td class="p-4 text-[#76b900]">Unlimited</td><td class="p-4 text-[#76b900]">Unlimited</td></tr>
-              <tr><td class="p-4">Queue</td><td class="p-4">Standard (~24 s)</td><td class="p-4 text-[#76b900]">Priority (~2 s)</td><td class="p-4 text-[#76b900]">0 s – Instant Access</td></tr>
-              <tr><td class="p-4">Max Resolution</td><td class="p-4">1080p</td><td class="p-4 text-[#76b900]">1440p</td><td class="p-4 text-[#76b900]">1440p</td></tr>
-              <tr><td class="p-4">Max FPS</td><td class="p-4">60 FPS</td><td class="p-4 text-[#76b900]">144 FPS</td><td class="p-4 text-[#76b900]">144 FPS</td></tr>
-              <tr><td class="p-4">All Games &amp; Settings</td><td class="p-4">✓</td><td class="p-4">✓</td><td class="p-4">✓</td></tr>
+        <div class="glass mt-4 overflow-x-auto rounded-xl p-2" style="background:#141418;border-color:#2a2a32">
+          <table class="w-full min-w-[520px] text-left text-sm">
+            <thead class="text-xs uppercase tracking-widest text-slate-400"><tr><th class="p-3">Feature</th><th class="p-3">FREE</th><th class="p-3">PREMIUM</th><th class="p-3">SUPER PRO</th></tr></thead>
+            <tbody class="divide-y divide-slate-800">
+              <tr><td class="p-3">Session Time</td><td class="p-3">30 Minutes</td><td class="p-3 text-[#76b900]">Unlimited</td><td class="p-3 text-[#76b900]">Unlimited</td></tr>
+              <tr><td class="p-3">Queue</td><td class="p-3">Standard (~24 s)</td><td class="p-3 text-[#76b900]">Priority (~2 s)</td><td class="p-3 text-[#76b900]">0 s – Instant Access</td></tr>
+              <tr><td class="p-3">Max Resolution</td><td class="p-3">1080p</td><td class="p-3 text-[#76b900]">1440p</td><td class="p-3 text-[#76b900]">1440p</td></tr>
+              <tr><td class="p-3">Max FPS</td><td class="p-3">60 FPS</td><td class="p-3 text-[#76b900]">144 FPS</td><td class="p-3 text-[#76b900]">144 FPS</td></tr>
+              <tr><td class="p-3">Settings Access</td><td class="p-3">Locked</td><td class="p-3 text-[#76b900]">Full</td><td class="p-3 text-[#76b900]">Full</td></tr>
+              <tr><td class="p-3">All Games</td><td class="p-3">✓</td><td class="p-3">✓</td><td class="p-3">✓</td></tr>
             </tbody>
           </table>
         </div>
@@ -178,48 +199,48 @@ input[type=range]{accent-color:#38bdf8;width:180px}
 
     <!-- SETTINGS -->
     <section id="v-settings" class="view">
-      <div class="mx-auto max-w-3xl px-5 py-10 md:px-10">
-        <h2 class="font-display text-3xl font-extrabold text-white">Settings</h2>
-        <p class="mt-2 text-slate-400">These settings apply to all streams and can be changed anytime in the in-game pause menu.</p>
-        <div id="setHost" class="mt-6"></div>
+      <div class="mx-auto max-w-3xl px-4 py-8 md:px-6">
+        <h2 class="font-display text-2xl font-bold text-white">Settings</h2>
+        <p class="mt-1 text-slate-400 text-sm">These settings apply to all streams. Free plan users cannot change advanced settings.</p>
+        <div id="setHost" class="mt-4"></div>
       </div>
     </section>
 
     <!-- PROFILE -->
-    <section id="v-profile" class="view"><div id="profHost" class="mx-auto max-w-3xl px-5 py-10 md:px-10"></div></section>
+    <section id="v-profile" class="view"><div id="profHost" class="mx-auto max-w-3xl px-4 py-8 md:px-6"></div></section>
   </main>
 </div>
 
-<!-- GAME DETAIL VIEW (GeForce NOW style) -->
+<!-- GAME DETAIL VIEW -->
 <div id="gameDetail" class="gfn-detail">
-  <div class="gfn-detail-hero" id="detailHero">
+  <div class="gfn-detail-hero">
     <img id="detailImg" src="" alt="Game">
     <div class="gfn-detail-hero-overlay"></div>
     <button class="btn btn-g sm absolute top-4 right-4" style="background:rgba(0,0,0,.6);border-color:#3a3a42" onclick="closeDetail()">✕ Close</button>
   </div>
   <div class="gfn-detail-content">
-    <h1 id="detailTitle" class="gfn-title text-white"></h1>
+    <h1 id="detailTitle" class="gfn-detail-title text-white"></h1>
     <div class="gfn-detail-meta" id="detailMeta"></div>
-    <p id="detailDesc" class="mt-4 max-w-2xl text-lg text-slate-300"></p>
-    <div class="mt-8 flex flex-wrap items-center gap-4">
+    <p id="detailDesc" class="mt-3 max-w-2xl text-base text-slate-300"></p>
+    <div class="mt-6 flex flex-wrap items-center gap-3">
       <button class="gfn-btn-play" id="detailPlay">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         PLAY
       </button>
-      <button class="btn btn-g" id="detailFav">☆ Add to Favorites</button>
-      <span id="detailBest" class="text-slate-400"></span>
+      <button class="btn btn-g" id="detailFav" style="background:#1a1a1f;border-color:#2a2a32">☆ Add to Favorites</button>
+      <span id="detailBest" class="text-slate-400 text-sm"></span>
     </div>
-    <div class="mt-10 grid gap-6 md:grid-cols-3">
-      <div class="glass rounded-xl p-5" style="background:#1a1a1f;border-color:#2a2a32">
-        <div class="text-xs uppercase tracking-widest text-slate-400">Genre</div>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <div class="glass rounded-lg p-4" style="background:#141418;border-color:#2a2a32">
+        <div class="text-[10px] uppercase tracking-widest text-slate-400">Genre</div>
         <div id="detailGenre" class="mt-1 font-bold text-white"></div>
       </div>
-      <div class="glass rounded-xl p-5" style="background:#1a1a1f;border-color:#2a2a32">
-        <div class="text-xs uppercase tracking-widest text-slate-400">Developer</div>
+      <div class="glass rounded-lg p-4" style="background:#141418;border-color:#2a2a32">
+        <div class="text-[10px] uppercase tracking-widest text-slate-400">Developer</div>
         <div class="mt-1 font-bold text-white">Noxura Studios</div>
       </div>
-      <div class="glass rounded-xl p-5" style="background:#1a1a1f;border-color:#2a2a32">
-        <div class="text-xs uppercase tracking-widest text-slate-400">Release</div>
+      <div class="glass rounded-lg p-4" style="background:#141418;border-color:#2a2a32">
+        <div class="text-[10px] uppercase tracking-widest text-slate-400">Release</div>
         <div class="mt-1 font-bold text-white">2026</div>
       </div>
     </div>
@@ -227,70 +248,70 @@ input[type=range]{accent-color:#38bdf8;width:180px}
 </div>
 
 <!-- AUTH MODAL -->
-<div id="authModal" class="scrim"><div class="glass mt-[5vh] w-full max-w-md rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32" role="dialog" aria-modal="true">
-  <div class="flex"><button class="atab flex-1 border-b-2 py-3 font-bold" data-tab="login">Sign In</button><button class="atab flex-1 border-b-2 py-3 font-bold" data-tab="register">Register</button></div>
+<div id="authModal" class="scrim"><div class="glass mt-[5vh] w-full max-w-md rounded-xl p-6" style="background:#141418;border-color:#2a2a32" role="dialog" aria-modal="true">
+  <div class="flex"><button class="atab flex-1 border-b-2 py-3 font-bold text-sm" data-tab="login">Sign In</button><button class="atab flex-1 border-b-2 py-3 font-bold text-sm" data-tab="register">Register</button></div>
   <div id="ap-login">
     <label class="lbl" for="liMail">Email</label><input id="liMail" type="email" class="field" autocomplete="email">
     <label class="lbl" for="liPw">Password</label><input id="liPw" type="password" class="field" autocomplete="current-password">
-    <div class="mt-3 flex items-center justify-between text-sm text-slate-300"><label class="flex cursor-pointer items-center gap-2"><input id="liRem" type="checkbox" checked style="accent-color:#76b900"> Stay signed in</label><a class="cursor-pointer text-[#76b900] hover:underline" data-tab="reset">Forgot password?</a></div>
+    <div class="mt-3 flex items-center justify-between text-xs text-slate-300"><label class="flex cursor-pointer items-center gap-2"><input id="liRem" type="checkbox" checked style="accent-color:#76b900"> Stay signed in</label><a class="cursor-pointer text-[#76b900] hover:underline" data-tab="reset">Forgot password?</a></div>
     <div id="liMsg" class="err off"></div>
-    <button id="liGo" class="btn btn-p mt-5 w-full" style="background:#76b900;color:#000">Sign In</button>
+    <button id="liGo" class="btn btn-p mt-4 w-full">Sign In</button>
   </div>
   <div id="ap-register" class="off">
     <label class="lbl" for="reName">Username</label><input id="reName" class="field" maxlength="20" autocomplete="nickname">
     <label class="lbl" for="reMail">Email</label><input id="reMail" type="email" class="field" autocomplete="email">
-    <label class="lbl" for="rePw">Password (min. 8 characters)</label><input id="rePw" type="password" class="field" autocomplete="new-password">
+    <label class="lbl" for="rePw">Password (min. 8 chars)</label><input id="rePw" type="password" class="field" autocomplete="new-password">
     <label class="lbl" for="rePw2">Confirm Password</label><input id="rePw2" type="password" class="field" autocomplete="new-password">
-    <label class="mt-4 flex cursor-pointer items-start gap-2 text-sm text-slate-300"><input id="reTos" type="checkbox" class="mt-1" style="accent-color:#76b900"> I am at least 13 years old and accept the Terms of Service.</label>
+    <label class="mt-3 flex cursor-pointer items-start gap-2 text-xs text-slate-300"><input id="reTos" type="checkbox" class="mt-0.5" style="accent-color:#76b900"> I am at least 13 years old and accept the Terms of Service.</label>
     <div id="reMsg" class="err off"></div>
-    <button id="reGo" class="btn btn-p mt-5 w-full" style="background:#76b900;color:#000">Create Account</button>
+    <button id="reGo" class="btn btn-p mt-4 w-full">Create Account</button>
   </div>
   <div id="ap-reset" class="off">
-    <p class="mt-4 text-slate-300">Enter your email. We'll send you a link to reset your password.</p>
+    <p class="mt-3 text-slate-300 text-sm">Enter your email. We'll send you a link to reset your password.</p>
     <label class="lbl" for="rsMail">Email</label><input id="rsMail" type="email" class="field" autocomplete="email">
     <div id="rsMsg" class="err off"></div>
-    <button id="rsGo" class="btn btn-p mt-5 w-full" style="background:#76b900;color:#000">Send Link</button>
-    <p class="mt-4 text-center text-sm"><a class="cursor-pointer text-[#76b900] hover:underline" data-tab="login">Back to Sign In</a></p>
+    <button id="rsGo" class="btn btn-p mt-4 w-full">Send Link</button>
+    <p class="mt-3 text-center text-xs"><a class="cursor-pointer text-[#76b900] hover:underline" data-tab="login">Back to Sign In</a></p>
   </div>
-  <div id="ap-or" class="mt-5">
-    <div class="mb-4 flex items-center gap-3 text-xs uppercase tracking-widest text-slate-500"><span class="h-px flex-1 bg-slate-700"></span>or<span class="h-px flex-1 bg-slate-700"></span></div>
-    <button id="gGo" class="btn btn-g w-full"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3A12 12 0 1 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 1 0 44 24c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 0 0 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.7 28l-6.5 5A20 20 0 0 0 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Continue with Google</button>
-    <button id="mClose" class="btn btn-g mt-3 w-full">Continue as Guest</button>
+  <div id="ap-or" class="mt-4">
+    <div class="mb-3 flex items-center gap-3 text-[10px] uppercase tracking-widest text-slate-500"><span class="h-px flex-1 bg-slate-800"></span>or<span class="h-px flex-1 bg-slate-800"></span></div>
+    <button id="gGo" class="btn btn-g w-full"><svg width="16" height="16" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3A12 12 0 1 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 1 0 44 24c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0 1 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7A20 20 0 0 0 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.7 28l-6.5 5A20 20 0 0 0 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Continue with Google</button>
+    <button id="mClose" class="btn btn-g mt-2 w-full">Continue as Guest</button>
   </div>
 </div></div>
 
 <!-- PLAN MODAL -->
-<div id="planModal" class="scrim"><div class="glass mt-[4vh] w-full max-w-4xl rounded-2xl p-6 md:p-8" style="background:#1a1a1f;border-color:#2a2a32" role="dialog" aria-modal="true">
-  <div class="flex items-start justify-between gap-4"><div><h2 class="font-display text-2xl font-extrabold text-white">Choose Your Plan</h2><p class="mt-1 text-slate-400">Premium and Super Pro are unlocked with an activation code.</p></div><button class="btn btn-g sm" data-act="closePlans">✕</button></div>
+<div id="planModal" class="scrim"><div class="glass mt-[4vh] w-full max-w-4xl rounded-xl p-6 md:p-8" style="background:#141418;border-color:#2a2a32" role="dialog" aria-modal="true">
+  <div class="flex items-start justify-between gap-4"><div><h2 class="font-display text-xl font-bold text-white">Choose Your Plan</h2><p class="mt-1 text-slate-400 text-sm">Premium and Super Pro are unlocked with an activation code.</p></div><button class="btn btn-g sm" data-act="closePlans">✕</button></div>
   <div id="planCards" class="mt-6 grid gap-4 md:grid-cols-3"></div>
-  <div id="codeBox" class="off mt-6 rounded-xl border border-slate-700 bg-slate-900/60 p-5">
-    <div class="font-bold text-white">Activation Code for <span id="codePlan" class="text-[#76b900]"></span></div>
-    <div class="mt-3 flex flex-col gap-3 sm:flex-row"><input id="codeIn" class="field" placeholder="Enter code" inputmode="numeric" autocomplete="off" maxlength="12"><button id="codeGo" class="btn btn-p sm:w-48" style="height:46px;background:#76b900;color:#000">Unlock</button></div>
+  <div id="codeBox" class="off mt-6 rounded-lg border border-slate-800 bg-[#0a0a0c] p-5">
+    <div class="font-bold text-white text-sm">Activation Code for <span id="codePlan" class="text-[#76b900]"></span></div>
+    <div class="mt-3 flex flex-col gap-3 sm:flex-row"><input id="codeIn" class="field" placeholder="Enter code" inputmode="numeric" autocomplete="off" maxlength="12"><button id="codeGo" class="btn btn-p sm:w-48" style="height:44px">Unlock</button></div>
     <div id="codeMsg" class="err off"></div>
   </div>
 </div></div>
 
 <!-- END MODAL -->
-<div id="endModal" class="scrim" style="z-index:150"><div class="glass mt-[12vh] w-full max-w-md rounded-2xl p-7 text-center" style="background:#1a1a1f;border-color:#2a2a32">
-  <div class="font-display text-2xl font-extrabold text-white">Session Expired</div>
-  <p class="mt-3 text-slate-300">Your 30 free minutes are up. Use code <b class="text-[#76b900]">1902</b> to upgrade to Premium and play unlimited.</p>
-  <div class="mt-6 flex flex-col gap-3 sm:flex-row"><button class="btn btn-p flex-1" data-act="upgrade" style="background:#76b900;color:#000">Upgrade Now</button><button class="btn btn-g flex-1" data-act="closeEnd">Close</button></div>
+<div id="endModal" class="scrim" style="z-index:150"><div class="glass mt-[12vh] w-full max-w-md rounded-xl p-7 text-center" style="background:#141418;border-color:#2a2a32">
+  <div class="font-display text-xl font-bold text-white">Session Expired</div>
+  <p class="mt-3 text-slate-300 text-sm">Your 30 free minutes are up. Use code <b class="text-[#76b900]">1902</b> to upgrade to Premium and play unlimited.</p>
+  <div class="mt-6 flex flex-col gap-3 sm:flex-row"><button class="btn btn-p flex-1" data-act="upgrade">Upgrade Now</button><button class="btn btn-g flex-1" data-act="closeEnd">Close</button></div>
 </div></div>
 
 <!-- QUEUE OVERLAY -->
 <div id="queue" class="off fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-slate-950 p-4">
   <canvas id="qBg" class="absolute inset-0 h-full w-full object-cover" style="opacity:.28;filter:blur(6px)"></canvas>
   <div class="absolute inset-0" style="background:radial-gradient(800px 500px at 50% 40%,transparent,#020617 80%)"></div>
-  <div class="glass relative w-full max-w-lg rounded-2xl p-8 text-center glow" style="background:#1a1a1f;border-color:#2a2a32">
+  <div class="glass relative w-full max-w-lg rounded-xl p-8 text-center" style="background:#141418;border-color:#2a2a32">
     <div class="flex items-center justify-center gap-2"><span id="qPlan" class="chip c-free"></span><span class="chip" style="background:rgba(118,185,0,.1);color:#76b900">● <span id="qRegion"></span></span></div>
-    <h2 id="qGame" class="font-display mt-4 text-2xl font-extrabold text-white"></h2>
-    <div class="mt-6 text-sm font-semibold uppercase tracking-[.25em] text-slate-400" id="qLabel">Queue Position</div>
-    <div id="qNum" class="font-display my-2 text-8xl font-extrabold text-[#76b900]" style="text-shadow:0 0 40px rgba(118,185,0,.5)"></div>
-    <div id="qText" class="text-lg text-slate-200"></div>
-    <div class="mt-5 h-2 overflow-hidden rounded bg-slate-800"><div id="qBar" class="h-2 rounded bg-[#76b900] transition-all duration-700" style="width:0"></div></div>
-    <div id="qEta" class="mt-2 text-sm text-slate-400"></div>
+    <h2 id="qGame" class="font-display mt-4 text-xl font-bold text-white"></h2>
+    <div class="mt-6 text-xs font-semibold uppercase tracking-[.25em] text-slate-400" id="qLabel">Queue Position</div>
+    <div id="qNum" class="font-display my-2 text-7xl font-bold text-[#76b900]" style="text-shadow:0 0 40px rgba(118,185,0,.5)"></div>
+    <div id="qText" class="text-base text-slate-200"></div>
+    <div class="mt-5 h-1.5 overflow-hidden rounded bg-slate-800"><div id="qBar" class="h-1.5 rounded bg-[#76b900] transition-all duration-700" style="width:0"></div></div>
+    <div id="qEta" class="mt-2 text-xs text-slate-400"></div>
     <ul id="qSteps" class="mt-6 space-y-3 text-left"></ul>
-    <p id="qHint" class="mt-5 text-sm text-slate-500"></p>
+    <p id="qHint" class="mt-5 text-xs text-slate-500"></p>
     <button id="qCancel" class="btn btn-g mt-5">Cancel</button>
   </div>
 </div>
@@ -304,19 +325,19 @@ input[type=range]{accent-color:#38bdf8;width:180px}
       <span id="hGame" class="font-display hidden text-xs tracking-widest text-slate-300 sm:block"></span>
     </div>
     <div class="flex flex-col items-end gap-2">
-      <div id="hTimer" class="off font-display rounded-lg px-3 py-1.5 text-lg font-extrabold tracking-wider" style="background:rgba(2,6,23,.72);border:1px solid rgba(148,163,184,.25)"></div>
-      <div id="hStats" class="off rounded-lg px-3 py-1.5 text-sm font-semibold text-slate-200" style="background:rgba(2,6,23,.72);border:1px solid rgba(148,163,184,.2);font-variant-numeric:tabular-nums"></div>
+      <div id="hTimer" class="off font-display rounded-lg px-3 py-1.5 text-base font-bold tracking-wider" style="background:rgba(2,6,23,.72);border:1px solid rgba(148,163,184,.25)"></div>
+      <div id="hStats" class="off rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-200" style="background:rgba(2,6,23,.72);border:1px solid rgba(148,163,184,.2);font-variant-numeric:tabular-nums"></div>
     </div>
   </div>
   <div id="pause" class="off absolute inset-0 flex items-center justify-center bg-slate-950/85 p-4 backdrop-blur-md">
-    <div class="glass flex max-h-[92vh] w-full max-w-2xl flex-col rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32">
-      <div class="font-display text-center text-3xl font-extrabold text-white">PAUSED</div>
+    <div class="glass flex max-h-[92vh] w-full max-w-2xl flex-col rounded-xl p-6" style="background:#141418;border-color:#2a2a32">
+      <div class="font-display text-center text-2xl font-bold text-white">PAUSED</div>
       <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <button class="btn btn-p" data-act="resume" style="background:#76b900;color:#000">Resume</button><button class="btn btn-g" data-act="restart">Restart</button>
+        <button class="btn btn-p" data-act="resume">Resume</button><button class="btn btn-g" data-act="restart">Restart</button>
         <button class="btn btn-g" data-act="fs">Fullscreen</button><button class="btn btn-d" data-act="quit">Quit</button>
       </div>
       <div class="mt-5 overflow-y-auto pr-2" id="pSet"></div>
-      <p class="mt-3 text-center text-sm text-slate-500">Tip: P or Esc opens this menu</p>
+      <p class="mt-3 text-center text-xs text-slate-500">Tip: P or Esc opens this menu</p>
     </div>
   </div>
 </div>
@@ -349,7 +370,7 @@ const db=getDatabase(fbApp);
 const W=1280,H=720;
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rnd=(a,b)=>a+Math.random()*(b-a),lerp=(a,b,t)=>a+(b-a)*t;
-const COLORS=['#38bdf8','#4ade80','#fbbf24','#f87171','#c084fc','#e2e8f0'];
+const COLORS=['#76b900','#38bdf8','#fbbf24','#f87171','#c084fc','#e2e8f0'];
 const PLAN_NAME={free:'FREE',premium:'PREMIUM',pro:'SUPER PRO'};
 const ACTIVATION_CODE='1902';
 const DEF_SET={res:'1080p',fps:'60',quality:'2',bitrate:'auto',region:'auto',vol:60,music:true,fs:true,stats:true};
@@ -363,7 +384,7 @@ const show=(el,on)=>el.classList.toggle('off',!on);
 function msg(sel,text,good){const e=$(sel);e.textContent=text||'';e.classList.toggle('off',!text);e.className=(good?'ok':'err')+(text?'':' off')}
 async function run(btn,label,fn){const o=btn.textContent;btn.disabled=true;btn.textContent='Please wait…';try{return await fn()}finally{btn.disabled=false;btn.textContent=label||o}}
 
-/* ====================== CLOUD SYNC (Realtime Database) ====================== */
+/* ====================== CLOUD SYNC ====================== */
 async function cloudSave(data){
   if(!S.user)return;
   try{await update(ref(db,'users/'+S.user.uid),data)}catch(e){console.warn('Cloud save failed',e.code||e)}
@@ -379,7 +400,7 @@ async function cloudLoad(){
     if(v.scores)for(const id in v.scores){const loc=lsGet('noxura_hs_'+id,0);if(v.scores[id]>loc)lsSet('noxura_hs_'+id,v.scores[id]);else if(loc>v.scores[id])cloudSave({['scores/'+id]:loc})}
     else for(const id in GAMES){const loc=lsGet('noxura_hs_'+id,0);if(loc)cloudSave({['scores/'+id]:loc})}
     lsSet(planKey(),S.plan);
-  }catch(e){console.warn('Cloud load failed (check Database Rules):',e.code||e)}
+  }catch(e){console.warn('Cloud load failed:',e.code||e)}
 }
 function setPlan(p){S.plan=p;lsSet(planKey(),p);cloudSave({plan:p});refreshUI()}
 const getBest=id=>lsGet('noxura_hs_'+id,0);
@@ -444,13 +465,13 @@ class Base{
   overItems(){return[{l:'RETRY',f:()=>this.begin()},{l:'MAIN MENU',f:()=>{this.reset();this.state='menu';this.sel=0}},{l:'QUIT',f:()=>this.h.quit()}]}
   begin(){this.reset();this.state='play';this.newBest=false;this.sfx.tone(520,.15,'square',.12,400)}
   over(){this.state='over';this.sel=0;const s=Math.floor(this.score);if(s>this.best){this.newBest=true;saveBest(this.id,s)}this.sfx.noise(.5,.25)}
-  txt(c,s,x,y,sz=24,col='#fff',al='center',font='Rajdhani',w=700){c.font=`${w} ${sz}px ${font},sans-serif`;c.textAlign=al;c.textBaseline='middle';c.fillStyle=col;c.fillText(s,x,y)}
+  txt(c,s,x,y,sz=24,col='#fff',al='center',font='Inter',w=600){c.font=`${w} ${sz}px ${font},sans-serif`;c.textAlign=al;c.textBaseline='middle';c.fillStyle=col;c.fillText(s,x,y)}
   glow(c,col,b){if(this.q>0){c.shadowColor=col;c.shadowBlur=b*(this.q===1?.55:1)}}
   ng(c){c.shadowBlur=0}
   burst(x,y,col,n=14,sp=300,life=.6,sz=4,g=0){n=Math.ceil(n*(this.q===0?.5:1));if(this.parts.length>500)return;for(let i=0;i<n;i++){const a=Math.random()*6.283,s=rnd(.2,1)*sp;this.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:life*rnd(.6,1.1),m:life,c:col,s:sz*rnd(.6,1.4),g})}}
   updParts(dt){for(let i=this.parts.length-1;i>=0;i--){const p=this.parts[i];p.l-=dt;if(p.l<=0){this.parts.splice(i,1);continue}p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=p.g*dt}}
   drawParts(c){for(const p of this.parts){c.globalAlpha=clamp(p.l/p.m,0,1);c.fillStyle=p.c;c.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s)}c.globalAlpha=1}
-  btnRect(n,y0){return{x:W/2-190,y:y0+n*74,w:380,h:58}}
+  btnRect(n,y0){return{x:W/2-170,y:y0+n*66,w:340,h:52}}
   update(dt){
     this.t+=dt;this.shake=Math.max(0,this.shake-dt*2.2);this.flash=Math.max(0,this.flash-dt*3);this.updParts(dt);
     if(this.state==='play')this.step(dt);
@@ -471,20 +492,20 @@ class Base{
     if(this.flash>0){c.fillStyle=`rgba(255,255,255,${this.flash*.5})`;c.fillRect(0,0,W,H)}
     if(this.state==='menu')this.drawMenu(c);else if(this.state==='over')this.drawOver(c);
   }
-  btns(c,items,y0){items.forEach((it,n)=>{const r=this.btnRect(n,y0),on=n===this.sel;c.save();rr(c,r.x,r.y,r.w,r.h,12);c.fillStyle=on?'#76b900':'rgba(15,23,42,.85)';if(on)this.glow(c,'#76b900',22);c.fill();this.ng(c);c.lineWidth=2;c.strokeStyle=on?'#bae6fd':'rgba(148,163,184,.35)';c.stroke();c.restore();this.txt(c,it.l,W/2,r.y+r.h/2+1,26,on?'#04121c':'#e2e8f0','center','Rajdhani',700)})}
+  btns(c,items,y0){items.forEach((it,n)=>{const r=this.btnRect(n,y0),on=n===this.sel;c.save();rr(c,r.x,r.y,r.w,r.h,10);c.fillStyle=on?'#76b900':'rgba(15,23,42,.9)';if(on)this.glow(c,'#76b900',20);c.fill();this.ng(c);c.lineWidth=2;c.strokeStyle=on?'#bae6fd':'rgba(148,163,184,.3)';c.stroke();c.restore();this.txt(c,it.l,W/2,r.y+r.h/2+1,22,on?'#04121c':'#e2e8f0','center','Inter',600)})}
   drawMenu(c){
-    c.fillStyle='rgba(5,8,20,.62)';c.fillRect(0,0,W,H);
-    c.save();this.glow(c,'#76b900',30);this.txt(c,this.title,W/2,165,this.title.length>18?60:76,'#fff','center','Orbitron',800);c.restore();
-    this.txt(c,this.tag.toUpperCase(),W/2,232,24,'#76b900');
-    if(this.best)this.txt(c,'HIGH SCORE  '+this.best,W/2,285,22,'#94a3b8');
+    c.fillStyle='rgba(5,8,20,.65)';c.fillRect(0,0,W,H);
+    c.save();this.glow(c,'#76b900',24);this.txt(c,this.title,W/2,165,this.title.length>18?54:68,'#fff','center','Rajdhani',700);c.restore();
+    this.txt(c,this.tag.toUpperCase(),W/2,232,20,'#76b900','center','Inter',600);
+    if(this.best)this.txt(c,'HIGH SCORE  '+this.best,W/2,280,18,'#94a3b8','center','Inter',500);
     this.btns(c,this.mainItems(),360);
-    if(this.help)this.helpText.forEach((l,i)=>this.txt(c,l,W/2,604+i*27,20,'#cbd5e1'));
+    if(this.help)this.helpText.forEach((l,i)=>this.txt(c,l,W/2,600+i*24,18,'#cbd5e1','center','Inter',400));
   }
   drawOver(c){
-    c.fillStyle='rgba(5,8,20,.72)';c.fillRect(0,0,W,H);
-    c.save();this.glow(c,'#ff2d86',30);this.txt(c,'GAME OVER',W/2,180,78,'#ff2d86','center','Orbitron',800);c.restore();
-    this.txt(c,'SCORE  '+Math.floor(this.score),W/2,265,38,'#fff');
-    this.txt(c,this.newBest?'★ NEW HIGH SCORE! ★':'BEST  '+this.best,W/2,318,26,this.newBest?'#ffd23f':'#94a3b8');
+    c.fillStyle='rgba(5,8,20,.75)';c.fillRect(0,0,W,H);
+    c.save();this.glow(c,'#ff2d86',24);this.txt(c,'GAME OVER',W/2,180,68,'#ff2d86','center','Rajdhani',700);c.restore();
+    this.txt(c,'SCORE  '+Math.floor(this.score),W/2,265,32,'#fff','center','Inter',700);
+    this.txt(c,this.newBest?'★ NEW HIGH SCORE! ★':'BEST  '+this.best,W/2,318,22,this.newBest?'#ffd23f':'#94a3b8','center','Inter',500);
     this.btns(c,this.overItems(),400);
   }
 }
@@ -492,7 +513,7 @@ class Base{
 /* ====================== GAME 1: CYBER RUNNER 3D ====================== */
 class Runner extends Base{
   constructor(h){super(h);this.id='runner';this.title='CYBER RUNNER 3D';this.tag='Synthwave Endless Runner';
-    this.helpText=['← → / A D : Change lane','↑ / W / SPACE : Jump','Avoid high walls, jump over low barriers','Collect coins for bonus points – it gets faster and faster'];
+    this.helpText=['← → / A D : Change lane','↑ / W / SPACE : Jump','Avoid high walls, jump over low barriers','Collect coins for bonus points'];
     this.stars=Array.from({length:70},()=>({x:rnd(0,W),y:rnd(0,260),s:rnd(.6,2.2)}));this.mt=Array.from({length:30},()=>rnd(25,95));this.reset()}
   reset(){this.lane=1;this.lx=1;this.jh=0;this.jv=0;this.trav=0;this.speed=24;this.obs=[];this.spawnD=30;this.coins=0;this.score=0;this.bt=0;this.bend=0;this.parts=[]}
   idle(dt){this.trav+=dt*28;this.bt+=dt*.2;this.bend=Math.sin(this.bt)*.45}
@@ -514,7 +535,6 @@ class Runner extends Base{
       if(o.d<-3)this.obs.splice(k,1);
     }
     this.score=Math.floor(this.trav*.5+this.coins*50);
-    if(Math.random()<.3)this.parts.push({x:W/2+(this.lx-1)*200+rnd(-30,30),y:H*.9-this.jh+rnd(-10,10),vx:rnd(-40,40),vy:rnd(100,260),l:.4,m:.4,c:'#38bdf8',s:3,g:0});
   }
   crash(){this.burst(W/2+(this.lx-1)*200,H*.9-this.jh-30,'#ff2d86',50,520,.9,6);this.burst(W/2+(this.lx-1)*200,H*.9-this.jh-30,'#38bdf8',30,420,.8,5);this.shake=1;this.flash=.8;this.over()}
   spawn(){
@@ -549,7 +569,6 @@ class Runner extends Base{
       else{const w=170*p,h=200*p;c.save();this.glow(c,'#38bdf8',20);c.fillStyle='#0a1730';c.fillRect(x-w/2,y-h,w,h);c.strokeStyle='#38bdf8';c.lineWidth=Math.max(1.5,5*p);c.strokeRect(x-w/2,y-h,w,h);c.restore();c.strokeStyle='rgba(56,189,248,.45)';c.lineWidth=Math.max(1,2*p);for(let k=1;k<6;k++){c.beginPath();c.moveTo(x-w/2,y-h+k*h/6);c.lineTo(x+w/2,y-h+k*h/6);c.stroke()}c.fillStyle='rgba(255,45,134,.9)';c.fillRect(x-w/2+w*.1,y-h*.55,w*.8,Math.max(2,10*p))}
     }
     c.globalAlpha=1;
-    if(this.speed>40&&this.state==='play'){c.strokeStyle='rgba(255,255,255,.12)';c.lineWidth=2;for(let k=0;k<10;k++){const a=Math.random()*6.283,r=rnd(300,700);c.beginPath();c.moveTo(W/2+Math.cos(a)*r*.5,hy+Math.sin(a)*r*.25+60);c.lineTo(W/2+Math.cos(a)*r,hy+Math.sin(a)*r*.5+60);c.stroke()}}
     const px=W/2+(this.lx-1)*200,py=by-this.jh;
     c.fillStyle='rgba(0,0,0,.5)';c.beginPath();c.ellipse(px,by+8,Math.max(30,74-this.jh*.25),Math.max(6,14-this.jh*.05),0,0,7);c.fill();
     if(!(this.state==='over')){
@@ -565,9 +584,9 @@ class Runner extends Base{
     this.drawParts(c);
   }
   hud(c){
-    this.txt(c,'SCORE',40,38,18,'#94a3b8','left');this.txt(c,String(Math.floor(this.score)),40,72,48,'#fff','left','Orbitron',800);
-    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');this.txt(c,'● '+this.coins,W-40,72,34,'#ffd23f','right','Orbitron',800);
-    c.fillStyle='rgba(15,23,42,.7)';c.fillRect(40,H-50,240,12);c.fillStyle='#38bdf8';c.fillRect(40,H-50,240*(this.speed-24)/46+10,12);this.txt(c,'SPEED '+Math.floor(this.speed*3.6)+' km/h',40,H-68,16,'#94a3b8','left');
+    this.txt(c,'SCORE',40,38,16,'#94a3b8','left','Inter',500);this.txt(c,String(Math.floor(this.score)),40,72,40,'#fff','left','Inter',700);
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,16,'#94a3b8','right','Inter',500);this.txt(c,'● '+this.coins,W-40,72,28,'#ffd23f','right','Inter',700);
+    c.fillStyle='rgba(15,23,42,.7)';c.fillRect(40,H-50,240,10);c.fillStyle='#38bdf8';c.fillRect(40,H-50,240*(this.speed-24)/46+10,10);this.txt(c,'SPEED '+Math.floor(this.speed*3.6)+' km/h',40,H-66,14,'#94a3b8','left','Inter',500);
   }
 }
 
@@ -658,7 +677,7 @@ class Shooter extends Base{
   draw(c){
     let g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#02030c');g.addColorStop(1,'#0a0f2a');c.fillStyle=g;c.fillRect(-20,-20,W+40,H+40);
     for(const s of this.stars){c.globalAlpha=.3+s.l*.3;c.fillStyle=s.l===2?'#bae6fd':'#fff';c.fillRect(s.x,s.y,1+s.l*.8,1+s.l*1.5)}c.globalAlpha=1;
-    for(const u of this.pu){c.save();this.glow(c,'#fff',14);c.fillStyle={S:'#38bdf8',R:'#facc15',H:'#4ade80','+':'#f87171'}[u.t];c.beginPath();c.arc(u.x,u.y,18,0,7);c.fill();c.restore();this.txt(c,u.t,u.x,u.y+1,22,'#04121c')}
+    for(const u of this.pu){c.save();this.glow(c,'#fff',14);c.fillStyle={S:'#38bdf8',R:'#facc15',H:'#4ade80','+':'#f87171'}[u.t];c.beginPath();c.arc(u.x,u.y,18,0,7);c.fill();c.restore();this.txt(c,u.t,u.x,u.y+1,20,'#04121c')}
     for(const b of this.b){c.save();this.glow(c,'#38bdf8',10);c.fillStyle='#bae6fd';c.fillRect(b.x-2.5,b.y-12,5,24);c.restore()}
     for(const b of this.eb){c.save();this.glow(c,'#ff2d86',12);c.fillStyle='#ff5aa5';c.beginPath();c.arc(b.x,b.y,b.r,0,7);c.fill();c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,b.r*.4,0,7);c.fill();c.restore()}
     for(const e of this.en)this.drawEnemy(c,e);
@@ -685,12 +704,12 @@ class Shooter extends Base{
     c.restore();
   }
   hud(c){
-    const p=this.p;this.txt(c,String(Math.floor(this.score)),40,40,40,'#fff','left','Orbitron',800);
-    if(this.combo>1)this.txt(c,'COMBO x'+this.combo,40,82,24,'#facc15','left');
-    this.txt(c,'WAVE '+this.wave,W-40,40,26,'#38bdf8','right','Orbitron',700);this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,74,18,'#94a3b8','right');
+    const p=this.p;this.txt(c,String(Math.floor(this.score)),40,40,36,'#fff','left','Inter',700);
+    if(this.combo>1)this.txt(c,'COMBO x'+this.combo,40,82,20,'#facc15','left','Inter',600);
+    this.txt(c,'WAVE '+this.wave,W-40,40,24,'#38bdf8','right','Inter',700);this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,74,16,'#94a3b8','right','Inter',500);
     for(let i=0;i<p.hp;i++){c.fillStyle='#f87171';c.beginPath();c.moveTo(W/2-60+i*28,34);c.lineTo(W/2-48+i*28,52);c.lineTo(W/2-72+i*28,52);c.closePath();c.fill()}
-    let y=H-30;[['SHIELD',p.sh,8,'#4ade80'],['SPREAD',p.spread,10,'#38bdf8'],['RAPID',p.rapid,10,'#facc15']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,40,y,15,col,'left');c.fillStyle='rgba(255,255,255,.12)';c.fillRect(150,y-5,140,10);c.fillStyle=col;c.fillRect(150,y-5,140*v/m,10);y-=26}});
-    if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);c.save();this.glow(c,'#38bdf8',26);this.txt(c,this.bt,W/2,H*.35,64,'#fff','center','Orbitron',800);c.restore();c.globalAlpha=1}
+    let y=H-30;[['SHIELD',p.sh,8,'#4ade80'],['SPREAD',p.spread,10,'#38bdf8'],['RAPID',p.rapid,10,'#facc15']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,40,y,14,col,'left','Inter',600);c.fillStyle='rgba(255,255,255,.12)';c.fillRect(150,y-5,140,10);c.fillStyle=col;c.fillRect(150,y-5,140*v/m,10);y-=24}});
+    if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);c.save();this.glow(c,'#38bdf8',26);this.txt(c,this.bt,W/2,H*.35,56,'#fff','center','Rajdhani',700);c.restore();c.globalAlpha=1}
     const boss=this.en.find(e=>e.k==='boss');if(boss){c.fillStyle='rgba(255,255,255,.12)';c.fillRect(W/2-300,92,600,12);c.fillStyle='#ff2d86';c.fillRect(W/2-300,92,600*boss.hp/boss.mx,12)}
   }
 }
@@ -748,11 +767,11 @@ class Hex extends Base{
     this.drawParts(c);
   }
   hud(c){
-    this.txt(c,'SCORE',40,38,18,'#94a3b8','left');this.txt(c,String(Math.floor(this.score)),40,72,46,'#fff','left','Orbitron',800);
-    this.txt(c,'LEVEL '+this.lvl,40,116,24,'#38bdf8','left','Orbitron',700);
-    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');
-    this.txt(c,'NEXT',W-60,90,16,'#94a3b8','right');c.save();this.glow(c,HC[this.next],12);rr(c,W-52,76,26,26,6);c.fillStyle=HC[this.next];c.fill();c.restore();
-    if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);this.txt(c,'LEVEL '+this.lvl,W/2,120,56,'#fff','center','Orbitron',800);c.globalAlpha=1}
+    this.txt(c,'SCORE',40,38,16,'#94a3b8','left','Inter',500);this.txt(c,String(Math.floor(this.score)),40,72,40,'#fff','left','Inter',700);
+    this.txt(c,'LEVEL '+this.lvl,40,116,20,'#38bdf8','left','Inter',600);
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,16,'#94a3b8','right','Inter',500);
+    this.txt(c,'NEXT',W-60,90,14,'#94a3b8','right','Inter',500);c.save();this.glow(c,HC[this.next],12);rr(c,W-52,76,26,26,6);c.fillStyle=HC[this.next];c.fill();c.restore();
+    if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);this.txt(c,'LEVEL '+this.lvl,W/2,120,48,'#fff','center','Rajdhani',700);c.globalAlpha=1}
   }
 }
 
@@ -824,7 +843,7 @@ class Brick extends Base{
     c.strokeStyle='rgba(168,85,247,.09)';c.lineWidth=1;const o=(this.t*20)%48;for(let x=AL;x<=AR;x+=48){c.beginPath();c.moveTo(x,AT);c.lineTo(x,H);c.stroke()}for(let y=AT+o;y<H;y+=48){c.beginPath();c.moveTo(AL,y);c.lineTo(AR,y);c.stroke()}
     c.save();this.glow(c,'#a855f7',18);c.strokeStyle='#a855f7';c.lineWidth=3;c.beginPath();c.moveTo(AL-3,H);c.lineTo(AL-3,AT-3);c.lineTo(AR+3,AT-3);c.lineTo(AR+3,H);c.stroke();c.restore();
     for(const k of this.br){c.save();this.glow(c,k.c,10);rr(c,k.x,k.y,k.w,k.h,6);c.fillStyle=k.fl>0?'#fff':k.c;c.globalAlpha=.55+.45*k.hp/k.mx;if(k.fl>0)k.fl-=.016;c.fill();c.restore();c.globalAlpha=1;c.fillStyle='rgba(255,255,255,.28)';rr(c,k.x+3,k.y+3,k.w-6,7,3);c.fill();if(k.mx>1){c.fillStyle='rgba(0,0,0,.4)';for(let d=0;d<k.hp;d++)c.fillRect(k.x+8+d*10,k.y+k.h-10,7,4)}}
-    for(const u of this.pus){const col={W:'#38bdf8',M:'#ff2d86',S:'#4ade80',L:'#ef4444','+':'#facc15'}[u.t];c.save();this.glow(c,col,14);rr(c,u.x-18,u.y-12,36,24,12);c.fillStyle=col;c.fill();c.restore();this.txt(c,u.t,u.x,u.y+1,18,'#04121c')}
+    for(const u of this.pus){const col={W:'#38bdf8',M:'#ff2d86',S:'#4ade80',L:'#ef4444','+':'#facc15'}[u.t];c.save();this.glow(c,col,14);rr(c,u.x-18,u.y-12,36,24,12);c.fillStyle=col;c.fill();c.restore();this.txt(c,u.t,u.x,u.y+1,18,'#04121c','center','Inter',700)}
     c.fillStyle='#ff6b6b';for(const l of this.las){c.save();this.glow(c,'#ef4444',10);c.fillRect(l.x-2,l.y-16,4,26);c.restore()}
     c.save();this.glow(c,'#38bdf8',20);rr(c,this.px-this.pw/2,PY,this.pw,16,8);g=c.createLinearGradient(0,PY,0,PY+16);g.addColorStop(0,'#bae6fd');g.addColorStop(1,'#0ea5e9');c.fillStyle=g;c.fill();c.restore();
     if(this.fx.laser>0){c.fillStyle='#ef4444';c.fillRect(this.px-this.pw/2+6,PY-8,8,10);c.fillRect(this.px+this.pw/2-14,PY-8,8,10)}
@@ -832,13 +851,13 @@ class Brick extends Base{
     this.drawParts(c);
   }
   hud(c){
-    this.txt(c,String(Math.floor(this.score)),AL,38,40,'#fff','left','Orbitron',800);this.txt(c,'LEVEL '+this.level,W/2,38,26,'#38bdf8','center','Orbitron',700);
+    this.txt(c,String(Math.floor(this.score)),AL,38,36,'#fff','left','Inter',700);this.txt(c,'LEVEL '+this.level,W/2,38,24,'#38bdf8','center','Inter',700);
     for(let i=0;i<this.lives;i++){c.fillStyle='#f87171';c.beginPath();c.arc(AR-14-i*28,38,9,0,7);c.fill()}
-    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),AR,62,16,'#94a3b8','right');
-    if(this.combo>2)this.txt(c,'COMBO x'+this.combo,AL,66,20,'#facc15','left');
-    let y=H-24;[['WIDE',this.fx.wide,14,'#38bdf8'],['SLOW',this.fx.slow,10,'#4ade80'],['LASER',this.fx.laser,12,'#ef4444']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,AL+10,y,15,col,'left');c.fillStyle='rgba(255,255,255,.12)';c.fillRect(AL+70,y-5,110,10);c.fillStyle=col;c.fillRect(AL+70,y-5,110*v/m,10);y-=24}});
-    if(this.balls.some(b=>b.stuck)&&this.state==='play')this.txt(c,'SPACE / CLICK TO START',W/2,H*.62,28,'#e2e8f0');
-    if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);this.txt(c,'LEVEL '+this.level,W/2,H*.45,70,'#fff','center','Orbitron',800);c.globalAlpha=1}
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),AR,62,14,'#94a3b8','right','Inter',500);
+    if(this.combo>2)this.txt(c,'COMBO x'+this.combo,AL,66,18,'#facc15','left','Inter',600);
+    let y=H-24;[['WIDE',this.fx.wide,14,'#38bdf8'],['SLOW',this.fx.slow,10,'#4ade80'],['LASER',this.fx.laser,12,'#ef4444']].forEach(([n,v,m,col])=>{if(v>0){this.txt(c,n,AL+10,y,14,col,'left','Inter',600);c.fillStyle='rgba(255,255,255,.12)';c.fillRect(AL+70,y-5,110,10);c.fillStyle=col;c.fillRect(AL+70,y-5,110*v/m,10);y-=24}});
+    if(this.balls.some(b=>b.stuck)&&this.state==='play')this.txt(c,'SPACE / CLICK TO START',W/2,H*.62,24,'#e2e8f0','center','Inter',600);
+    if(this.banner>0){c.globalAlpha=clamp(this.banner,0,1);this.txt(c,'LEVEL '+this.level,W/2,H*.45,60,'#fff','center','Rajdhani',700);c.globalAlpha=1}
   }
 }
 
@@ -913,7 +932,7 @@ class Voxel extends Base{
       if(pl.sp)this.cube(c,pl.x+pl.w/2-16,pl.y-14,32,14,6,'#ff7b7b','#e63f3f','#a82a2a');
     }
     for(const g of this.gems){if(g.got)continue;const w=Math.abs(Math.cos(this.t*3+g.x))*14+3;c.save();this.glow(c,'#67e8f9',12);c.fillStyle='#67e8f9';c.beginPath();c.moveTo(g.x,g.y-16);c.lineTo(g.x+w,g.y);c.lineTo(g.x,g.y+16);c.lineTo(g.x-w,g.y);c.closePath();c.fill();c.restore()}
-    for(const k of this.pk){if(k.got)continue;this.cube(c,k.x-17,k.y-17,34,34,8,'#ffd166','#e09f1f','#b87a10');this.txt(c,'J',k.x,k.y+1,22,'#5c3a00')}
+    for(const k of this.pk){if(k.got)continue;this.cube(c,k.x-17,k.y-17,34,34,8,'#ffd166','#e09f1f','#b87a10');this.txt(c,'J',k.x,k.y+1,20,'#5c3a00','center','Inter',700)}
     for(const b of this.bugs){if(b.dead)continue;const x=b.x+b.bx;this.cube(c,x-22,b.y-22,44,44,10,'#b983ff','#7a3fd1','#5a2aa1');c.fillStyle='#ff4d4d';c.fillRect(x-14,b.y-8,9,9);c.fillRect(x+5,b.y-8,9,9);c.fillStyle='#fff';c.fillRect(x-14,b.y+8,28,4)}
     const p=this.p;
     if(this.state!=='over'){
@@ -925,18 +944,18 @@ class Voxel extends Base{
     this.drawParts(c);c.restore();
   }
   hud(c){
-    this.txt(c,Math.floor(this.hmax)+' m',40,44,46,'#fff','left','Orbitron',800);this.txt(c,'◆ '+this.gc,40,92,26,'#67e8f9','left','Orbitron',700);
-    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#e2e8f0','right');
+    this.txt(c,Math.floor(this.hmax)+' m',40,44,40,'#fff','left','Inter',700);this.txt(c,'◆ '+this.gc,40,92,24,'#67e8f9','left','Inter',600);
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,18,'#e2e8f0','right','Inter',500);
     if(this.p.jet>0){c.fillStyle='rgba(0,0,0,.3)';c.fillRect(W-240,60,200,10);c.fillStyle='#ffb703';c.fillRect(W-240,60,200*this.p.jet/2.2,10)}
   }
 }
 
-/* ====================== GAME 6: NEON DRIFT RACER ====================== */
+/* ====================== GAME 6: NEON DRIFT RACER (Slowroads style) ====================== */
 class Racer extends Base{
   constructor(h){super(h);this.id='racer';this.title='NEON DRIFT RACER';this.tag='3D Synthwave Racing';
     this.helpText=['↑ / W : Accelerate','↓ / S : Brake','← → / A D : Steer','Collect boost pads and avoid obstacles – reach the finish line!'];
     this.stars=Array.from({length:80},()=>({x:rnd(0,W),y:rnd(0,300),s:rnd(.6,2)}));this.mt=Array.from({length:20},()=>rnd(30,100));this.reset()}
-  reset(){this.lane=1;this.lx=1;this.speed=0;this.maxSpeed=110;this.dist=0;this.trav=0;this.obs=[];this.spawnD=0;this.score=0;this.bt=0;this.bend=0;this.parts=[];this.boost=0;this.finished=false;this.time=0}
+  reset(){this.lane=1;this.lx=1;this.speed=0;this.maxSpeed=110;this.dist=0;this.trav=0;this.obs=[];this.spawnD=0;this.score=0;this.bt=0;this.bend=0;this.parts=[];this.boost=0;this.finished=false;this.time=0;this.roadCurve=0;this.curveTarget=0}
   idle(dt){this.trav+=dt*20;this.bt+=dt*.15;this.bend=Math.sin(this.bt)*.4}
   step(dt){
     if(this.finished)return;
@@ -951,6 +970,10 @@ class Racer extends Base{
     this.lx=lerp(this.lx,this.lane,1-Math.pow(.0001,dt));
     this.dist+=this.speed*dt;this.trav+=this.speed*dt;
     this.bt+=dt*.1*(this.speed/80);this.bend=Math.sin(this.bt)*.4;
+    this.time+=dt;
+    // Dynamic road curvature
+    if(Math.random()<0.01)this.curveTarget=rnd(-0.5,0.5);
+    this.roadCurve=lerp(this.roadCurve,this.curveTarget,1-Math.pow(.001,dt));
     this.spawnD-=this.speed*dt;
     if(this.spawnD<=0){
       this.spawnD=Math.max(30,this.speed*.8)+rnd(0,20);
@@ -970,7 +993,7 @@ class Racer extends Base{
   }
   crash(){this.burst(W/2+(this.lx-1)*200,H*.85,'#ff2d86',60,540,.9,7);this.burst(W/2+(this.lx-1)*200,H*.85,'#38bdf8',30,400,.8,5);this.shake=1;this.flash=.8;this.over()}
   draw(c){
-    const hy=H*.4,by=H*.88,P=d=>1/(1+d*.1),Y=d=>hy+(by-hy)*P(d),X=(l,d)=>W/2+(l+this.bend*d*d)*P(d);
+    const hy=H*.4,by=H*.88,P=d=>1/(1+d*.1),Y=d=>hy+(by-hy)*P(d),X=(l,d)=>W/2+(l+this.bend*d*d+this.roadCurve*d*.5)*P(d);
     let g=c.createLinearGradient(0,0,0,hy);g.addColorStop(0,'#04010e');g.addColorStop(.55,'#1a0533');g.addColorStop(1,'#ff2d86');c.fillStyle=g;c.fillRect(-20,-20,W+40,hy+21);
     c.fillStyle='#fff';for(const s of this.stars){c.globalAlpha=.35+.65*Math.abs(Math.sin(this.t*s.s+s.x));c.fillRect(s.x,s.y,s.s,s.s)}c.globalAlpha=1;
     const sx=W/2-this.bend*140,sy=hy-60;g=c.createLinearGradient(0,sy-130,0,sy+130);g.addColorStop(0,'#ffe66d');g.addColorStop(1,'#ff2d86');
@@ -1009,12 +1032,182 @@ class Racer extends Base{
     this.drawParts(c);
   }
   hud(c){
-    this.txt(c,'SCORE',40,38,18,'#94a3b8','left');this.txt(c,String(Math.floor(this.score)),40,72,48,'#fff','left','Orbitron',800);
-    this.txt(c,'DIST '+Math.floor(this.dist/10)+'m',40,116,24,'#38bdf8','left','Orbitron',700);
-    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,20,'#94a3b8','right');
-    if(this.boost>0){this.txt(c,'BOOST',W-40,72,34,'#ffd23f','right','Orbitron',800)}
-    c.fillStyle='rgba(15,23,42,.7)';c.fillRect(40,H-50,240,12);c.fillStyle=this.boost>0?'#ffd23f':'#38bdf8';c.fillRect(40,H-50,240*(this.speed/this.maxSpeed),12);
-    this.txt(c,'SPEED '+Math.floor(this.speed*3.6)+' km/h',40,H-68,16,'#94a3b8','left');
+    this.txt(c,'SCORE',40,38,16,'#94a3b8','left','Inter',500);this.txt(c,String(Math.floor(this.score)),40,72,40,'#fff','left','Inter',700);
+    this.txt(c,'DIST '+Math.floor(this.dist/10)+'m',40,116,20,'#38bdf8','left','Inter',600);
+    this.txt(c,'BEST '+Math.max(this.best,Math.floor(this.score)),W-40,38,18,'#94a3b8','right','Inter',500);
+    if(this.boost>0){this.txt(c,'BOOST',W-40,72,28,'#ffd23f','right','Inter',700)}
+    c.fillStyle='rgba(15,23,42,.7)';c.fillRect(40,H-50,240,10);c.fillStyle=this.boost>0?'#ffd23f':'#38bdf8';c.fillRect(40,H-50,240*(this.speed/this.maxSpeed),10);
+    this.txt(c,'SPEED '+Math.floor(this.speed*3.6)+' km/h',40,H-66,14,'#94a3b8','left','Inter',500);
+  }
+}
+
+/* ====================== GAME 7: NOXURA 3D SHOOTER ====================== */
+class FpsShooter extends Base{
+  constructor(h){super(h);this.id='fps';this.title='NOXURA 3D SHOOTER';this.tag='3D First-Person Shooter';
+    this.helpText=['WASD : Move','Mouse : Look','Left Click : Shoot','SPACE : Jump','R : Reload','Survive waves of enemies in the arena!'];
+    this.enemies=[];this.bullets=[];this.wave=0;this.reset()}
+  reset(){
+    this.px=W/2;this.py=H/2;this.pz=0;this.pAngle=0;this.pPitch=0;this.health=100;this.ammo=30;this.maxAmmo=30;this.reloading=0;this.score=0;this.wave=0;this.enemies=[];this.bullets=[];this.parts=[];this.waveTimer=0;this.state='play';
+    this.nextWave();
+  }
+  nextWave(){
+    this.wave++;
+    const count=3+this.wave*2;
+    for(let i=0;i<count;i++){
+      this.enemies.push({x:rnd(-400,400),z:rnd(300,800),hp:30+this.wave*10,maxHp:30+this.wave*10,speed:30+this.wave*5,type:Math.random()<0.3?'fast':'normal'});
+    }
+    this.sfx.tone(400,.3,'square',.15,200);
+  }
+  step(dt){
+    const i=this.in;
+    // Movement
+    const moveSpeed=200*dt;
+    const forwardX=Math.sin(this.pAngle),forwardZ=Math.cos(this.pAngle);
+    const rightX=Math.cos(this.pAngle),rightZ=-Math.sin(this.pAngle);
+    let dx=0,dz=0;
+    if(i.down('KeyW')){dx+=forwardX;dz+=forwardZ}
+    if(i.down('KeyS')){dx-=forwardX;dz-=forwardZ}
+    if(i.down('KeyA')){dx-=rightX;dz-=rightZ}
+    if(i.down('KeyD')){dx+=rightX;dz+=rightZ}
+    const len=Math.hypot(dx,dz)||1;
+    this.px+=dx/len*moveSpeed;
+    this.pz+=dz/len*moveSpeed;
+    this.px=clamp(this.px,-500,500);this.pz=clamp(this.pz,-500,500);
+    
+    // Mouse look
+    if(i.m.down&&i.m.moved){
+      const mx=(i.m.x-W/2)*0.002,my=(i.m.y-H/2)*0.002;
+      this.pAngle+=mx;this.pPitch=clamp(this.pPitch-my,-0.8,0.8);
+    }
+    
+    // Shooting
+    if(i.m.click&&this.ammo>0&&this.reloading<=0){
+      this.ammo--;this.sfx.tone(200,.1,'sawtooth',.15,-300);
+      const spread=0.02;
+      const dirX=Math.sin(this.pAngle)+rnd(-spread,spread),dirZ=Math.cos(this.pAngle)+rnd(-spread,spread);
+      this.bullets.push({x:this.px,y:H/2+this.pPitch*100,z:this.pz,dx:dirX,dz:dirZ,life:1});
+      if(this.ammo<=0)this.reloading=2;
+    }
+    if(this.reloading>0){this.reloading-=dt;if(this.reloading<=0){this.ammo=this.maxAmmo;this.sfx.tone(600,.2,'triangle',.1,300)}}
+    if(i.hit('KeyR')&&this.ammo<this.maxAmmo&&this.reloading<=0){this.reloading=1.5}
+    
+    // Update bullets
+    for(let k=this.bullets.length-1;k>=0;k--){
+      const b=this.bullets[k];
+      b.x+=b.dx*800*dt;b.z+=b.dz*800*dt;b.life-=dt;
+      if(b.life<=0){this.bullets.splice(k,1);continue}
+      for(let j=this.enemies.length-1;j>=0;j--){
+        const e=this.enemies[j];
+        if(Math.hypot(b.x-e.x,b.z-e.z)<40){
+          e.hp-=25;this.bullets.splice(k,1);
+          this.burst(W/2,H/2,'#ff2d86',8,150,.3,4);
+          if(e.hp<=0){this.score+=100;this.burst(W/2,H/2,'#ff2d86',30,300,.6,6);this.enemies.splice(j,1);this.sfx.noise(.3,.2)}
+          break;
+        }
+      }
+    }
+    
+    // Update enemies
+    for(let k=this.enemies.length-1;k>=0;k--){
+      const e=this.enemies[k];
+      const dxE=this.px-e.x,dzE=this.pz-e.z,dist=Math.hypot(dxE,dzE)||1;
+      e.x+=dxE/dist*e.speed*dt;e.z+=dzE/dist*e.speed*dt;
+      if(dist<60){
+        this.health-=10*dt*this.wave;
+        this.shake=0.5;
+        if(this.health<=0){this.over();return}
+      }
+    }
+    
+    if(this.enemies.length===0&&this.waveTimer<=0){
+      this.waveTimer=3;this.sfx.tone(800,.4,'triangle',.15,400);
+    }
+    if(this.waveTimer>0){this.waveTimer-=dt;if(this.waveTimer<=0)this.nextWave()}
+  }
+  draw(c){
+    c.fillStyle='#0a0a0c';c.fillRect(0,0,W,H);
+    const horizon=H/2+this.pPitch*200;
+    // Sky gradient
+    let g=c.createLinearGradient(0,0,0,horizon);
+    g.addColorStop(0,'#02030c');g.addColorStop(1,'#1a0533');c.fillStyle=g;c.fillRect(0,0,W,horizon);
+    // Floor
+    g=c.createLinearGradient(0,horizon,0,H);
+    g.addColorStop(0,'#1a1a1f');g.addColorStop(1,'#0a0a0c');c.fillStyle=g;c.fillRect(0,horizon,W,H-horizon);
+    // Floor grid
+    c.strokeStyle='rgba(118,185,0,.15)';c.lineWidth=1;
+    for(let i=-10;i<=10;i++){
+      const sx=W/2+i*100-this.px*0.5;
+      c.beginPath();c.moveTo(sx,horizon);c.lineTo(sx+(sx-W/2)*2,H);c.stroke();
+    }
+    for(let d=1;d<10;d++){
+      const y=horizon+Math.pow(d/10,1.5)*(H-horizon);
+      c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke();
+    }
+    // Draw enemies
+    for(const e of this.enemies){
+      const relX=e.x-this.px,relZ=e.z-this.pz;
+      const angleToEnemy=Math.atan2(relX,relZ);
+      let angleDiff=angleToEnemy-this.pAngle;
+      while(angleDiff>Math.PI)angleDiff-=2*Math.PI;
+      while(angleDiff<-Math.PI)angleDiff+=2*Math.PI;
+      if(Math.abs(angleDiff)>Math.PI/3)continue;
+      const screenX=W/2+Math.tan(angleDiff)*W*0.5;
+      const dist=Math.hypot(relX,relZ);
+      const scale=Math.max(0.2,400/dist);
+      const screenY=horizon+scale*20;
+      const size=50*scale;
+      if(dist>1200)continue;
+      // Enemy body
+      c.save();
+      c.translate(screenX,screenY);
+      c.fillStyle='#ff2d86';c.strokeStyle='#ff9ec8';c.lineWidth=2;
+      c.beginPath();c.moveTo(0,-size);c.lineTo(size*.6,-size*.2);c.lineTo(size*.4,size*.8);c.lineTo(-size*.4,size*.8);c.lineTo(-size*.6,-size*.2);c.closePath();c.fill();c.stroke();
+      // Health bar
+      c.fillStyle='rgba(0,0,0,.5)';c.fillRect(-size*.5,-size*1.3,size,6);
+      c.fillStyle=e.hp/e.maxHp>0.5?'#4ade80':'#f87171';c.fillRect(-size*.5,-size*1.3,size*(e.hp/e.maxHp),6);
+      c.restore();
+    }
+    // Draw bullets
+    for(const b of this.bullets){
+      const relX=b.x-this.px,relZ=b.z-this.pz;
+      const angleToB=Math.atan2(relX,relZ);
+      let angleDiff=angleToB-this.pAngle;
+      while(angleDiff>Math.PI)angleDiff-=2*Math.PI;
+      while(angleDiff<-Math.PI)angleDiff+=2*Math.PI;
+      if(Math.abs(angleDiff)>Math.PI/3)continue;
+      const screenX=W/2+Math.tan(angleDiff)*W*0.5;
+      const dist=Math.hypot(relX,relZ);
+      if(dist>1000)continue;
+      const screenY=horizon+200/dist*20;
+      c.save();this.glow(c,'#ffd23f',10);c.fillStyle='#ffd23f';
+      c.beginPath();c.arc(screenX,screenY,Math.max(2,20/dist*10),0,7);c.fill();c.restore();
+    }
+    // Crosshair
+    c.strokeStyle='rgba(255,255,255,.8)';c.lineWidth=2;
+    c.beginPath();c.moveTo(W/2-12,H/2);c.lineTo(W/2-4,H/2);c.moveTo(W/2+4,H/2);c.lineTo(W/2+12,H/2);c.stroke();
+    c.beginPath();c.moveTo(W/2,H/2-12);c.lineTo(W/2,H/2-4);c.moveTo(W/2,H/2+4);c.lineTo(W/2,H/2+12);c.stroke();
+    // Damage vignette
+    if(this.health<100){c.fillStyle=`rgba(255,0,0,${(100-this.health)/200})`;c.fillRect(0,0,W,H)}
+    // Weapon
+    c.save();c.translate(W/2+80,H-60);
+    c.fillStyle='#2a2a32';c.fillRect(-20,-60,40,80);
+    c.fillStyle='#1a1a1f';c.fillRect(-15,-80,30,20);
+    c.fillStyle='#76b900';c.fillRect(-10,-50,20,10);
+    c.restore();
+    this.drawParts(c);
+  }
+  hud(c){
+    // Health
+    c.fillStyle='rgba(0,0,0,.5)';c.fillRect(40,H-60,200,20);
+    c.fillStyle=this.health>50?'#4ade80':'#f87171';c.fillRect(40,H-60,200*(this.health/100),20);
+    this.txt(c,'HEALTH '+Math.max(0,Math.floor(this.health)),40,H-70,14,'#fff','left','Inter',600);
+    // Ammo
+    this.txt(c,this.reloading>0?'RELOADING...':this.ammo+' / '+this.maxAmmo,W-40,H-70,24,this.reloading>0?'#f87171':'#fff','right','Inter',700);
+    // Score & Wave
+    this.txt(c,String(Math.floor(this.score)),40,40,36,'#fff','left','Inter',700);
+    this.txt(c,'WAVE '+this.wave,W-40,40,24,'#76b900','right','Inter',700);
+    if(this.waveTimer>0)this.txt(c,'NEXT WAVE IN '+Math.ceil(this.waveTimer),W/2,H*.3,28,'#ffd23f','center','Inter',700);
+    if(this.health<=0)this.over();
   }
 }
 
@@ -1025,8 +1218,10 @@ const GAMES={
   hex:{id:'hex',title:'Neon Hextris',genre:'Puzzle',desc:'Rotate the hexagon, connect colors and keep the stacks low.',cls:Hex},
   brick:{id:'brick',title:'Cyber Brick Breaker',genre:'Arcade',desc:'Modern breakout with power-ups, lasers, multiball and combos.',cls:Brick},
   voxel:{id:'voxel',title:'Noxura Voxel Jump',genre:'Platformer',desc:'Jump as a voxel cube higher and higher – up into space.',cls:Voxel},
-  racer:{id:'racer',title:'Neon Drift Racer',genre:'Racing',desc:'3D synthwave racing – steer through neon tracks at insane speeds.',cls:Racer}
+  racer:{id:'racer',title:'Neon Drift Racer',genre:'Racing',desc:'3D synthwave racing – steer through neon tracks at insane speeds.',cls:Racer},
+  fps:{id:'fps',title:'Noxura 3D Shooter',genre:'FPS',desc:'First-person arena shooter with wave survival and 3D graphics.',cls:FpsShooter}
 };
+
 function thumb(id,cv){
   cv.width=640;cv.height=360;const c=cv.getContext('2d');let g;
   if(id==='runner'){g=c.createLinearGradient(0,0,0,150);g.addColorStop(0,'#04010e');g.addColorStop(1,'#ff2d86');c.fillStyle=g;c.fillRect(0,0,640,360);
@@ -1063,31 +1258,49 @@ function thumb(id,cv){
     c.fillStyle='#140b26';c.beginPath();c.moveTo(290,150);c.lineTo(350,150);c.lineTo(520,360);c.lineTo(120,360);c.fill();c.strokeStyle='#38bdf8';c.lineWidth=4;c.beginPath();c.moveTo(290,150);c.lineTo(120,360);c.moveTo(350,150);c.lineTo(520,360);c.stroke();
     c.fillStyle='#ff2d86';c.fillRect(270,240,60,30);c.fillStyle='#0a1730';c.fillRect(350,220,60,60);c.strokeStyle='#38bdf8';c.strokeRect(350,220,60,60);
     c.save();c.translate(320,320);c.fillStyle='#0b1a33';c.strokeStyle='#38bdf8';c.lineWidth=4;c.beginPath();c.moveTo(-50,20);c.lineTo(-38,-18);c.lineTo(-18,-35);c.lineTo(18,-35);c.lineTo(38,-18);c.lineTo(50,20);c.closePath();c.fill();c.stroke();c.fillStyle='#ff2d55';c.fillRect(-40,-8,20,6);c.fillRect(20,-8,20,6);c.restore()}
+  else if(id==='fps'){
+    g=c.createLinearGradient(0,0,0,360);g.addColorStop(0,'#02030c');g.addColorStop(1,'#1a0533');c.fillStyle=g;c.fillRect(0,0,640,360);
+    // Floor
+    g=c.createLinearGradient(0,180,0,360);g.addColorStop(0,'#1a1a1f');g.addColorStop(1,'#0a0a0c');c.fillStyle=g;c.fillRect(0,180,640,180);
+    c.strokeStyle='rgba(118,185,0,.15)';c.lineWidth=1;
+    for(let i=-5;i<=5;i++){c.beginPath();c.moveTo(320+i*80,180);c.lineTo(320+(i*80)*2,360);c.stroke()}
+    for(let d=1;d<8;d++){const y=180+Math.pow(d/8,1.5)*180;c.beginPath();c.moveTo(0,y);c.lineTo(640,y);c.stroke()}
+    // Crosshair
+    c.strokeStyle='rgba(255,255,255,.8)';c.lineWidth=2;
+    c.beginPath();c.moveTo(310,180);c.lineTo(316,180);c.moveTo(324,180);c.lineTo(330,180);c.stroke();
+    c.beginPath();c.moveTo(320,170);c.lineTo(320,176);c.moveTo(320,184);c.lineTo(320,190);c.stroke();
+    // Enemy
+    c.fillStyle='#ff2d86';c.strokeStyle='#ff9ec8';c.lineWidth=2;
+    c.beginPath();c.moveTo(320,100);c.lineTo(370,140);c.lineTo(350,220);c.lineTo(290,220);c.lineTo(270,140);c.closePath();c.fill();c.stroke();
+    // Gun
+    c.fillStyle='#2a2a32';c.fillRect(380,280,30,60);c.fillStyle='#76b900';c.fillRect(385,300,20,8);
+  }
 }
 
 /* ====================== SETTINGS UI ====================== */
 const SCHEMA=[
   {g:'Streaming',items:[
-    {k:'res',t:'seg',l:'Resolution',d:'Internal render resolution. Higher = sharper but more GPU load.',o:[['540p','540p'],['720p','720p'],['1080p','1080p'],['1440p','1440p']]},
-    {k:'fps',t:'seg',l:'Frame Rate (FPS Limit)',d:'Limits the stream frame rate. "Max" uses your monitor\'s refresh rate.',o:[['30','30'],['60','60'],['90','90'],['120','120'],['144','144'],['0','Max']]},
-    {k:'bitrate',t:'sel',l:'Bitrate',d:'Streaming quality (shown in the performance overlay).',o:[['auto','Auto'],['10','10 Mbit/s'],['25','25 Mbit/s'],['50','50 Mbit/s'],['75','75 Mbit/s']]},
+    {k:'res',t:'seg',l:'Resolution',d:'Internal render resolution.',o:[['540p','540p'],['720p','720p'],['1080p','1080p'],['1440p','1440p']]},
+    {k:'fps',t:'seg',l:'Frame Rate (FPS Limit)',d:'Free plan is limited to 60 FPS.',o:[['30','30'],['60','60'],['90','90'],['120','120'],['144','144'],['0','Max']]},
+    {k:'bitrate',t:'sel',l:'Bitrate',d:'Streaming quality.',o:[['auto','Auto'],['10','10 Mbit/s'],['25','25 Mbit/s'],['50','50 Mbit/s'],['75','75 Mbit/s']]},
     {k:'region',t:'sel',l:'Server Region',d:'Closer = lower latency.',o:[['auto','Auto'],['eu','Europe (Frankfurt)'],['na','North America (Ashburn)'],['as','Asia (Tokyo)']]}]},
-  {g:'Graphics',items:[{k:'quality',t:'seg',l:'Graphics Quality',d:'Controls glow effects and particle count.',o:[['0','Low'],['1','Medium'],['2','High']]}]},
+  {g:'Graphics',items:[{k:'quality',t:'seg',l:'Graphics Quality',d:'Controls glow and particles.',o:[['0','Low'],['1','Medium'],['2','High']]}]},
   {g:'Audio',items:[{k:'vol',t:'range',l:'Volume'},{k:'music',t:'sw',l:'Background Music'}]},
-  {g:'General',items:[{k:'fs',t:'sw',l:'Fullscreen on Game Start',d:'Automatically enters fullscreen mode when starting a game.'},{k:'stats',t:'sw',l:'Performance Overlay',d:'Shows FPS, ping, resolution and bitrate during gameplay.'}]}
+  {g:'General',items:[{k:'fs',t:'sw',l:'Fullscreen on Game Start',d:'Automatically enters fullscreen.'},{k:'stats',t:'sw',l:'Performance Overlay',d:'Shows FPS, ping, etc.'}]}
 ];
 function renderSettings(host){
-  host.innerHTML=SCHEMA.map(gr=>`<div class="glass mb-5 rounded-2xl px-5 py-3" style="background:#1a1a1f;border-color:#2a2a32"><div class="font-display pt-2 text-sm font-extrabold uppercase tracking-widest text-[#76b900]">${gr.g}</div>${gr.items.map(it=>{
-    let ctl='';const v=S.settings[it.k];
-    if(it.t==='seg')ctl=`<div class="seg" data-k="${it.k}">${it.o.map(o=>`<button data-v="${o[0]}" class="${String(v)===o[0]?'on':''}">${o[1]}</button>`).join('')}</div>`;
-    else if(it.t==='sel')ctl=`<select class="field" style="width:200px" data-k="${it.k}">${it.o.map(o=>`<option value="${o[0]}" ${String(v)===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select>`;
-    else if(it.t==='range')ctl=`<div class="flex items-center gap-3"><input type="range" min="0" max="100" value="${v}" data-k="${it.k}"><span class="w-10 text-right font-bold" data-rv>${v}%</span></div>`;
-    else ctl=`<button class="sw" role="switch" aria-checked="${!!v}" data-k="${it.k}"></button>`;
-    return`<div class="srow flex-wrap"><div class="min-w-[200px] flex-1"><div class="font-bold text-white">${it.l}</div>${it.d?`<div class="text-sm text-slate-400">${it.d}</div>`:''}</div>${ctl}</div>`}).join('')}</div>`).join('');
-  host.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>setSetting(b.parentNode.dataset.k,b.dataset.v,host));
-  host.querySelectorAll('select').forEach(s=>s.onchange=()=>setSetting(s.dataset.k,s.value,host));
-  host.querySelectorAll('input[type=range]').forEach(r=>r.oninput=()=>{r.parentNode.querySelector('[data-rv]').textContent=r.value+'%';setSetting(r.dataset.k,+r.value,host,true)});
-  host.querySelectorAll('.sw').forEach(b=>b.onclick=()=>setSetting(b.dataset.k,b.getAttribute('aria-checked')!=='true',host));
+  host.innerHTML=SCHEMA.map(gr=>`<div class="glass mb-4 rounded-xl px-5 py-3" style="background:#141418;border-color:#2a2a32"><div class="font-display pt-2 text-xs font-bold uppercase tracking-widest text-[#76b900]">${gr.g}</div>${gr.items.map(it=>{
+    let ctl='';const v=S.settings[it.k];const locked=S.plan==='free'&&(it.k==='res'||it.k==='fps'||it.k==='bitrate'||it.k==='region'||it.k==='quality');
+    const dis=locked?'disabled':'';
+    if(it.t==='seg')ctl=`<div class="seg" data-k="${it.k}">${it.o.map(o=>`<button data-v="${o[0]}" class="${String(v)===o[0]?'on':''}" ${dis}>${o[1]}</button>`).join('')}</div>`;
+    else if(it.t==='sel')ctl=`<select class="field" style="width:200px" data-k="${it.k}" ${dis}>${it.o.map(o=>`<option value="${o[0]}" ${String(v)===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select>`;
+    else if(it.t==='range')ctl=`<div class="flex items-center gap-3"><input type="range" min="0" max="100" value="${v}" data-k="${it.k}" ${dis}><span class="w-10 text-right font-bold text-sm" data-rv>${v}%</span></div>`;
+    else ctl=`<button class="sw" role="switch" aria-checked="${!!v}" data-k="${it.k}" ${dis}></button>`;
+    return`<div class="srow flex-wrap ${locked?'locked':''}"><div class="min-w-[200px] flex-1"><div class="font-bold text-white text-sm">${it.l} ${locked?'<span class="text-[10px] text-red-400 ml-1">(Premium)</span>':''}</div>${it.d?`<div class="text-xs text-slate-400">${it.d}</div>`:''}</div>${ctl}</div>`}).join('')}</div>`).join('');
+  host.querySelectorAll('.seg button:not([disabled])').forEach(b=>b.onclick=()=>setSetting(b.parentNode.dataset.k,b.dataset.v,host));
+  host.querySelectorAll('select:not([disabled])').forEach(s=>s.onchange=()=>setSetting(s.dataset.k,s.value,host));
+  host.querySelectorAll('input[type=range]:not([disabled])').forEach(r=>r.oninput=()=>{r.parentNode.querySelector('[data-rv]').textContent=r.value+'%';setSetting(r.dataset.k,+r.value,host,true)});
+  host.querySelectorAll('.sw:not([disabled])').forEach(b=>b.onclick=()=>setSetting(b.dataset.k,b.getAttribute('aria-checked')!=='true',host));
 }
 function setSetting(k,v,host,noRender){
   S.settings[k]=v;lsSet('noxura_settings',S.settings);
@@ -1167,7 +1380,7 @@ function openQueue(id){
   let n=plan==='free'?12:plan==='premium'?2:0;const tick=plan==='free'?2000:1000,tot=n;
   Q={id,timers:[],cancelled:false};
   const steps=[['Assigning server','Connected to '+({auto:'Frankfurt',eu:'Frankfurt',na:'Ashburn',as:'Tokyo'}[S.settings.region])],['Loading game','Assets & shaders'],['Starting stream',(S.settings.res)+' · '+(+S.settings.fps?S.settings.fps+' FPS':'Max FPS')]];
-  const drawSteps=cur=>{$('#qSteps').innerHTML=steps.map((s,i)=>`<li class="flex items-center gap-3">${i<cur?'<span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#76b900] text-sm font-extrabold text-slate-900">✓</span>':i===cur?'<span class="spin"></span>':'<span class="h-6 w-6 rounded-full border-2 border-slate-700"></span>'}<div><div class="font-bold ${i>cur?'text-slate-500':'text-white'}">${s[0]}</div><div class="text-sm text-slate-400">${i<=cur?s[1]:''}</div></div></li>`).join('')};
+  const drawSteps=cur=>{$('#qSteps').innerHTML=steps.map((s,i)=>`<li class="flex items-center gap-3">${i<cur?'<span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#76b900] text-sm font-bold text-slate-900">✓</span>':i===cur?'<span class="spin"></span>':'<span class="h-6 w-6 rounded-full border-2 border-slate-700"></span>'}<div><div class="font-bold ${i>cur?'text-slate-500':'text-white'} text-sm">${s[0]}</div><div class="text-xs text-slate-400">${i<=cur?s[1]:''}</div></div></li>`).join('')};
   const info=()=>{
     if(plan==='pro'){$('#qLabel').textContent='Instant Access';$('#qNum').textContent='⚡';$('#qText').textContent='Instant Access: Connecting...';$('#qBar').style.width='100%';$('#qEta').textContent='No wait time';$('#qHint').textContent='';return}
     $('#qLabel').textContent=plan==='free'?'Queue Position':'Priority Access';
@@ -1199,9 +1412,9 @@ function play(id){
 
 /* ====================== PLANS ====================== */
 const PLANS=[
-  {id:'free',name:'FREE',tag:'Try it out',feat:['30 minutes per session','1080p resolution, 60 FPS limit','Standard queue']},
-  {id:'premium',name:'PREMIUM',tag:'For regular players',feat:['Unlimited playtime','Up to 1440p & 144 FPS','Priority queue (very fast)']},
-  {id:'pro',name:'SUPER PRO',tag:'Maximum performance',feat:['Unlimited playtime','Up to 1440p & 144 FPS','0 seconds wait time (Instant Access)']}
+  {id:'free',name:'FREE',tag:'Try it out',feat:['30 minutes per session','1080p resolution, 60 FPS limit','Standard queue','Locked settings']},
+  {id:'premium',name:'PREMIUM',tag:'For regular players',feat:['Unlimited playtime','Up to 1440p & 144 FPS','Priority queue (very fast)','Full settings access']},
+  {id:'pro',name:'SUPER PRO',tag:'Maximum performance',feat:['Unlimited playtime','Up to 1440p & 144 FPS','0 seconds wait time (Instant Access)','Full settings access']}
 ];
 let pendingPlan=null;
 function openPlans(pre){
@@ -1211,8 +1424,8 @@ function openPlans(pre){
 function renderPlanCards(){
   $('#planCards').innerHTML=PLANS.map(p=>`<div class="plan ${(pendingPlan||S.plan)===p.id?'sel':''}" data-plan="${p.id}">
     ${S.plan===p.id?'<span class="chip c-'+p.id+' absolute right-4 top-4">ACTIVE</span>':''}
-    <div class="text-sm font-semibold tracking-widest text-slate-400">${p.tag}</div><div class="font-display mt-1 text-2xl font-extrabold text-white">${p.name}</div>
-    <div class="mt-1 text-lg font-bold text-[#76b900]">${p.id==='free'?'Free':'Code required'}</div><ul class="mt-3">${p.feat.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join('');
+    <div class="text-xs font-semibold tracking-widest text-slate-400 uppercase">${p.tag}</div><div class="font-display mt-1 text-xl font-bold text-white">${p.name}</div>
+    <div class="mt-1 text-base font-bold text-[#76b900]">${p.id==='free'?'Free':'Code required'}</div><ul class="mt-3">${p.feat.map(f=>`<li>${f}</li>`).join('')}</ul></div>`).join('');
 }
 function selectPlan(id){
   if(id==='free'){setPlan('free');toast('FREE plan activated.');$('#planModal').classList.remove('open');return}
@@ -1231,7 +1444,7 @@ const FB_ERR={
   'auth/email-already-in-use':'An account with this email already exists.','auth/weak-password':'Password is too weak (min. 8 characters).','auth/too-many-requests':'Too many attempts. Please wait a moment and try again.',
   'auth/network-request-failed':'Network error. Check your internet connection.','auth/popup-closed-by-user':'The sign-in window was closed.','auth/cancelled-popup-request':'Sign-in cancelled.',
   'auth/requires-recent-login':'For security reasons, please sign in again and try once more.','auth/operation-not-allowed':'This sign-in method is not activated in Firebase yet.',
-  'auth/unauthorized-domain':'This domain is not authorized in Firebase (Authentication > Settings > Authorized domains).','auth/popup-blocked':'The popup was blocked by your browser.','auth/user-disabled':'This account has been disabled.'
+  'auth/unauthorized-domain':'This domain is not authorized in Firebase.','auth/popup-blocked':'The popup was blocked by your browser.','auth/user-disabled':'This account has been disabled.'
 };
 const fbErr=e=>FB_ERR[e&&e.code]||('Error: '+((e&&e.code)||(e&&e.message)||'unknown'));
 function openAuth(t){$('#authModal').classList.add('open');atab(t||'login')}
@@ -1272,27 +1485,27 @@ async function reauth(pw){
 /* ====================== PROFILE VIEW ====================== */
 function renderProfile(){
   const h=$('#profHost'),name=uname(),letter=(name[0]||'?').toUpperCase(),pt=lsGet('noxura_playtime',0),pm=Math.floor(pt/60);
-  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${pm}</div><div class="text-xs uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${Object.keys(GAMES).filter(k=>getBest(k)>0).length}/6</div><div class="text-xs uppercase tracking-widest text-slate-400">Games Played</div></div><div class="rounded-xl bg-slate-900/60 p-3"><div class="font-display text-xl font-extrabold text-white">${PLAN_NAME[S.plan]}</div><div class="text-xs uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
-  const colors=`<div class="lbl">Avatar Color</div><div class="flex gap-3">${COLORS.map(c=>`<button data-col="${c}" aria-label="Color" style="width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;background:${c};box-shadow:${c===S.color?'0 0 0 2px #0f172a,0 0 0 4px #fff':'none'}"></button>`).join('')}</div>`;
-  const scores=`<div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Highscores</h3><div class="mt-3 divide-y divide-slate-700/40">${Object.values(GAMES).map(g=>`<div class="flex justify-between py-2"><span>${g.title}</span><b class="text-[#76b900]">${getBest(g.id)||'–'}</b></div>`).join('')}</div></div>`;
+  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${pm}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${Object.keys(GAMES).filter(k=>getBest(k)>0).length}/7</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Games Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${PLAN_NAME[S.plan]}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
+  const colors=`<div class="lbl">Avatar Color</div><div class="flex gap-3">${COLORS.map(c=>`<button data-col="${c}" aria-label="Color" style="width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;background:${c};box-shadow:${c===S.color?'0 0 0 2px #0a0a0c,0 0 0 4px #fff':'none'}"></button>`).join('')}</div>`;
+  const scores=`<div class="glass mt-5 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><h3 class="font-display text-base font-bold text-white">Highscores</h3><div class="mt-2 divide-y divide-slate-800">${Object.values(GAMES).map(g=>`<div class="flex justify-between py-2 text-sm"><span>${g.title}</span><b class="text-[#76b900]">${getBest(g.id)||'–'}</b></div>`).join('')}</div></div>`;
   if(!S.user){
-    h.innerHTML=`<h2 class="font-display text-3xl font-extrabold text-white">Profile</h2>
-    <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div class="flex items-center gap-4"><span class="avatar h-16 w-16 text-2xl" style="background:${S.color}">${letter}</span><div><div class="text-xl font-bold text-white">${name}</div><div class="text-slate-400">Guest account – data only in this browser</div></div></div>
-    <label class="lbl" for="gName">Guest Name</label><input id="gName" class="field" maxlength="20" value="${name}">${colors}<button class="btn btn-g mt-5" data-act="saveGuest">Save</button>${stats}</div>
-    <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Create Account</h3><p class="mt-2 text-slate-300">Sign in to keep your plan, highscores and profile across all devices.</p><div class="mt-4 flex gap-3"><button class="btn btn-p" data-act="login" style="background:#76b900;color:#000">Sign In</button><button class="btn btn-g" data-act="register">Register</button></div></div>${scores}`;
+    h.innerHTML=`<h2 class="font-display text-2xl font-bold text-white">Profile</h2>
+    <div class="glass mt-4 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><div class="flex items-center gap-4"><span class="avatar h-14 w-14 text-xl" style="background:${S.color}">${letter}</span><div><div class="text-lg font-bold text-white">${name}</div><div class="text-slate-400 text-sm">Guest account – data only in this browser</div></div></div>
+    <label class="lbl" for="gName">Guest Name</label><input id="gName" class="field" maxlength="20" value="${name}">${colors}<button class="btn btn-g mt-4" data-act="saveGuest">Save</button>${stats}</div>
+    <div class="glass mt-5 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><h3 class="font-display text-base font-bold text-white">Create Account</h3><p class="mt-2 text-slate-300 text-sm">Sign in to keep your plan, highscores and profile across all devices.</p><div class="mt-4 flex gap-3"><button class="btn btn-p" data-act="login">Sign In</button><button class="btn btn-g" data-act="register">Register</button></div></div>${scores}`;
     return;
   }
-  const u=S.user,pwBlock=isPw()?`<div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Change Password</h3>
+  const u=S.user,pwBlock=isPw()?`<div class="glass mt-5 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><h3 class="font-display text-base font-bold text-white">Change Password</h3>
     <label class="lbl" for="cpw">Current Password</label><input id="cpw" type="password" class="field" autocomplete="current-password">
-    <label class="lbl" for="npw">New Password (min. 8 characters)</label><input id="npw" type="password" class="field" autocomplete="new-password"><div id="pwMsg" class="err off"></div><button class="btn btn-p mt-5" data-act="changePw" style="background:#76b900;color:#000">Change Password</button></div>`:`<div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><h3 class="font-display text-lg font-extrabold text-white">Password</h3><p class="mt-2 text-slate-300">You are signed in with Google – the password is managed by Google.</p></div>`;
-  h.innerHTML=`<h2 class="font-display text-3xl font-extrabold text-white">Profile</h2>
-  <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div class="flex items-center gap-4"><span class="avatar h-16 w-16 text-2xl" style="background:${S.color}">${letter}</span><div class="min-w-0"><div class="truncate text-xl font-bold text-white">${name}</div><div class="truncate text-slate-400">${u.email||''}</div>
-    <div class="mt-1 text-sm ${u.emailVerified?'text-green-400':'text-amber-300'}">${u.emailVerified?'✓ Email verified':'Email not verified yet'} ${u.emailVerified?'':'<a class="cursor-pointer underline" data-act="verify">Resend</a>'}</div></div></div>
-    <label class="lbl" for="dName">Display Name</label><input id="dName" class="field" maxlength="20" value="${name}">${colors}<div id="pfMsg" class="err off"></div><button class="btn btn-p mt-5" data-act="saveProfile" style="background:#76b900;color:#000">Save Profile</button>${stats}</div>
+    <label class="lbl" for="npw">New Password (min. 8 chars)</label><input id="npw" type="password" class="field" autocomplete="new-password"><div id="pwMsg" class="err off"></div><button class="btn btn-p mt-4" data-act="changePw">Change Password</button></div>`:`<div class="glass mt-5 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><h3 class="font-display text-base font-bold text-white">Password</h3><p class="mt-2 text-slate-300 text-sm">You are signed in with Google – the password is managed by Google.</p></div>`;
+  h.innerHTML=`<h2 class="font-display text-2xl font-bold text-white">Profile</h2>
+  <div class="glass mt-4 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><div class="flex items-center gap-4"><span class="avatar h-14 w-14 text-xl" style="background:${S.color}">${letter}</span><div class="min-w-0"><div class="truncate text-lg font-bold text-white">${name}</div><div class="truncate text-slate-400 text-sm">${u.email||''}</div>
+    <div class="mt-1 text-xs ${u.emailVerified?'text-green-400':'text-amber-300'}">${u.emailVerified?'✓ Email verified':'Email not verified yet'} ${u.emailVerified?'':'<a class="cursor-pointer underline" data-act="verify">Resend</a>'}</div></div></div>
+    <label class="lbl" for="dName">Display Name</label><input id="dName" class="field" maxlength="20" value="${name}">${colors}<div id="pfMsg" class="err off"></div><button class="btn btn-p mt-4" data-act="saveProfile">Save Profile</button>${stats}</div>
   ${pwBlock}${scores}
-  <div class="glass mt-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div><h3 class="font-display text-lg font-extrabold text-white">Sign Out</h3><p class="text-slate-400">End the session on this device.</p></div><button class="btn btn-g" data-act="logout">Sign Out</button></div>
-  <div class="glass mt-6 rounded-2xl p-6" style="background:#1a1a1f;border-color:#2a2a32"><div class="flex flex-wrap items-center justify-between gap-4"><div><h3 class="font-display text-lg font-extrabold text-red-300">Delete Account</h3><p class="text-slate-400">Permanently deletes your account and cloud data.</p></div><button class="btn btn-d" data-act="delOpen">Delete Account</button></div>
-  <div id="delBox" class="off mt-4">${isPw()?'<label class="lbl" for="dpw">Password for confirmation</label><input id="dpw" type="password" class="field" autocomplete="current-password">':'<p class="text-slate-300">To confirm, you must sign in with Google again.</p>'}<div id="delMsg" class="err off"></div><div class="mt-4 flex gap-3"><button class="btn btn-d" data-act="delGo">Delete Permanently</button><button class="btn btn-g" data-act="delNo">Cancel</button></div></div></div>`;
+  <div class="glass mt-5 flex flex-wrap items-center justify-between gap-4 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><div><h3 class="font-display text-base font-bold text-white">Sign Out</h3><p class="text-slate-400 text-sm">End the session on this device.</p></div><button class="btn btn-g" data-act="logout">Sign Out</button></div>
+  <div class="glass mt-5 rounded-xl p-5" style="background:#141418;border-color:#2a2a32"><div class="flex flex-wrap items-center justify-between gap-4"><div><h3 class="font-display text-base font-bold text-red-300">Delete Account</h3><p class="text-slate-400 text-sm">Permanently deletes your account and cloud data.</p></div><button class="btn btn-d" data-act="delOpen">Delete Account</button></div>
+  <div id="delBox" class="off mt-4">${isPw()?'<label class="lbl" for="dpw">Password for confirmation</label><input id="dpw" type="password" class="field" autocomplete="current-password">':'<p class="text-slate-300 text-sm">To confirm, you must sign in with Google again.</p>'}<div id="delMsg" class="err off"></div><div class="mt-4 flex gap-3"><button class="btn btn-d" data-act="delGo">Delete Permanently</button><button class="btn btn-g" data-act="delNo">Cancel</button></div></div></div>`;
 }
 let pickCol=null;
 async function profileAction(act,btn){
@@ -1325,11 +1538,18 @@ function refreshUI(){
   const c=$('#sPlan');c.textContent=PLAN_NAME[S.plan];c.className='chip c-'+S.plan+' mt-0.5';
   const hp=$('#homePlan');hp.textContent='PLAN: '+PLAN_NAME[S.plan];hp.className='chip c-'+S.plan;hp.style.cursor='pointer';hp.onclick=()=>openPlans();
   refreshSubs();if($('#v-profile').classList.contains('on'))renderProfile();
+  // Update hero banner
+  const featured=GAMES['racer'];
+  const cvs=document.createElement('canvas');thumb('racer',cvs);$('#heroImg').src=cvs.toDataURL();
+  $('#heroTitle').textContent=featured.title;
+  $('#heroDesc').textContent=featured.desc;
+  $('#heroPlay').onclick=()=>play('racer');
+  $('#heroDetails').onclick=()=>openDetail('racer');
 }
 function buildGrid(){
   const f=$('#search').value.trim().toLowerCase(),list=Object.values(GAMES).filter(g=>!f||(g.title+g.genre+g.desc).toLowerCase().includes(f));
   $('#gcount').textContent=list.length+' Games';show($('#noRes'),!list.length);
-  $('#grid').innerHTML=list.map(g=>`<div class="gfn-card" data-detail="${g.id}"><canvas data-th="${g.id}"></canvas><div class="p-4"><div class="flex items-center justify-between gap-2"><h3 class="font-display text-lg font-extrabold text-white">${g.title}</h3><span class="chip c-free">${g.genre}</span></div><p class="mt-1 min-h-[40px] text-sm text-slate-400">${g.desc}</p><div class="mt-3 flex items-center justify-between"><span class="text-sm text-slate-400">Highscore: <b class="text-[#76b900]">${getBest(g.id)||'–'}</b></span><button class="btn btn-p sm" data-detail="${g.id}">View</button></div></div></div>`).join('');
+  $('#grid').innerHTML=list.map(g=>`<div class="gfn-card" data-detail="${g.id}"><canvas data-th="${g.id}"></canvas><div class="gfn-card-body"><div class="flex items-center justify-between gap-2"><h3 class="gfn-card-title">${g.title}</h3><span class="chip c-free">${g.genre}</span></div><p class="mt-1 text-xs text-slate-400 line-clamp-2">${g.desc}</p><div class="mt-3 flex items-center justify-between"><span class="text-xs text-slate-400">Highscore: <b class="text-[#76b900]">${getBest(g.id)||'–'}</b></span><button class="btn btn-p sm" data-detail="${g.id}">View</button></div></div></div>`).join('');
   $$('canvas[data-th]').forEach(cv=>thumb(cv.dataset.th,cv));
 }
 
@@ -1349,6 +1569,7 @@ function openDetail(id){
 function closeDetail(){
   $('#gameDetail').classList.remove('open');document.body.style.overflow='';currentDetail=null;
 }
+window.closeDetail=closeDetail;
 
 document.addEventListener('click',e=>{
   const t=e.target;let x;
@@ -1357,7 +1578,7 @@ document.addEventListener('click',e=>{
   if((x=t.closest('[data-go]'))){go(x.dataset.go);return}
   if((x=t.closest('[data-tab]'))){atab(x.dataset.tab);return}
   if((x=t.closest('[data-plan]'))){selectPlan(x.dataset.plan);return}
-  if((x=t.closest('[data-col]'))){pickCol=x.dataset.col;$$('[data-col]').forEach(b=>b.style.boxShadow=b.dataset.col===pickCol?'0 0 0 2px #0f172a,0 0 0 4px #fff':'none');return}
+  if((x=t.closest('[data-col]'))){pickCol=x.dataset.col;$$('[data-col]').forEach(b=>b.style.boxShadow=b.dataset.col===pickCol?'0 0 0 2px #0a0a0c,0 0 0 4px #fff':'none');return}
   if((x=t.closest('[data-act]'))){
     const a=x.dataset.act;
     if(a==='plans')openPlans();else if(a==='closePlans')$('#planModal').classList.remove('open');
@@ -1382,12 +1603,11 @@ const onFs=()=>{if(S.host){if(fsEl())S.host.wasFs=true;else if(S.host.wasFs){S.h
 document.addEventListener('fullscreenchange',onFs);document.addEventListener('webkitfullscreenchange',onFs);
 $('#liGo').onclick=doLogin;$('#reGo').onclick=doRegister;$('#rsGo').onclick=doReset;$('#gGo').onclick=doGoogle;$('#mClose').onclick=closeAuth;$('#codeGo').onclick=submitCode;
 $('#qCancel').onclick=cancelQueue;$('#hPause').onclick=()=>S.host&&S.host.setPause(true);$('#search').oninput=buildGrid;
+$('#seeAllBtn').onclick=()=>{$('#search').value='';buildGrid();$('#main').scrollTo({top:400,behavior:'smooth'})};
 $('#sideCard').addEventListener('dblclick',e=>e.stopPropagation());
-$('.nav[data-go=profile]');
-try{document.fonts.load('800 40px Orbitron');document.fonts.load('700 20px Rajdhani')}catch(e){}
+try{document.fonts.load('700 40px Rajdhani');document.fonts.load('600 16px Inter')}catch(e){}
 
-/* auth state: dynamic login button in sidebar when logged out */
-function sideAuthHint(){}
+/* auth state */
 onAuthStateChanged(auth,async u=>{S.user=u;await cloudLoad();refreshUI();buildGrid()});
 S.plan=lsGet(planKey(),'free');refreshUI();buildGrid();
 if(!S.user&&!lsGet('noxura_seen',false)){lsSet('noxura_seen',true)}
