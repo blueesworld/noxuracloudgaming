@@ -7,14 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<!--
-  FIREBASE SETUP (Realtime Database Rules):
-  {
-    "rules": { "users": { "$uid": { ".read": "auth != null && auth.uid === $uid", ".write": "auth != null && auth.uid === $uid" } } }
-  }
-  In Firebase Console: Authentication > Sign-in method > enable "Email/Password" and "Google".
-  Authentication > Settings > Authorized domains: add your GitHub Pages domain.
--->
 <style>
 :root{color-scheme:dark}
 html,body{height:100%;margin:0;background:#0a0a0c;color:#e2e8f0;font-family:'Inter',system-ui,sans-serif;font-size:15px}
@@ -267,12 +259,30 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
 <!-- SESSION OVERLAY -->
 <div id="session" class="off fixed inset-0 z-[110] bg-black select-none">
   <iframe id="gameFrame" src="" allow="autoplay; fullscreen; gamepad; accelerometer; gyroscope; magnetometer; clipboard-read; clipboard-write; cross-origin-isolated" style="width:100%;height:100%;border:none;display:block;"></iframe>
-  <div class="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3 opacity-0 hover:opacity-100 transition-opacity">
-    <div class="pointer-events-auto flex items-center gap-2">
-      <button id="hPause" class="btn btn-g sm" style="background:rgba(2,6,23,.7)">⏱ Session Info</button>
+  
+  <!-- HUD Overlay (Always visible on top) -->
+  <div class="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3 pointer-events-none">
+    <div class="pointer-events-auto flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
+      <button id="hPause" class="btn btn-g sm" style="background:rgba(2,6,23,.85);border-color:rgba(255,255,255,0.2)">⏸ Menu</button>
     </div>
     <div class="flex flex-col items-end gap-2">
-      <div id="hTimer" class="off font-display rounded-lg px-3 py-1.5 text-base font-bold tracking-wider" style="background:rgba(2,6,23,.72);border:1px solid rgba(148,163,184,.25)"></div>
+      <div id="hStats" class="font-display rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-200" style="background:rgba(2,6,23,.85);border:1px solid rgba(148,163,184,.3);font-variant-numeric:tabular-nums"></div>
+      <div id="hTimer" class="off font-display rounded-lg px-3 py-1.5 text-base font-bold tracking-wider" style="background:rgba(2,6,23,.85);border:1px solid rgba(148,163,184,.3)"></div>
+    </div>
+  </div>
+
+  <!-- Pause Overlay -->
+  <div id="pause" class="off absolute inset-0 flex items-center justify-center bg-slate-950/85 p-4 backdrop-blur-md z-[120]">
+    <div class="glass flex max-h-[92vh] w-full max-w-2xl flex-col rounded-xl p-6" style="background:#141418;border-color:#2a2a32">
+      <div class="font-display text-center text-2xl font-bold text-white">PAUSED</div>
+      <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <button class="btn btn-p" data-act="resume">Resume</button>
+        <button class="btn btn-g" data-act="restart">Restart</button>
+        <button class="btn btn-g" data-act="fs">Fullscreen</button>
+        <button class="btn btn-d" data-act="quit">Quit</button>
+      </div>
+      <div class="mt-5 overflow-y-auto pr-2" id="pSet"></div>
+      <p class="mt-3 text-center text-xs text-slate-500">Tip: P or Esc opens this menu</p>
     </div>
   </div>
 </div>
@@ -444,31 +454,34 @@ function openQueue(id){
   else{const iv=setInterval(()=>{if(Q.cancelled){clearInterval(iv);return}n--;info();if(n<=0){clearInterval(iv);runSteps()}},tick);Q.timers.push(iv)}
 }
 function cancelQueue(){if(!Q)return;Q.cancelled=true;Q.timers.forEach(t=>{clearTimeout(t);clearInterval(t)});Q=null;show($('#queue'),false)}
+
+let sessionInterval;
+let sessionStart;
 function launch(id){
   if(!Q||Q.cancelled)return;
   const game = GAMES[id];
-  Q=null;show($('#queue'),false);show($('#session'),true);
+  Q=null;show($('#queue'),false);show($('#session'),true);show($('#pause'),false);
   
   // Load game in iframe
   $('#gameFrame').src = game.url;
   
   startSessionTimer();
+  startStatsLoop();
 }
 function startSessionTimer() {
     if (S.plan === 'free') {
         $('#hTimer').classList.remove('off');
         let end = Date.now() + 1800000; // 30 mins
-        if(window.sessionInterval) clearInterval(window.sessionInterval);
-        window.sessionInterval = setInterval(() => {
+        if(sessionInterval) clearInterval(sessionInterval);
+        sessionInterval = setInterval(() => {
             const left = end - Date.now();
             const t = $('#hTimer');
             const s = Math.max(0, Math.ceil(left / 1000));
             t.textContent = '⏱ ' + String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
             t.style.color = left < 60000 ? '#f87171' : '#e2e8f0';
             if (left <= 0) {
-                clearInterval(window.sessionInterval);
-                $('#session').classList.add('off');
-                $('#gameFrame').src = '';
+                clearInterval(sessionInterval);
+                endSession();
                 $('#endModal').classList.add('open');
             }
         }, 250);
@@ -476,6 +489,29 @@ function startSessionTimer() {
         $('#hTimer').classList.add('off');
     }
 }
+function startStatsLoop() {
+    if (window.statsLoop) clearInterval(window.statsLoop);
+    const hStats = $('#hStats');
+    if (S.settings.stats) hStats.classList.remove('off');
+    else hStats.classList.add('off');
+    
+    window.statsLoop = setInterval(() => {
+        if (S.settings.stats) {
+            const fps = 60 + Math.round(rnd(-2,2)); // Simulated since we can't read cross-origin iframe
+            const ping = Math.round(16 + rnd(-3,5));
+            const r = { '540p': '960×540', '720p': '1280×720', '1080p': '1920×1080', '1440p': '2560×1440' }[S.settings.res];
+            const br = S.settings.bitrate === 'auto' ? 26 : S.settings.bitrate;
+            hStats.innerHTML = `<span style="color:#4ade80">${fps} FPS</span> · ${ping} ms · ${r} · ${br} Mbit/s`;
+        }
+    }, 1000);
+}
+function endSession() {
+    $('#session').classList.add('off');
+    $('#gameFrame').src = '';
+    if(sessionInterval) clearInterval(sessionInterval);
+    if(window.statsLoop) clearInterval(window.statsLoop);
+}
+
 function play(id){
   if(Q)return;
   openQueue(id);
@@ -652,6 +688,10 @@ document.addEventListener('click',e=>{
     if(a==='plans')openPlans();else if(a==='closePlans')$('#planModal').classList.remove('open');
     else if(a==='upgrade'){$('#endModal').classList.remove('open');openPlans('premium')}
     else if(a==='closeEnd')$('#endModal').classList.remove('open');
+    else if(a==='resume'){show($('#pause'),false);$('#gameFrame').focus();}
+    else if(a==='restart'){show($('#pause'),false);$('#gameFrame').src = $('#gameFrame').src;}
+    else if(a==='fs'){if(!document.fullscreenElement)$('#session').requestFullscreen();else document.exitFullscreen();}
+    else if(a==='quit'){endSession();}
     else profileAction(a,x);
     return;
   }
@@ -659,6 +699,17 @@ document.addEventListener('click',e=>{
   if(t.id==='planModal')$('#planModal').classList.remove('open');
 });
 document.addEventListener('keydown',e=>{
+  // Pause menu toggle if in session
+  if(e.key==='Escape' || e.key==='p' || e.key==='P'){
+    if(!$('#session').classList.contains('off')) {
+      // Toggle pause
+      if($('#pause').classList.contains('off')) show($('#pause'),true);
+      else show($('#pause'),false);
+      e.preventDefault();
+      return;
+    }
+  }
+  
   if(e.key==='Enter'){const a=document.activeElement&&document.activeElement.id;
     if(a==='liMail'||a==='liPw')doLogin();else if(['reName','reMail','rePw','rePw2'].includes(a))doRegister();else if(a==='rsMail')doReset();else if(a==='codeIn')submitCode()}
   if(e.key==='Escape'&&$('#session').classList.contains('off')){closeAuth();$('#planModal').classList.remove('open');$('#endModal').classList.remove('open')}
@@ -668,13 +719,7 @@ $('#liGo').onclick=doLogin;$('#reGo').onclick=doRegister;$('#rsGo').onclick=doRe
 $('#qCancel').onclick=cancelQueue;
 $('#search').oninput=buildGrid;
 $('#seeAllBtn').onclick=()=>{$('#search').value='';buildGrid();$('#main').scrollTo({top:400,behavior:'smooth'})};
-$('#hPause').onclick = () => {
-    // End session manually
-    $('#session').classList.add('off');
-    $('#gameFrame').src = '';
-    if(window.sessionInterval) clearInterval(window.sessionInterval);
-    toast("Session beendet.");
-};
+$('#hPause').onclick = () => { show($('#pause'),true); };
 
 try{document.fonts.load('700 40px Rajdhani');document.fonts.load('600 16px Inter')}catch(e){}
 
