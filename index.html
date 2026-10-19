@@ -75,7 +75,6 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
 
 /* GeForce NOW Style */
 .gfn-hero-banner{position:relative;width:100%;height:420px;overflow:hidden;border-radius:12px;margin-bottom:24px;border:1px solid #2a2a32}
-.gfn-hero-banner img{width:100%;height:100%;object-fit:cover;display:block}
 .gfn-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,12,.95) 0%,rgba(10,10,12,.7) 40%,transparent 100%)}
 .gfn-hero-content{position:absolute;bottom:40px;left:40px;max-width:500px}
 .gfn-hero-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:48px;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.5)}
@@ -86,21 +85,12 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
 .gfn-section-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
 .gfn-card{flex:0 0 320px;background:#141418;border:1px solid #2a2a32;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
 .gfn-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.5);border-color:#76b900}
-.gfn-card-img{width:100%;height:180px;background:#0a0a0c;position:relative;overflow:hidden}
-.gfn-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
-.gfn-card:hover .gfn-card-img img{transform:scale(1.05)}
+.gfn-card-img{width:100%;height:180px;background:#0a0a0c;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #2a2a32}
+.gfn-card-img h3{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#fff;text-align:center;padding:0 20px;text-shadow:0 2px 10px rgba(0,0,0,.8);z-index:2}
+.gfn-card-img .bg-gradient{position:absolute;inset:0;opacity:.4}
 .gfn-card-body{padding:16px}
 .gfn-card-title{font-size:16px;font-weight:700;color:#fff}
 .gfn-card-meta{font-size:13px;color:#9ca3af;margin-top:4px}
-.gfn-detail{position:fixed;inset:0;z-index:90;background:#0a0a0c;overflow-y:auto;display:none}
-.gfn-detail.open{display:block}
-.gfn-detail-hero{position:relative;height:50vh;min-height:360px;overflow:hidden}
-.gfn-detail-hero img{width:100%;height:100%;object-fit:cover}
-.gfn-detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0c 0%,transparent 60%,rgba(0,0,0,.2) 100%)}
-.gfn-detail-content{position:relative;z-index:2;max-width:1100px;margin:-120px auto 0;padding:0 24px 60px}
-.gfn-detail-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:42px;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.8)}
-.gfn-detail-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.gfn-detail-meta span{background:rgba(255,255,255,.1);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600}
 </style>
 </head>
 <body>
@@ -134,13 +124,14 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
       <!-- Hero Banner -->
       <div class="p-4 md:p-6">
         <div class="gfn-hero-banner">
-          <img id="heroImg" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" alt="Featured Game">
+          <div class="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#0a0a0c] to-[#0a1730]"></div>
+          <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(circle at 50% 50%, rgba(118,185,0,0.2) 0%, transparent 60%), linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px;"></div>
           <div class="gfn-hero-overlay"></div>
           <div class="gfn-hero-content">
-            <h1 id="heroTitle" class="gfn-hero-title text-white">Combat Online</h1>
-            <p id="heroDesc" class="gfn-hero-sub">Erlebe packende 3D-Shooter Action direkt in deinem Browser. Keine Downloads, sofort spielbar.</p>
+            <h1 id="heroTitle" class="gfn-hero-title text-white">Slope 3D</h1>
+            <p id="heroDesc" class="gfn-hero-sub">Rase den endlosen Neon-Slope hinunter. Weiche Hindernissen aus und erreiche den Highscore!</p>
             <div class="mt-4 flex items-center gap-3">
-              <button class="gfn-btn-play" data-play="combat">
+              <button class="gfn-btn-play" data-play="slope">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 PLAY
               </button>
@@ -275,7 +266,7 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
 
 <!-- SESSION OVERLAY -->
 <div id="session" class="off fixed inset-0 z-[110] bg-black select-none">
-  <iframe id="gameFrame" src="" allow="autoplay; fullscreen; gamepad; accelerometer; gyroscope; magnetometer; clipboard-read; clipboard-write" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  <iframe id="gameFrame" src="" allow="autoplay; fullscreen; gamepad; accelerometer; gyroscope; magnetometer; clipboard-read; clipboard-write; cross-origin-isolated" style="width:100%;height:100%;border:none;display:block;"></iframe>
   <div class="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3 opacity-0 hover:opacity-100 transition-opacity">
     <div class="pointer-events-auto flex items-center gap-2">
       <button id="hPause" class="btn btn-g sm" style="background:rgba(2,6,23,.7)">⏱ Session Info</button>
@@ -329,45 +320,45 @@ async function run(btn,label,fn){const o=btn.textContent;btn.disabled=true;btn.t
 
 /* ====================== GAMES CATALOG ====================== */
 const GAMES = {
-  combat: {
-    id: 'combat',
-    title: 'Combat Online',
-    genre: '3D FPS Shooter',
-    desc: 'Erlebe packende 3D-Shooter Action direkt in deinem Browser.',
-    img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
-    url: 'https://poki.com/de/g/combat-online'
+  slope: {
+    id: 'slope',
+    title: 'Slope 3D',
+    genre: '3D Runner',
+    desc: 'Rase den endlosen Neon-Slope hinunter. Weiche Hindernissen aus und erreiche den Highscore!',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://slopegame.io/slope-game.embed'
   },
   subway: {
     id: 'subway',
     title: 'Subway Surfers',
     genre: 'Endless Runner',
     desc: 'Dodge the trains and run as far as you can in this classic endless runner.',
-    img: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop',
-    url: 'https://poki.com/de/g/subway-surfers'
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://webglmathcode.github.io/subway-surfers/'
+  },
+  venge: {
+    id: 'venge',
+    title: 'Venge.io',
+    genre: '3D Shooter',
+    desc: 'Schneller 3D-Multiplayer-Shooter direkt im Browser. Zeige dein Können!',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://venge.io/'
+  },
+  retro: {
+    id: 'retro',
+    title: 'Retro Bowl',
+    genre: 'Sports',
+    desc: 'American Football im Retro-Stil. Führe dein Team zum Super Bowl!',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://game316006.konggames.com/gamez/0031/6006/live/index.html'
   },
   drive: {
     id: 'drive',
     title: 'Drive Mad',
     genre: '3D Stunt Racing',
     desc: 'Überwinde verrückte Hindernisse in diesem physikbasierten Stunt-Racer.',
-    img: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600&auto=format&fit=crop',
-    url: 'https://poki.com/de/g/drive-mad'
-  },
-  narrow: {
-    id: 'narrow',
-    title: 'Narrow.one',
-    genre: '3D Multiplayer Archery FPS',
-    desc: 'Zeige dein Können mit Pfeil und Bogen im Multiplayer-Kampf.',
-    img: 'https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=600&auto=format&fit=crop',
-    url: 'https://poki.com/de/g/narrow-one'
-  },
-  chess: {
-    id: 'chess',
-    title: 'Master Chess',
-    genre: 'Strategy',
-    desc: 'Teste deine Strategie gegen den Computer oder Freunde.',
-    img: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=600&auto=format&fit=crop',
-    url: 'https://poki.com/de/g/master-chess'
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://driftboss.github.io/drive-mad/'
   }
 };
 
@@ -618,10 +609,9 @@ function refreshUI(){
   refreshSubs();if($('#v-profile').classList.contains('on'))renderProfile();
   
   // Update Hero
-  const featured = GAMES['combat'];
+  const featured = GAMES['slope'];
   $('#heroTitle').textContent = featured.title;
   $('#heroDesc').textContent = featured.desc;
-  $('#heroImg').src = featured.img;
 }
 
 function buildGrid(){
@@ -632,8 +622,8 @@ function buildGrid(){
   
   $('#grid').innerHTML = list.map(g => `
     <div class="gfn-card" data-play="${g.id}">
-      <div class="gfn-card-img">
-        <img src="${g.img}" alt="${g.title}" loading="lazy">
+      <div class="gfn-card-img bg-gradient-to-br ${g.bg}">
+        <h3>${g.title}</h3>
       </div>
       <div class="gfn-card-body">
         <div class="flex items-center justify-between gap-2">
