@@ -140,13 +140,17 @@ input[type=range]:disabled{opacity:.3;cursor:not-allowed}
         </div>
       </div>
 
-      <!-- Search & Count -->
-      <div class="px-4 md:px-6 mb-4 flex items-center justify-between gap-4">
-        <div class="relative flex-1 max-w-md">
-          <svg class="absolute left-3 top-3" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="search" class="field" style="padding-left:38px;background:#141418;border-color:#2a2a32" placeholder="Search 40 games…" autocomplete="off">
+      <!-- Search & Filter -->
+      <div class="px-4 md:px-6 mb-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between gap-4">
+          <div class="relative flex-1 max-w-md">
+            <svg class="absolute left-3 top-3" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="search" class="field" style="padding-left:38px;background:#141418;border-color:#2a2a32" placeholder="Search 60 games…" autocomplete="off">
+          </div>
+          <span class="text-sm text-slate-400" id="gcount">60 Games</span>
         </div>
-        <span class="text-sm text-slate-400" id="gcount">40 Games</span>
+        <!-- Category Filters -->
+        <div id="filterBar" class="flex flex-wrap gap-2"></div>
       </div>
 
       <!-- Games Grid -->
@@ -688,6 +692,158 @@ const GAMES = {
     desc: 'Als schwarzes Loch die ganze Stadt verschlingen.',
     bg: 'from-[#0a1730] to-[#1a0533]',
     url: 'https://hole-io.com/'
+  },
+  'robostorm-io': {
+    id: 'robostorm-io',
+    title: 'Robostorm.io',
+    genre: '3D Shooter',
+    desc: 'Roboter-Shooter mit strategischem Gameplay.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://robostorm.io/'
+  },
+  'loxiom-io': {
+    id: 'loxiom-io',
+    title: 'Loxiom.io',
+    genre: '3D Shooter',
+    desc: 'Schneller 3D-Shooter mit einzigartigen Waffen.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://loxiom.io/'
+  },
+  'vectaria-io': {
+    id: 'vectaria-io',
+    title: 'Vectaria.io',
+    genre: '3D Shooter',
+    desc: 'Vektor-basierter 3D-Shooter mit schnellen Matches.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://vectaria.io/'
+  },
+  'ev-io': {
+    id: 'ev-io',
+    title: 'Ev.io',
+    genre: '3D Shooter',
+    desc: 'Futuristischer Arena-Shooter mit Halo-Elementen.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://ev.io/'
+  },
+  'highway-traffic': {
+    id: 'highway-traffic',
+    title: 'Highway Traffic',
+    genre: '3D Racing',
+    desc: 'Rase durch den Verkehr auf der Autobahn.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://highwaytraffic.org/'
+  },
+  'trigger-rally': {
+    id: 'trigger-rally',
+    title: 'Trigger Rally',
+    genre: '3D Racing',
+    desc: 'Rallye-Rennen mit anspruchsvollen Strecken.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://triggerrally.com/'
+  },
+  'drift-boss': {
+    id: 'drift-boss',
+    title: 'Drift Boss',
+    genre: '3D Racing',
+    desc: 'Drifte um die Kurven und meistere die Strecke.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://driftboss.org/'
+  },
+  'city-car-stunt': {
+    id: 'city-car-stunt',
+    title: 'City Car Stunt',
+    genre: '3D Racing',
+    desc: 'Stunt-Fahren in der Stadt mit spektakulären Sprüngen.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://citycarstunt4.com/'
+  },
+  'zombs-io': {
+    id: 'zombs-io',
+    title: 'Zombs.io',
+    genre: 'Survival',
+    desc: 'Baue Verteidigungen und überlebe die Zombie-Wellen.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://zombs.io/'
+  },
+  'deeeep-io': {
+    id: 'deeeep-io',
+    title: 'Deeeep.io',
+    genre: 'Survival',
+    desc: 'Tauche in die Tiefsee und entwickle dich zum Raubtier.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://deeeep.io/'
+  },
+  'slither-io': {
+    id: 'slither-io',
+    title: 'Slither.io',
+    genre: 'Arcade',
+    desc: 'Der Klassiker: Wachse zur längsten Schlange.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://slither.io/'
+  },
+  'agar-io': {
+    id: 'agar-io',
+    title: 'Agar.io',
+    genre: 'Arcade',
+    desc: 'Der Urvater der .io-Spiele: Frisst kleinere Zellen.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://agar.io/'
+  },
+  'hextris': {
+    id: 'hextris',
+    title: 'Hextris',
+    genre: 'Puzzle',
+    desc: 'Hexagonales Puzzle-Spiel mit schnellen Reaktionen.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://hextris.io/'
+  },
+  'retro-bowl': {
+    id: 'retro-bowl',
+    title: 'Retro Bowl',
+    genre: 'Sports',
+    desc: 'American Football im Retro-Stil mit Team-Management.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://retrobowl.me/'
+  },
+  'play-2048': {
+    id: 'play-2048',
+    title: '2048',
+    genre: 'Puzzle',
+    desc: 'Schiebe die Zahlen und erreiche 2048.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://play2048.co/'
+  },
+  'doodle-jump': {
+    id: 'doodle-jump',
+    title: 'Doodle Jump',
+    genre: 'Arcade',
+    desc: 'Springe immer höher in diesem zeitlosen Klassiker.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://doodlejump.io/'
+  },
+  'flappy-bird': {
+    id: 'flappy-bird',
+    title: 'Flappy Bird',
+    genre: 'Arcade',
+    desc: 'Fliege durch die Röhren – einfach, aber süchtig machend.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://flappybird.io/'
+  },
+  'gartic-io': {
+    id: 'gartic-io',
+    title: 'Gartic.io',
+    genre: 'Casual',
+    desc: 'Zeichne und rate mit Freunden in diesem Partyspiel.',
+    bg: 'from-[#0a1730] to-[#1a0533]',
+    url: 'https://gartic.io/'
+  },
+  'skribbl-io': {
+    id: 'skribbl-io',
+    title: 'Skribbl.io',
+    genre: 'Casual',
+    desc: 'Das beliebte Zeichen- und Ratespiel im Browser.',
+    bg: 'from-[#1a0533] to-[#0a1730]',
+    url: 'https://skribbl.io/'
   }
 };
 
@@ -925,7 +1081,7 @@ async function reauth(pw){
 /* ====================== PROFILE VIEW ====================== */
 function renderProfile(){
   const h=$('#profHost'),name=uname(),letter=(name[0]||'?').toUpperCase(),pt=lsGet('noxura_playtime',0),pm=Math.floor(pt/60);
-  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${pm}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">40</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Games Available</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${PLAN_NAME[S.plan]}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
+  const stats=`<div class="mt-5 grid grid-cols-3 gap-3 text-center"><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${pm}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Minutes Played</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">60</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Games Available</div></div><div class="rounded-lg bg-[#1a1a1f] p-3"><div class="font-display text-lg font-bold text-white">${PLAN_NAME[S.plan]}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">Plan</div></div></div>`;
   const colors=`<div class="lbl">Avatar Color</div><div class="flex gap-3">${COLORS.map(c=>`<button data-col="${c}" aria-label="Color" style="width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;background:${c};box-shadow:${c===S.color?'0 0 0 2px #0a0a0c,0 0 0 4px #fff':'none'}"></button>`).join('')}</div>`;
   if(!S.user){
     h.innerHTML=`<h2 class="font-display text-2xl font-bold text-white">Profile</h2>
@@ -963,6 +1119,7 @@ async function profileAction(act,btn){
 }
 
 /* ====================== NAV / UI ====================== */
+let activeFilter='All';
 function go(v){
   $$('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));$$('#nav .nav').forEach(a=>a.classList.toggle('on',a.dataset.go===v));
   if(v==='profile'){pickCol=null;renderProfile()}if(v==='settings')renderSettings($('#setHost'));if(v==='subs')refreshSubs();
@@ -983,9 +1140,36 @@ function refreshUI(){
   $('#heroDesc').textContent = featured.desc;
 }
 
-function buildGrid(){
-  const f=$('#search').value.trim().toLowerCase();
-  const list = Object.values(GAMES).filter(g => !f || (g.title + g.genre + g.desc).toLowerCase().includes(f));
+/* ====================== FILTERS ====================== */
+function getGenres(){
+  const genres = new Set();
+  Object.values(GAMES).forEach(g => {
+    g.genre.split('&').forEach(part => genres.add(part.trim()));
+  });
+  return ['All', ...Array.from(genres).sort()];
+}
+
+function renderFilters(){
+  const genres = getGenres();
+  $('#filterBar').innerHTML = genres.map(genre => 
+    `<button class="chip ${activeFilter === genre ? 'bg-[#76b900] text-black' : 'bg-[#1a1a1f] text-slate-300'} px-3 py-1.5 text-xs font-semibold cursor-pointer transition-colors" data-filter="${genre}">${genre}</button>`
+  ).join('');
+}
+
+function applyFilters(){
+  const searchTerm = $('#search').value.trim().toLowerCase();
+  let list = Object.values(GAMES);
+  
+  // Apply category filter
+  if (activeFilter !== 'All') {
+    list = list.filter(g => g.genre.toLowerCase().includes(activeFilter.toLowerCase()));
+  }
+  
+  // Apply search filter
+  if (searchTerm) {
+    list = list.filter(g => (g.title + ' ' + g.genre + ' ' + g.desc).toLowerCase().includes(searchTerm));
+  }
+  
   $('#gcount').textContent = list.length + ' Games';
   show($('#noRes'), !list.length);
   
@@ -1009,6 +1193,11 @@ function buildGrid(){
   `).join('');
 }
 
+function buildGrid(){
+  applyFilters();
+}
+
+/* ====================== EVENTS ====================== */
 document.addEventListener('click',e=>{
   const t=e.target;let x;
   if((x=t.closest('[data-play]'))){play(x.dataset.play);return}
@@ -1016,6 +1205,7 @@ document.addEventListener('click',e=>{
   if((x=t.closest('[data-tab]'))){atab(x.dataset.tab);return}
   if((x=t.closest('[data-plan]'))){selectPlan(x.dataset.plan);return}
   if((x=t.closest('[data-col]'))){pickCol=x.dataset.col;$$('[data-col]').forEach(b=>b.style.boxShadow=b.dataset.col===pickCol?'0 0 0 2px #0a0a0c,0 0 0 4px #fff':'none');return}
+  if((x=t.closest('[data-filter]'))){activeFilter=x.dataset.filter;renderFilters();applyFilters();return}
   if((x=t.closest('[data-act]'))){
     const a=x.dataset.act;
     if(a==='plans')openPlans();else if(a==='closePlans')$('#planModal').classList.remove('open');
@@ -1051,15 +1241,15 @@ document.addEventListener('keydown',e=>{
 
 $('#liGo').onclick=doLogin;$('#reGo').onclick=doRegister;$('#rsGo').onclick=doReset;$('#gGo').onclick=doGoogle;$('#mClose').onclick=closeAuth;$('#codeGo').onclick=submitCode;
 $('#qCancel').onclick=cancelQueue;
-$('#search').oninput=buildGrid;
-$('#seeAllBtn').onclick=()=>{$('#search').value='';buildGrid();$('#main').scrollTo({top:400,behavior:'smooth'})};
+$('#search').oninput=applyFilters;
+$('#seeAllBtn').onclick=()=>{$('#search').value='';activeFilter='All';renderFilters();applyFilters();$('#main').scrollTo({top:400,behavior:'smooth'})};
 $('#hPause').onclick = () => { show($('#pause'),true); };
 
 try{document.fonts.load('700 40px Rajdhani');document.fonts.load('600 16px Inter')}catch(e){}
 
 /* auth state */
 onAuthStateChanged(auth,async u=>{S.user=u;await cloudLoad();refreshUI();buildGrid()});
-S.plan=lsGet(planKey(),'free');refreshUI();buildGrid();
+S.plan=lsGet(planKey(),'free');refreshUI();renderFilters();buildGrid();
 if(!lsGet('noxura_welcome_seen',false)){renderWelcomePlans();show($('#welcomeAd'),true)}
 </script>
 </body>
